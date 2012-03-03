@@ -7,12 +7,12 @@ public class CommandMute extends AbstractCommand implements IZoneCommand {
 
     @Override
     public void execute(final Sonos sonos) throws SonosException {
-        sonos.unmute();
+        sonos.setMute(true);
     }
 
     @Override
     public String getName() {
-        return "unmute";
+        return "mute";
     }
 
 }

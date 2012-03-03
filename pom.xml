@@ -72,32 +72,32 @@
 					<includeScope>compile</includeScope>
 				</configuration>
 			</plugin>
-                                <plugin>
-                                        <artifactId>maven-eclipse-plugin</artifactId>
-                                        <version>2.8</version>
-                                        <configuration>
-                                                <outputDirectory>bin</outputDirectory>
-                                                <downloadSources>true</downloadSources>
-                                                <downloadJavadocs>false</downloadJavadocs> <!-- Car le plugin n'utilise pas M2_REPO pour les javadocs ! http://jira.codehaus.org/browse/MECLIPSE-583 -->
-                                                <additionalConfig>
-                                                        <file>
-                                                                <name>.settings/org.eclipse.jdt.core.prefs</name>
-                                                                <location>settings/org.eclipse.jdt.core.prefs</location>
-                                                        </file>
-                                                        <file>
-                                                                <name>.settings/org.eclipse.jdt.ui.prefs</name>
-                                                                <location>settings/org.eclipse.jdt.ui.prefs</location>
-                                                        </file>
-                                                </additionalConfig>
-                                        </configuration>
-                                        <dependencies>
-                                                <dependency>
-                                                        <groupId>com.inetpsa.pyr00</groupId>
-                                                        <artifactId>pyr-eclipse-configuration</artifactId>
-                                                        <version>1.0.0</version>
-                                                </dependency>
-                                        </dependencies>
-                                </plugin>
+			<plugin>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<outputDirectory>bin</outputDirectory>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>false</downloadJavadocs> <!-- Car le plugin n'utilise pas M2_REPO pour les javadocs ! http://jira.codehaus.org/browse/MECLIPSE-583 -->
+					<additionalConfig>
+						<file>
+							<name>.settings/org.eclipse.jdt.core.prefs</name>
+							<location>settings/org.eclipse.jdt.core.prefs</location>
+						</file>
+						<file>
+							<name>.settings/org.eclipse.jdt.ui.prefs</name>
+							<location>settings/org.eclipse.jdt.ui.prefs</location>
+						</file>
+					</additionalConfig>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.inetpsa.pyr00</groupId>
+						<artifactId>pyr-eclipse-configuration</artifactId>
+						<version>1.0.0</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 
 		</plugins>
 
@@ -130,26 +130,26 @@
 	</profiles>
 
 	<dependencies>
+<!-- 		<dependency> -->
+<!-- 			<groupId>commons-io</groupId> -->
+<!-- 			<artifactId>commons-io</artifactId> -->
+<!-- 			<version>1.4</version> -->
+<!-- 		</dependency> -->
 		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>1.4</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.1</version>
 		</dependency>
-		<dependency>
-			<groupId>commons-net</groupId>
-			<artifactId>commons-net</artifactId>
-			<version>3.0.1</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>commons-net</groupId> -->
+<!-- 			<artifactId>commons-net</artifactId> -->
+<!-- 			<version>3.0.1</version> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.simpleframework</groupId>
 			<artifactId>simple-xml</artifactId>
@@ -164,11 +164,6 @@
 					<artifactId>stax</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -197,29 +192,6 @@
 			<scope>test</scope>
 			<optional>true</optional>
 		</dependency>
-		<!-- <dependency> <groupId>javaee</groupId> <artifactId>javaee-api</artifactId> 
-			<version>5</version> </dependency> -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-email</artifactId>
-			<version>1.2</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.activation</groupId>
-					<artifactId>activation</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity</artifactId>
-			<version>1.7</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId>
-			<version>3.1</version>
-		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
@@ -227,10 +199,16 @@
 			<optional>true</optional>
 			<scope>test</scope>
 		</dependency>
-<dependency>
-  <groupId>com.beust</groupId>
-  <artifactId>jcommander</artifactId>
-  <version>1.20</version>
-</dependency>
+		<dependency>
+			<groupId>com.beust</groupId>
+			<artifactId>jcommander</artifactId>
+			<version>1.20</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+		</dependency>
+
 	</dependencies>
 </project>

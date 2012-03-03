@@ -86,7 +86,10 @@ public class CommandFactory {
             foundCommands.add(new CommandSave());
             foundCommands.add(new CommandSetXPort());
             foundCommands.add(new CommandTrack());
+            foundCommands.add(new CommandUnmute());
             foundCommands.add(new CommandVolume());
+            foundCommands.add(new CommandVolumeDown());
+            foundCommands.add(new CommandVolumeUp());
         }
         return foundCommands;
     }

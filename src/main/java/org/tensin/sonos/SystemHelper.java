@@ -6,6 +6,26 @@ package org.tensin.sonos;
 public class SystemHelper {
 
     /**
+     * Err.
+     * 
+     * @param s
+     *            the s
+     */
+    public void err(final String s) {
+        System.err.print(s);
+    }
+
+    /**
+     * Errln.
+     * 
+     * @param s
+     *            the s
+     */
+    public void errln(final String s) {
+        System.err.println(s);
+    }
+
+    /**
      * Exit.
      * 
      * @param code
@@ -15,4 +35,23 @@ public class SystemHelper {
         System.exit(code);
     }
 
+    /**
+     * Out.
+     * 
+     * @param s
+     *            the s
+     */
+    public void out(final String s) {
+        System.out.print(s);
+    }
+
+    /**
+     * Outln.
+     * 
+     * @param s
+     *            the s
+     */
+    public void outln(final String s) {
+        System.out.println(s);
+    }
 }

@@ -1,35 +1,63 @@
-/*
- * Copyright (C) 2011 Brian Swetland
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.tensin.sonos.upnp;
 
-/* not thread-safe, not reentrant */
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.tensin.sonos.upnp.XML.Oops;
+
+/**
+ * The Class Sonos.
+ * (not thread-safe, not reentrant)
+ * 
+ */
 public class Sonos {
+
+    /** The trace_browse. */
     private boolean trace_browse;
+
+    /** The xport. */
     private SoapRPC.Endpoint xport;
+
+    /** The media. */
     private SoapRPC.Endpoint media;
+
+    /** The render. */
     private SoapRPC.Endpoint render;
+
+    /** The props. */
     private SoapRPC.Endpoint props;
+
+    /** The rpc. */
     private SoapRPC rpc;
+
+    /** The value. */
     private XMLSequence name, value;
+
+    /** The item. */
     private SonosItem item;
+
+    /** The host. */
     private final String host;
 
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(Sonos.class);
+
+    /**
+     * Instantiates a new sonos.
+     * 
+     * @param host
+     *            the host
+     */
     public Sonos(final String host) {
         this.host = host;
         init(host);
     }
 
+    /**
+     * Adds the.
+     * 
+     * @param uri
+     *            the uri
+     */
     public void add(final String uri) {
         rpc.prepare(xport, "AddURIToQueue");
         rpc.simpleTag("InstanceID", 0);
@@ -41,6 +69,14 @@ public class Sonos {
     }
 
     /* content service calls */
+    /**
+     * Browse.
+     * 
+     * @param _id
+     *            the _id
+     * @param cb
+     *            the cb
+     */
     public void browse(final String _id, final SonosListener cb) {
         int total, count, updateid;
         int n = 0;
@@ -71,16 +107,21 @@ public class Sonos {
                 value.unescape();
                 xml.init(value);
                 n = processBrowseResults(xml, n, _id, cb);
-            } catch (Exception x) {
-                System.err.println("OOPS " + x);
-                x.printStackTrace();
+            } catch (Oops e) {
+                LOGGER.error("Error while browsing", e);
                 break;
             }
         } while (n < total);
         cb.updateDone(_id);
     }
 
-    /* can be used to delete saved queues (SQ:*) */
+    /**
+     * Destroy.
+     * can be used to delete saved queues (SQ:*)
+     * 
+     * @param id
+     *            the id
+     */
     public void destroy(final String id) {
         rpc.prepare(media, "DestroyObject");
         rpc.simpleTag("ObjectID", id);
@@ -93,6 +134,11 @@ public class Sonos {
      */
     /* CurrentTransportState STOPPED | PAUSED_PLAYBACK | PLAYING | */
     /* transport controls */
+    /**
+     * Gets the position.
+     * 
+     * @return the position
+     */
     public void getPosition() {
         rpc.prepare(xport, "GetMediaInfo");
         // rpc.prepare(xport,"GetPositionInfo");
@@ -103,6 +149,11 @@ public class Sonos {
         xml.rewind();
     }
 
+    /**
+     * Gets the transport uri.
+     * 
+     * @return the transport uri
+     */
     public String getTransportURI() {
         rpc.prepare(xport, "GetMediaInfo");
         rpc.simpleTag("InstanceID", 0);
@@ -117,6 +168,11 @@ public class Sonos {
         }
     }
 
+    /**
+     * Gets the zone name.
+     * 
+     * @return the zone name
+     */
     public String getZoneName() {
         rpc.prepare(props, "GetZoneAttributes");
         XML xml = rpc.invoke();
@@ -129,6 +185,12 @@ public class Sonos {
         }
     }
 
+    /**
+     * Inits the.
+     * 
+     * @param host
+     *            the host
+     */
     void init(final String host) {
         name = new XMLSequence();
         value = new XMLSequence();
@@ -147,6 +209,14 @@ public class Sonos {
         props = new SoapRPC.Endpoint("DeviceProperties:1", "/DeviceProperties/Control");
     }
 
+    /**
+     * Move.
+     * 
+     * @param from
+     *            the from
+     * @param to
+     *            the to
+     */
     public void move(final int from, final int to) {
         if ((from < 1) || (to < 1)) {
             return;
@@ -159,22 +229,27 @@ public class Sonos {
         rpc.invoke();
     }
 
-    public void mute() {
-        setMute(true);
-    }
-
+    /**
+     * Next.
+     */
     public void next() {
         rpc.prepare(xport, "Next");
         rpc.simpleTag("InstanceID", 0);
         rpc.invoke();
     }
 
+    /**
+     * Pause.
+     */
     public void pause() {
         rpc.prepare(xport, "Pause");
         rpc.simpleTag("InstanceID", 0);
         rpc.invoke();
     }
 
+    /**
+     * Play.
+     */
     public void play() {
         rpc.prepare(xport, "Play");
         rpc.simpleTag("InstanceID", 0);
@@ -182,12 +257,30 @@ public class Sonos {
         rpc.invoke();
     }
 
+    /**
+     * Prev.
+     */
     public void prev() {
         rpc.prepare(xport, "Previous");
         rpc.simpleTag("InstanceID", 0);
         rpc.invoke();
     }
 
+    /**
+     * Process browse results.
+     * 
+     * @param result
+     *            the result
+     * @param n
+     *            the n
+     * @param _id
+     *            the _id
+     * @param cb
+     *            the cb
+     * @return the int
+     * @throws Oops
+     *             the oops
+     */
     int processBrowseResults(final XML result, int n, final String _id, final SonosListener cb) throws XML.Oops {
         SonosItem item = this.item;
         if (trace_browse) {
@@ -238,6 +331,12 @@ public class Sonos {
         return n;
     }
 
+    /**
+     * Removes the.
+     * 
+     * @param id
+     *            the id
+     */
     public void remove(final String id) {
         rpc.prepare(xport, "RemoveTrackFromQueue");
         rpc.simpleTag("InstanceID", 0);
@@ -245,6 +344,9 @@ public class Sonos {
         rpc.invoke();
     }
 
+    /**
+     * Removes the all.
+     */
     public void removeAll() {
         rpc.prepare(xport, "RemoveAllTracksFromQueue");
         rpc.simpleTag("InstanceID", 0);
@@ -252,6 +354,14 @@ public class Sonos {
     }
 
     /* queue management */
+    /**
+     * Save.
+     * 
+     * @param name
+     *            the name
+     * @param uri
+     *            the uri
+     */
     public void save(final String name, final String uri) {
         rpc.prepare(xport, "SaveQueue");
         rpc.simpleTag("InstanceID", 0);
@@ -263,6 +373,12 @@ public class Sonos {
         xml.rewind();
     }
 
+    /**
+     * Seek track.
+     * 
+     * @param nr
+     *            the nr
+     */
     public void seekTrack(final int nr) {
         if (nr < 1) {
             return;
@@ -275,6 +391,12 @@ public class Sonos {
         // does not start playing if not already in playback mode
     }
 
+    /**
+     * Sets the mute.
+     * 
+     * @param mute
+     *            the new mute
+     */
     public void setMute(final boolean mute) {
         rpc.prepare(render, "SetMute");
         rpc.simpleTag("InstanceID", 0);
@@ -287,6 +409,12 @@ public class Sonos {
         rpc.invoke();
     }
 
+    /**
+     * Sets the transport uri.
+     * 
+     * @param uri
+     *            the new transport uri
+     */
     public void setTransportURI(final String uri) {
         rpc.prepare(xport, "SetAVTransportURI");
         rpc.simpleTag("InstanceID", 0);
@@ -295,29 +423,51 @@ public class Sonos {
         rpc.invoke();
     }
 
+    /**
+     * Stop.
+     */
     public void stop() {
         rpc.prepare(xport, "Stop");
         rpc.simpleTag("InstanceID", 0);
         rpc.invoke();
     }
 
+    /**
+     * Trace_browse.
+     * 
+     * @param x
+     *            the x
+     */
     public void trace_browse(final boolean x) {
         trace_browse = x;
     }
 
+    /**
+     * Trace_io.
+     * 
+     * @param x
+     *            the x
+     */
     public void trace_io(final boolean x) {
         rpc.trace_io = x;
     }
 
+    /**
+     * Trace_reply.
+     * 
+     * @param x
+     *            the x
+     */
     public void trace_reply(final boolean x) {
         rpc.trace_reply = x;
     }
 
-    public void unmute() {
-        setMute(false);
-    }
-
     /* volume controls */
+    /**
+     * Volume.
+     * 
+     * @return the int
+     */
     public int volume() {
         int n;
         rpc.prepare(render, "GetVolume");
@@ -339,6 +489,12 @@ public class Sonos {
         }
     }
 
+    /**
+     * Volume.
+     * 
+     * @param vol
+     *            the vol
+     */
     public void volume(final int vol) { // 0-100
         if ((vol < 0) || (vol > 100)) {
             return;

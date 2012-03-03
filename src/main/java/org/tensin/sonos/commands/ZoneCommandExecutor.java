@@ -4,7 +4,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.tensin.sonos.app;
+import org.tensin.sonos.SonosCommander;
 import org.tensin.sonos.upnp.Sonos;
 import org.tensin.sonos.upnp.SonosException;
 
@@ -14,7 +14,7 @@ import org.tensin.sonos.upnp.SonosException;
 public class ZoneCommandExecutor extends Thread {
 
     /** The Constant LOGGER. */
-    private static final Log LOGGER = LogFactory.getLog(app.class);
+    private static final Log LOGGER = LogFactory.getLog(SonosCommander.class);
 
     /** The sonos zone locker. */
     private final Object sonosZoneLocker = new Object();
@@ -30,6 +30,9 @@ public class ZoneCommandExecutor extends Thread {
 
     /** The active. */
     private boolean active = true;
+
+    /** The running command. */
+    private boolean runningCommand = false;
 
     /**
      * Instantiates a new zone command executor.
@@ -69,6 +72,33 @@ public class ZoneCommandExecutor extends Thread {
     }
 
     /**
+     * Gets the command left count.
+     * 
+     * @return the command left count
+     */
+    public int getCommandLeftCount() {
+        return commandsQueue.size();
+    }
+
+    /**
+     * Gets the sonos zone.
+     * 
+     * @return the sonos zone
+     */
+    public Sonos getSonosZone() {
+        return sonosZone;
+    }
+
+    /**
+     * Gets the zone name.
+     * 
+     * @return the zone name
+     */
+    public String getZoneName() {
+        return zoneName;
+    }
+
+    /**
      * Halt.
      */
     public void halt() {
@@ -82,6 +112,15 @@ public class ZoneCommandExecutor extends Thread {
      */
     public boolean hasNoCommandLeft() {
         return commandsQueue.size() == 0;
+    }
+
+    /**
+     * Checks for no running command.
+     * 
+     * @return true, if successful
+     */
+    public boolean hasRunningCommand() {
+        return runningCommand;
     }
 
     /**
@@ -118,7 +157,11 @@ public class ZoneCommandExecutor extends Thread {
             try {
                 if (isSonosZoneAvailable()) {
                     final IZoneCommand command = commandsQueue.take();
-                    executeCommand(command);
+                    if (command != null) {
+                        runningCommand = true;
+                        executeCommand(command);
+                        runningCommand = false;
+                    }
                 } else {
                     Thread.sleep(100);
                 }

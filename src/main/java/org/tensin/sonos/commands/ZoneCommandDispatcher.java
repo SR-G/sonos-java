@@ -45,9 +45,36 @@ public class ZoneCommandDispatcher {
      *            the zone name
      */
     public void dispatchCommand(final IZoneCommand command, final String zoneName) {
-        LOGGER.info("Dispatching [" + command.getName() + "]");
+        LOGGER.debug("Dispatching [" + command.getName() + "]");
         final ZoneCommandExecutor executor = registerZoneExecutor(zoneName);
         executor.addCommand(command);
+    }
+
+    /**
+     * Log summary.
+     */
+    public void logSummary() {
+        StringBuilder sb = new StringBuilder();
+        int problems = 0;
+        for (Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
+            ZoneCommandExecutor executor = entry.getValue();
+            if (executor.getSonosZone() == null) {
+                sb.append("- Zone [" + executor.getZoneName() + "] hasn't been found on the network by discovery !\n");
+                problems++;
+            }
+            if (!executor.hasNoCommandLeft()) {
+                sb.append("- Zone [" + executor.getZoneName() + "] has " + executor.getCommandLeftCount() + " awaiting command(s) that won't be processed.\n");
+                problems++;
+            }
+            if (executor.hasRunningCommand()) {
+                sb.append("- Zone [" + executor.getZoneName() + "] has 1 running command that will be killed.\n");
+                problems++;
+            }
+        }
+        if (problems > 0) {
+            LOGGER.info("Problems found before terminating program : \n" + sb.toString());
+        }
+
     }
 
     /**
@@ -110,15 +137,20 @@ public class ZoneCommandDispatcher {
                 if (checkEmptyQueues) {
                     // We can end the awaiting if all Zone Executor command queues are empty
                     synchronized (executors) {
-                        boolean allEnded = true;
+                        boolean allCommandsProcessed = true;
+                        boolean allCommandsEnded = true;
                         for (Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
                             ZoneCommandExecutor executor = entry.getValue();
                             if (!executor.hasNoCommandLeft()) {
-                                allEnded = false;
+                                allCommandsProcessed = false;
+                                break;
+                            }
+                            if (executor.hasRunningCommand()) {
+                                allCommandsEnded = false;
                                 break;
                             }
                         }
-                        if (allEnded) {
+                        if (allCommandsProcessed && allCommandsEnded) {
                             active = false;
                         }
                     }

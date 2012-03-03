@@ -1,311 +1,491 @@
-/*
- * Copyright (C) 2011 Brian Swetland
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.tensin.sonos.upnp;
 
+import java.io.PrintStream;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CoderResult;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
-import java.io.PrintStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: &apos; -> '
 
+/**
+ * The Class XML.
+ */
 public class XML {
-	private static final boolean DEBUG = false;
 
-	XMLSequence seq; /* entire buffer */
-	XMLSequence tmp; /* for content return */
-	char[] xml;
+    /**
+     * The Class Oops.
+     */
+    static public class Oops extends Exception {
 
-	/* offset and length of the name of the current tag */
-	int tag_off;
-	int tag_len;
-	/* offset and length of the attr area of the current tag */
-	int att_off;
-	int att_len;
-	/* true if the current tag is <...>, false if </...> */
-	boolean isOpen;
+        /**
+         * Instantiates a new oops.
+         * 
+         * @param msg
+         *            the msg
+         */
+        public Oops(final String msg) {
+            super(msg);
+        }
+    }
 
-	CharsetDecoder decoder;
+    /** The Constant DEBUG. */
+    private static final boolean DEBUG = false;
 
-	/* used for io operations */
-	CharBuffer buf;
+    /** The seq. */
+    XMLSequence seq; /* entire buffer */
 
-	public XML(int size) {
-		decoder = cs.newDecoder();
-		seq = new XMLSequence();
-		tmp = new XMLSequence();
-		xml = new char[size];
-		buf = CharBuffer.wrap(xml);	
-	}
+    /** The tmp. */
+    XMLSequence tmp; /* for content return */
 
-	public void init(ByteBuffer in) {
-		buf.clear();
-		CoderResult cr = decoder.decode(in, buf, true);
-		// TODO: error handling
-		buf.flip();
-		reset();
-	}
-	public void init(XMLSequence s) {
-		buf.clear();
-		buf.put(s.data, s.offset, s.count);
-		buf.flip();
-		reset();
-	}
-	void reset() {
-		seq.init(xml, buf.arrayOffset(), buf.length());
-		tmp.init(xml, 0, 0);
-		nextTag();
-	}
-	public void rewind() {
-		seq.pos = seq.offset;
-		nextTag();
-	}
-	
-	public XMLSequence getAttr(String name) {
-		int nlen = name.length();
-		int n;
+    /** The xml. */
+    char[] xml;
+    /* offset and length of the name of the current tag */
+    /** The tag_off. */
+    int tag_off;
 
-		tmp.offset = att_off;
-		tmp.count = att_len;
-		tmp.pos = att_off;
+    /** The tag_len. */
+    int tag_len;
+    /* offset and length of the attr area of the current tag */
+    /** The att_off. */
+    int att_off;
 
-		for (;;) {
-			int off = tmp.space();
-			int len = tmp.name();
-			if (len < 0)
-				break;
-			if (DEBUG) System.err.println("ANAME: ["+new String(tmp.data,off,len)+"]");
-			int voff = tmp.value();
-			if (voff < 0)
-				break;
-			int vend = tmp.next('"');
-			if (vend < 0)
-				break;
-			vend--;
-			if (DEBUG) System.err.println("ATEXT: ["+new String(tmp.data,voff,vend-voff)+"]");
+    /** The att_len. */
+    int att_len;
 
-			if (nlen != len)
-				continue;
-			for (n = 0; n < len; n++)
-				if (name.charAt(n) != tmp.data[off+n]) /* XXX yuck */
-					break;
-			if (nlen != n)
-				continue;
+    /* true if the current tag is <...>, false if </...> */
+    /** The is open. */
+    boolean isOpen;
 
-			tmp.offset = voff;
-			tmp.count = vend - voff;
-			return tmp;
-		}
-		return null;
-	}
+    /** The decoder. */
+    CharsetDecoder decoder;
 
-	/* set sequence to the text between the end of the current tag
-	 * and the beginning of the next tag.
-	 */
-	public XMLSequence getText() {
-		char[] data = xml;
-		int n;
-		tmp.data = data;
-		n = tmp.offset = (att_off + att_len);
-		try {
-			for (;;) {
-				if (data[n] == '<')
-					break;
-				n++;
-			}
-			tmp.count = n - tmp.offset;
-		} catch (ArrayIndexOutOfBoundsException x) {
-			tmp.count = 0;
-		}
-		return tmp;
-	}
+    /* used for io operations */
+    /** The buf. */
+    CharBuffer buf;
 
-	public void print(PrintStream out, int max) {
-		char[] buf = new char[max];
-		print(out, max, 0, buf);
-	}
-	void print(PrintStream out, int max, int indent, char[] buf) {
-		XMLSequence s;
-		int n;
-		if (!isOpen) {
-			out.println("ERROR");
-			return;
-		}
-		for (n = 0; n < indent; n++)
-			out.print(" ");
-		out.print(str());
-		s = getText();
-		nextTag();
-		if (isOpen) {
-			out.print("\n");
-			do {
-				print(out, max, indent + 2, buf);
-			} while (isOpen);
-			for (n = 0; n < indent; n++)
-				out.print(" ");
-			out.println(str());
-		} else {
-			if (s.count > max) {
-				s.count = max;
-				n = s.unescape(buf, 0);
-				out.println("" + new String(buf, 0, n) + "..." + str());
-			} else {
-				n = s.unescape(buf, 0);
-				out.println("" + new String(buf, 0, n) + str());
-			}
-		}	
-		nextTag();
-	}
+    /** The cs. */
+    static Charset cs = Charset.forName("UTF-8");
 
-	public boolean more() {
-		return isOpen;
-	}
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(XML.class);
 
-	public boolean tag_eq(CharSequence name) {
-		if (name.length() != tag_len)
-			return false;
-		for (int n = 0; n < tag_len; n++)
-			if (name.charAt(n) != seq.data[tag_off + n])  /* XXX yuck */
-				return false;
-		return true;
-	}
-	/* require <tag> and consume it */
-	public void open(String name) throws XML.Oops {
-		if (!isOpen || !tag_eq(name))
-			throw new XML.Oops("expecting <"+name+"> but found " + str());
-		nextTag();
-	}
+    /**
+     * Instantiates a new xML.
+     * 
+     * @param size
+     *            the size
+     */
+    public XML(final int size) {
+        decoder = cs.newDecoder();
+        seq = new XMLSequence();
+        tmp = new XMLSequence();
+        xml = new char[size];
+        buf = CharBuffer.wrap(xml);
+    }
 
-	/* require </tag> and consume it */
-	public void close(String name) throws XML.Oops {
-		if (isOpen || !tag_eq(name))
-			throw new XML.Oops("expecting </"+name+"> but found " + str());
-		nextTag();
-	}
+    /* require </tag> and consume it */
+    /**
+     * Close.
+     * 
+     * @param name
+     *            the name
+     * @throws Oops
+     *             the oops
+     */
+    public void close(final String name) throws XML.Oops {
+        if (isOpen || !tag_eq(name)) {
+            throw new XML.Oops("expecting </" + name + "> but found " + str());
+        }
+        nextTag();
+    }
 
-	/* require <tag> text </tag> and return text */
-	public XMLSequence read(String name) throws XML.Oops {
-		int start = att_off + att_len;
-		open(name);
-		tmp.adjust(start, tag_off - 2);
-		close(name);
-		if (DEBUG) System.err.println("VAL ["+tmp+"]");
-		return tmp;
-	}
+    /**
+     * Close.
+     * 
+     * @param name
+     *            the name
+     * @throws Oops
+     *             the oops
+     */
+    public void close(final XMLSequence name) throws XML.Oops {
+        if (isOpen) {
+            throw new XML.Oops("1expected </" + name + ">, found " + str());
+        }
+        if (!tag_eq(name)) {
+            throw new XML.Oops("2expected </" + name + ">, found " + str());
+        }
+        nextTag();
+    }
 
-	/* read the next  <name> value </name>  returns false if no open tag */
-	public boolean tryRead(XMLSequence name, XMLSequence value) throws XML.Oops {
-		if (!isOpen)
-			return false;
+    /* eat the current tag and any children */
+    /**
+     * Consume.
+     * 
+     * @throws Oops
+     *             the oops
+     */
+    public void consume() throws XML.Oops {
+        tmp.offset = tag_off;
+        tmp.count = tag_len;
+        nextTag();
+        while (isOpen) {
+            consume();
+        }
+        close(tmp);
+    }
 
-		name.data = xml;
-		name.offset = tag_off;
-		name.count = tag_len;
+    /**
+     * Gets the attr.
+     * 
+     * @param name
+     *            the name
+     * @return the attr
+     */
+    public XMLSequence getAttr(final String name) {
+        int nlen = name.length();
+        int n;
 
-		value.data = xml;
-		value.offset = att_off + att_len;
-		nextTag();
-		value.count = tag_off - value.offset - 2;
+        tmp.offset = att_off;
+        tmp.count = att_len;
+        tmp.pos = att_off;
 
-		close(name);
+        for (;;) {
+            int off = tmp.space();
+            int len = tmp.name();
+            if (len < 0) {
+                break;
+            }
+            LOGGER.debug("ANAME: [" + new String(tmp.data, off, len) + "]");
+            int voff = tmp.value();
+            if (voff < 0) {
+                break;
+            }
+            int vend = tmp.next('"');
+            if (vend < 0) {
+                break;
+            }
+            vend--;
+            LOGGER.debug("ATEXT: [" + new String(tmp.data, voff, vend - voff) + "]");
 
-		return true;
-	}
-	public void close(XMLSequence name) throws XML.Oops {
-		if (isOpen)
-			throw new XML.Oops("1expected </"+name+">, found "+str());
-		if (!tag_eq(name))
-			throw new XML.Oops("2expected </"+name+">, found "+str());
-		nextTag();
-	}
+            if (nlen != len) {
+                continue;
+            }
+            for (n = 0; n < len; n++) {
+                if (name.charAt(n) != tmp.data[off + n]) {
+                    break;
+                }
+            }
+            if (nlen != n) {
+                continue;
+            }
 
-	public boolean tryRead(String name, XMLSequence value) throws XML.Oops {
-		if (!isOpen || !tag_eq(name))
-			return false;
-		value.data = xml;
-		value.offset = att_off + att_len;
-		nextTag();
-		value.count = tag_off - value.offset;
-		close(name);
-		return true;
-	}
+            tmp.offset = voff;
+            tmp.count = vend - voff;
+            return tmp;
+        }
+        return null;
+    }
 
-	/* eat the current tag and any children */
-	public void consume() throws XML.Oops {
-		tmp.offset = tag_off;
-		tmp.count = tag_len;
-		nextTag();
-		while (isOpen)
-			consume();
-		close(tmp);
-	}
+    /*
+     * set sequence to the text between the end of the current tag
+     * and the beginning of the next tag.
+     */
+    /**
+     * Gets the text.
+     * 
+     * @return the text
+     */
+    public XMLSequence getText() {
+        char[] data = xml;
+        int n;
+        tmp.data = data;
+        n = tmp.offset = (att_off + att_len);
+        try {
+            for (;;) {
+                if (data[n] == '<') {
+                    break;
+                }
+                n++;
+            }
+            tmp.count = n - tmp.offset;
+        } catch (ArrayIndexOutOfBoundsException x) {
+            tmp.count = 0;
+        }
+        return tmp;
+    }
 
-	/* format current begin/end tag as a string. for error messages */
-	String str() {
-		if (isOpen)
-			return "<" + new String(seq.data, tag_off, tag_len) + ">";
-		else
-			return "</" + new String(seq.data, tag_off, tag_len) + ">";
-	}
+    /**
+     * Inits the.
+     * 
+     * @param in
+     *            the in
+     */
+    public void init(final ByteBuffer in) {
+        buf.clear();
+        CoderResult cr = decoder.decode(in, buf, true);
+        // TODO: error handling
+        buf.flip();
+        reset();
+    }
 
-	void nextTag() {
-		/* can't deal with comments or directives */
-		int off = seq.next('<');
-		boolean opn = seq.isOpen();
-		int len = seq.name();
-		int att = seq.pos;
-		int nxt = seq.next('>');
+    /**
+     * Inits the.
+     * 
+     * @param s
+     *            the s
+     */
+    public void init(final XMLSequence s) {
+        buf.clear();
+        buf.put(s.data, s.offset, s.count);
+        buf.flip();
+        reset();
+    }
 
-		/* don't advance if we're in a strange state */
-		if ((off < 0) || (len < 0) || (nxt < 0))
-			return;
+    /**
+     * More.
+     * 
+     * @return true, if successful
+     */
+    public boolean more() {
+        return isOpen;
+    }
 
-		if (!opn)
-			off++;
+    /**
+     * Next tag.
+     */
+    void nextTag() {
+        /* can't deal with comments or directives */
+        int off = seq.next('<');
+        boolean opn = seq.isOpen();
+        int len = seq.name();
+        int att = seq.pos;
+        int nxt = seq.next('>');
 
-		tag_off = off;
-		tag_len = len;
-		isOpen = opn;
+        /* don't advance if we're in a strange state */
+        if ((off < 0) || (len < 0) || (nxt < 0)) {
+            return;
+        }
 
-		att_off = att;
-		att_len = nxt - att;
-	
-		if (DEBUG) {	
-			if (opn) {
-				System.err.println("TAG ["+new String(seq.data,tag_off,tag_len)+"]");
-				System.err.println("ATR ["+new String(seq.data,att_off,att_len)+"]");
-			} else {
-				System.err.println("tag ["+new String(seq.data,tag_off,tag_len)+"]");
-			}
-		}
-	}
+        if (!opn) {
+            off++;
+        }
 
-	static Charset cs = Charset.forName("UTF-8");
+        tag_off = off;
+        tag_len = len;
+        isOpen = opn;
 
-	static public class Oops extends Exception {
-		public Oops(String msg) {
-			super(msg);
-		}
-	}
+        att_off = att;
+        att_len = nxt - att;
+
+        if (opn) {
+            LOGGER.debug("TAG [" + new String(seq.data, tag_off, tag_len) + "]");
+            LOGGER.debug("ATR [" + new String(seq.data, att_off, att_len) + "]");
+        } else {
+            LOGGER.debug("tag [" + new String(seq.data, tag_off, tag_len) + "]");
+        }
+    }
+
+    /* require <tag> and consume it */
+    /**
+     * Open.
+     * 
+     * @param name
+     *            the name
+     * @throws Oops
+     *             the oops
+     */
+    public void open(final String name) throws XML.Oops {
+        if (!isOpen || !tag_eq(name)) {
+            throw new XML.Oops("expecting <" + name + "> but found " + str());
+        }
+        nextTag();
+    }
+
+    /**
+     * Prints the.
+     * 
+     * @param out
+     *            the out
+     * @param max
+     *            the max
+     */
+    public void print(final PrintStream out, final int max) {
+        char[] buf = new char[max];
+        print(out, max, 0, buf);
+    }
+
+    /**
+     * Prints the.
+     * 
+     * @param out
+     *            the out
+     * @param max
+     *            the max
+     * @param indent
+     *            the indent
+     * @param buf
+     *            the buf
+     */
+    void print(final PrintStream out, final int max, final int indent, final char[] buf) {
+        XMLSequence s;
+        int n;
+        if (!isOpen) {
+            out.println("ERROR");
+            return;
+        }
+        for (n = 0; n < indent; n++) {
+            out.print(" ");
+        }
+        out.print(str());
+        s = getText();
+        nextTag();
+        if (isOpen) {
+            out.print("\n");
+            do {
+                print(out, max, indent + 2, buf);
+            } while (isOpen);
+            for (n = 0; n < indent; n++) {
+                out.print(" ");
+            }
+            out.println(str());
+        } else {
+            if (s.count > max) {
+                s.count = max;
+                n = s.unescape(buf, 0);
+                out.println("" + new String(buf, 0, n) + "..." + str());
+            } else {
+                n = s.unescape(buf, 0);
+                out.println("" + new String(buf, 0, n) + str());
+            }
+        }
+        nextTag();
+    }
+
+    /* require <tag> text </tag> and return text */
+    /**
+     * Read.
+     * 
+     * @param name
+     *            the name
+     * @return the xML sequence
+     * @throws Oops
+     *             the oops
+     */
+    public XMLSequence read(final String name) throws XML.Oops {
+        int start = att_off + att_len;
+        open(name);
+        tmp.adjust(start, tag_off - 2);
+        close(name);
+        LOGGER.debug("VAL [" + tmp + "]");
+        return tmp;
+    }
+
+    /**
+     * Reset.
+     */
+    void reset() {
+        seq.init(xml, buf.arrayOffset(), buf.length());
+        tmp.init(xml, 0, 0);
+        nextTag();
+    }
+
+    /**
+     * Rewind.
+     */
+    public void rewind() {
+        seq.pos = seq.offset;
+        nextTag();
+    }
+
+    /* format current begin/end tag as a string. for error messages */
+    /**
+     * Str.
+     * 
+     * @return the string
+     */
+    String str() {
+        if (isOpen) {
+            return "<" + new String(seq.data, tag_off, tag_len) + ">";
+        } else {
+            return "</" + new String(seq.data, tag_off, tag_len) + ">";
+        }
+    }
+
+    /**
+     * Tag_eq.
+     * 
+     * @param name
+     *            the name
+     * @return true, if successful
+     */
+    public boolean tag_eq(final CharSequence name) {
+        if (name.length() != tag_len) {
+            return false;
+        }
+        for (int n = 0; n < tag_len; n++) {
+            if (name.charAt(n) != seq.data[tag_off + n]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Try read.
+     * 
+     * @param name
+     *            the name
+     * @param value
+     *            the value
+     * @return true, if successful
+     * @throws Oops
+     *             the oops
+     */
+    public boolean tryRead(final String name, final XMLSequence value) throws XML.Oops {
+        if (!isOpen || !tag_eq(name)) {
+            return false;
+        }
+        value.data = xml;
+        value.offset = att_off + att_len;
+        nextTag();
+        value.count = tag_off - value.offset;
+        close(name);
+        return true;
+    }
+
+    /* read the next <name> value </name> returns false if no open tag */
+    /**
+     * Try read.
+     * 
+     * @param name
+     *            the name
+     * @param value
+     *            the value
+     * @return true, if successful
+     * @throws Oops
+     *             the oops
+     */
+    public boolean tryRead(final XMLSequence name, final XMLSequence value) throws XML.Oops {
+        if (!isOpen) {
+            return false;
+        }
+
+        name.data = xml;
+        name.offset = tag_off;
+        name.count = tag_len;
+
+        value.data = xml;
+        value.offset = att_off + att_len;
+        nextTag();
+        value.count = tag_off - value.offset - 2;
+
+        close(name);
+
+        return true;
+    }
 }
