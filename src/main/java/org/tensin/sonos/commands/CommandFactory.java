@@ -71,12 +71,20 @@ public class CommandFactory {
     public static Collection<ICommand> getAvailableCommands(final Class<ICommand> clazz) {
         if (foundCommands == null) {
             foundCommands = new ArrayList<ICommand>();
+            foundCommands.add(new CommandAdd());
             foundCommands.add(new CommandDiscover());
-            foundCommands.add(new CommandPlay());
-            foundCommands.add(new CommandPause());
-            foundCommands.add(new CommandPrev());
+            foundCommands.add(new CommandGetXPort());
+            foundCommands.add(new CommandList());
+            foundCommands.add(new CommandMove());
             foundCommands.add(new CommandNext());
+            foundCommands.add(new CommandPause());
+            foundCommands.add(new CommandPlay());
+            foundCommands.add(new CommandPrev());
+            foundCommands.add(new CommandRemove());
             foundCommands.add(new CommandRemoveAll());
+            foundCommands.add(new CommandSave());
+            foundCommands.add(new CommandSetXPort());
+            foundCommands.add(new CommandTrack());
             foundCommands.add(new CommandVolume());
         }
         return foundCommands;

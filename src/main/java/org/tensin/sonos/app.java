@@ -34,13 +34,11 @@ import org.tensin.sonos.upnp.Discover;
 import org.tensin.sonos.upnp.Discover.Listener;
 import org.tensin.sonos.upnp.Sonos;
 import org.tensin.sonos.upnp.SonosException;
-import org.tensin.sonos.upnp.SonosItem;
-import org.tensin.sonos.upnp.SonosListener;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 
-public class app implements SonosListener {
+public class app {
 
     /**
      * The listener interface for receiving zonesDiscovered events. The class
@@ -94,24 +92,6 @@ public class app implements SonosListener {
     public static void main(final String args[]) throws SonosException {
         app a = new app();
         a.start(args);
-
-        // } else if (cmd.equals("save")) {
-        // sonos.save(args[1],"SQ:3");
-        // } else if (cmd.equals("list")) {
-        // sonos.browse(args[1],a);
-        // } else if (cmd.equals("add")) {
-        // sonos.add(args[1]);
-        // } else if (cmd.equals("setxport")) {
-        // sonos.setTransportURI(args[1]);
-        // } else if (cmd.equals("getxport")) {
-        // String x = sonos.getTransportURI();
-        // System.out.println(x);
-        // } else if (cmd.equals("remove")) {
-        // sonos.remove(args[1]);
-        // } else if (cmd.equals("move")) {
-        // sonos.move(Integer.parseInt(args[1]),Integer.parseInt(args[2]));
-        // } else if (cmd.equals("track")) {
-        // sonos.seekTrack(Integer.parseInt(args[1]));
     }
 
     /** The zone. */
@@ -357,33 +337,6 @@ public class app implements SonosListener {
     private void startDiscovery() {
         Listener zonesDiscoveredListener = new ZonesDiscoveredListener();
         new Discover(zonesDiscoveredListener);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.tensin.sonos.upnp.SonosListener#updateDone(java.lang.String)
-     */
-    @Override
-    public void updateDone(final String id) {
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.tensin.sonos.upnp.SonosListener#updateItem(java.lang.String, int, org.tensin.sonos.upnp.SonosItem)
-     */
-    @Override
-    public void updateItem(final String id, final int idx, final SonosItem item) {
-        System.out.println("(" + idx + ")\t    id: " + item.idURI);
-        System.out.println("\t   res: " + item.playURI);
-        System.out.println("\t title: " + item.title);
-        if (item.album != null) {
-            System.out.println("\t album: " + item.album);
-        }
-        if (item.artist != null) {
-            System.out.println("\tartist: " + item.artist);
-        }
     }
 
     /**
