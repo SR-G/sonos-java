@@ -76,6 +76,7 @@ public class CommandFactory {
             foundCommands.add(new CommandGetXPort());
             foundCommands.add(new CommandList());
             foundCommands.add(new CommandMove());
+            foundCommands.add(new CommandMute());
             foundCommands.add(new CommandNext());
             foundCommands.add(new CommandPause());
             foundCommands.add(new CommandPlay());

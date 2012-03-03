@@ -61,7 +61,7 @@ public class ZoneCommandExecutor extends Thread {
      */
     private void executeCommand(final IZoneCommand command) {
         try {
-            LOGGER.info("Executing command [" + command + "] on zone [" + zoneName + "]");
+            LOGGER.info("Executing command [" + command.getName() + "] on zone [" + zoneName + "]");
             command.execute(sonosZone);
         } catch (SonosException e) {
             LOGGER.error("Error while executing command [" + command.getName() + "] on zone [" + zoneName + "]");

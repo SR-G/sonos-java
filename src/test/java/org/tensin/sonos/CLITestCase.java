@@ -37,6 +37,17 @@ public class CLITestCase {
      *             the sonos exception
      */
     @Test
+    public void testMute() throws SonosException {
+        app.main(new String[] { "--command", "mute", "--zone", "salon" });
+    }
+
+    /**
+     * Test next.
+     * 
+     * @throws SonosException
+     *             the sonos exception
+     */
+    @Test
     public void testNext() throws SonosException {
         app.main(new String[] { "--command", "next", "--zone", "chambre" });
     }
@@ -86,6 +97,17 @@ public class CLITestCase {
     }
 
     /**
+     * Test next.
+     * 
+     * @throws SonosException
+     *             the sonos exception
+     */
+    @Test
+    public void testUnmute() throws SonosException {
+        app.main(new String[] { "--command", "unmute", "--zone", "salon" });
+    }
+
+    /**
      * Test cli.
      * 
      * @throws SonosException
@@ -125,30 +147,8 @@ public class CLITestCase {
      *             the sonos exception
      */
     @Test
-    public void testVolumeMute() throws SonosException {
-        app.main(new String[] { "--command", "mute", "--zone", "chambre" });
-    }
-
-    /**
-     * Test next.
-     * 
-     * @throws SonosException
-     *             the sonos exception
-     */
-    @Test
     public void testVolumeSet() throws SonosException {
         app.main(new String[] { "--command", "volume", "25", "--zone", "chambre" });
-    }
-
-    /**
-     * Test next.
-     * 
-     * @throws SonosException
-     *             the sonos exception
-     */
-    @Test
-    public void testVolumeUnmute() throws SonosException {
-        app.main(new String[] { "--command", "unmute", "--zone", "chambre" });
     }
 
     /**
