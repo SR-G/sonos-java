@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
 import org.tensin.sonos.commands.ZoneCommandExecutor;
 import org.tensin.sonos.upnp.DiscoverFactory;
-import org.tensin.sonos.upnp.DiscoverMock;
 import org.tensin.sonos.upnp.SonosException;
 
 import com.beust.jcommander.ParameterException;
@@ -40,7 +39,7 @@ public class CLITestCase {
      * Tear down.
      */
     @After
-    public void tearDown() {
+    public void tearDown() throws SonosException {
         ZoneCommandDispatcher.resetInstance();
     }
 

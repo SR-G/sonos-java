@@ -1,7 +1,7 @@
 <classpath>
   <classpathentry kind="src" path="src/test/java"/>
   <classpathentry kind="src" path="src/main/java"/>
-  <classpathentry kind="src" path="src/main/run" excluding="**/*.java"/>
+  <classpathentry kind="src" path="src/main/run"/>
   <classpathentry kind="output" path="bin"/>
   <classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar" sourcepath="M2_REPO/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar" sourcepath="M2_REPO/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1-sources.jar"/>

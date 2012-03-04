@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tensin.sonos.ISonos;
+import org.tensin.sonos.upnp.SonosException;
 
 /**
  * The Class ZoneCommandDispatcher. Send the right command to the right zone executor, and keeps a map linking zone name to the corresponding executor.
@@ -39,13 +40,25 @@ public class ZoneCommandDispatcher {
     /**
      * Reset instance.
      */
-    public static void resetInstance() {
+    public static void resetInstance() throws SonosException {
+        stopExecutors();
+        synchronized (executors) {
+            executors.clear();
+        }
+    }
+
+    /**
+     * Stop.
+     * 
+     * @throws SonosException
+     *             the sonos exception
+     */
+    public static void stopExecutors() throws SonosException {
         synchronized (executors) {
             for (Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
                 ZoneCommandExecutor executor = entry.getValue();
                 executor.halt();
             }
-            executors.clear();
         }
     }
 

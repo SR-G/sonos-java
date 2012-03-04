@@ -349,7 +349,8 @@ public class SonosCommander {
                                                                                               // listener)
                 stopDiscovery();
                 ZoneCommandDispatcher.getInstance().logSummary();
-                // ZoneCommandDispatcher.resetInstance();
+                ZoneCommandDispatcher.stopExecutors();
+                systemHelper.exit(0);
             }
         }
     }
