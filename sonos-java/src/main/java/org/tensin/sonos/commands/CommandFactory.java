@@ -2,10 +2,10 @@ package org.tensin.sonos.commands;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.tensin.sonos.helpers.CollectionHelper;
 import org.tensin.sonos.upnp.SonosException;
 
 /**
@@ -45,17 +45,19 @@ public class CommandFactory {
      *            the command line
      * @return the collection< i command>
      */
-    public static Collection<? extends ICommand> createCommandStack(final String commandLine, final Class<? extends ICommand> clazz) throws SonosException {
+    public static Collection<? extends ICommand> createCommandStack(final Collection<String> commands, final Class<? extends ICommand> clazz)
+            throws SonosException {
         final Collection<ICommand> commandStack = new ArrayList<ICommand>();
         ICommand foundCommand;
-        for (String s : CollectionHelper.convertStringToCollection(commandLine)) {
+        Iterator<String> itr = commands.iterator();
+        while (itr.hasNext()) {
+            String s = itr.next();
             foundCommand = createCommand(s);
             if (foundCommand != null) {
                 if (clazz.isAssignableFrom(foundCommand.getClass())) {
                     commandStack.add(foundCommand);
+                    itr.remove();
                 }
-            } else {
-                LOGGER.error("Unknown command [" + commandLine + "]");
             }
         }
         return commandStack;
@@ -76,7 +78,7 @@ public class CommandFactory {
             foundCommands.add(new CommandGetXPort());
             foundCommands.add(new CommandList());
             foundCommands.add(new CommandMove());
-            foundCommands.add(new CommandMute());
+            foundCommands.add(new CommandMuteOn());
             foundCommands.add(new CommandNext());
             foundCommands.add(new CommandPause());
             foundCommands.add(new CommandPlay());
@@ -85,10 +87,10 @@ public class CommandFactory {
             foundCommands.add(new CommandRemoveAll());
             foundCommands.add(new CommandSave());
             foundCommands.add(new CommandSetXPort());
-            foundCommands.add(new CommandShuffle());
+            foundCommands.add(new CommandShuffleOn());
             foundCommands.add(new CommandTrack());
-            foundCommands.add(new CommandUnmute());
-            foundCommands.add(new CommandUnshuffle());
+            foundCommands.add(new CommandMuteOff());
+            foundCommands.add(new CommandShuffleOff());
             foundCommands.add(new CommandVolume());
             foundCommands.add(new CommandVolumeDown());
             foundCommands.add(new CommandVolumeUp());

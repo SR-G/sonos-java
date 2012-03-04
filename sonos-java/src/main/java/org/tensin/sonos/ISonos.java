@@ -63,6 +63,11 @@ public interface ISonos {
     public abstract String getZoneName();
 
     /**
+     * @param line
+     */
+    public abstract void linein(final String line);
+
+    /**
      * Move.
      * 
      * @param from
@@ -101,6 +106,11 @@ public interface ISonos {
     public abstract void prev();
 
     /**
+     * Refresh zone attributes.
+     */
+    public void refreshZoneAttributes();
+
+    /**
      * Removes the.
      * 
      * @param id
@@ -131,6 +141,14 @@ public interface ISonos {
      *            the nr
      */
     public abstract void seekTrack(final int nr);
+
+    /**
+     * Sets the crossfade.
+     * 
+     * @param b
+     *            the new crossfade
+     */
+    public abstract void setCrossfade(final boolean b);
 
     /**
      * Sets the mute.
@@ -192,5 +210,4 @@ public interface ISonos {
      *            the vol
      */
     public abstract void volume(final int vol);
-
 }

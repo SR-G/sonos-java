@@ -88,6 +88,17 @@ public class SonosMock implements ISonos {
     /**
      * {@inheritDoc}
      * 
+     * @see org.tensin.sonos.ISonos#linein(java.lang.String)
+     */
+    @Override
+    public void linein(final String line) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.tensin.sonos.ISonos#move(int, int)
      */
     @Override
@@ -154,6 +165,17 @@ public class SonosMock implements ISonos {
     /**
      * {@inheritDoc}
      * 
+     * @see org.tensin.sonos.ISonos#refreshZoneAttributes()
+     */
+    @Override
+    public void refreshZoneAttributes() {
+        // TODO Auto-generated method stub
+
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.tensin.sonos.ISonos#remove(java.lang.String)
      */
     @Override
@@ -191,6 +213,17 @@ public class SonosMock implements ISonos {
      */
     @Override
     public void seekTrack(final int nr) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.ISonos#setCrossfade(boolean)
+     */
+    @Override
+    public void setCrossfade(final boolean b) {
         // TODO Auto-generated method stub
 
     }

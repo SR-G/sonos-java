@@ -17,4 +17,9 @@ public interface IDiscover {
      */
     public abstract String[] getList();
 
+    /**
+     * Launch.
+     */
+    public abstract void launch();
+
 }

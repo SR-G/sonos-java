@@ -50,6 +50,7 @@ public class SonosCommander {
         public void found(final String host) {
             try {
                 ISonos sonos = SonosFactory.build(host);
+                sonos.refreshZoneAttributes();
                 String name = sonos.getZoneName();
                 if (StringUtils.isNotEmpty(name)) {
                     LOGGER.info("New zone found [" + name + "]");
@@ -71,6 +72,8 @@ public class SonosCommander {
         }
     }
 
+    private static final int DEFAULT_MAX_TIMEOUT_WHEN_WORKING_ON_ALL_ZONES = 10000;
+
     /** The Constant LOGGER. */
     private static final Log LOGGER = LogFactory.getLog(SonosCommander.class);
 
@@ -88,6 +91,16 @@ public class SonosCommander {
     public static void main(final String args[]) throws SonosException {
         SonosCommander a = new SonosCommander();
         a.start(args);
+    }
+
+    /**
+     * Sets the system helper.
+     * 
+     * @param systemHelper
+     *            the new system helper
+     */
+    public static void setSystemHelper(final SystemHelper systemHelper) {
+        SonosCommander.systemHelper = systemHelper;
     }
 
     /** The zone. */
@@ -134,18 +147,19 @@ public class SonosCommander {
         return systemHelper;
     }
 
-    /**
-     * Sets the system helper.
-     * 
-     * @param systemHelper
-     *            the new system helper
-     */
-    public static void setSystemHelper(final SystemHelper systemHelper) {
-        SonosCommander.systemHelper = systemHelper;
-    }
-
     /** The discover. */
     private IDiscover discover;
+
+    /**
+     * Check all commands have been mapped.
+     * 
+     * @param commandsAvailables
+     *            the commands availables
+     * @return true, if successful
+     */
+    private boolean checkAllCommandsHaveBeenMapped(final Collection<String> commandsAvailables) {
+        return CollectionUtils.isEmpty((commandsAvailables));
+    }
 
     /**
      * Detect if work on all zones.
@@ -185,6 +199,36 @@ public class SonosCommander {
         for (IStandardCommand command : commandStackStandard) {
             command.execute();
         }
+    }
+
+    /**
+     * Execute zone commands.
+     */
+    private void executeZoneCommands() {
+        zonesToWorkOn = CollectionHelper.convertStringToCollection(zone);
+        detectIfWorkOnAllZones();
+        if (!workOnAllZones) {
+            // We propagate immediately the command that have to be runned
+            // on a specific zone, even if that zone has still not be found
+            // (it's up to the discovery process to detect Sonos box and to
+            // fire up that event to the corresponding executor, allowing at
+            // that time the executor to run every command that are in its
+            // queue.
+            for (final IZoneCommand command : commandStackZone) {
+                ((AbstractCommand) command).setArgs(parameters);
+                for (final String zoneToWorkOn : zonesToWorkOn) {
+                    ZoneCommandDispatcher.getInstance().dispatchCommand(command, zoneToWorkOn);
+                }
+            }
+        } else {
+            // Commands will be re-forwared from listener each time a new
+            // zones is discovered
+            // TODO purge command list after a certain amount of time, maybe
+            // ?
+        }
+        ZoneCommandDispatcher.getInstance().waitEndExecution(DEFAULT_MAX_TIMEOUT_WHEN_WORKING_ON_ALL_ZONES, !workOnAllZones);
+        // if "ALL" mode, then we don't want to check empty queues (are queues may be filled at a later time, once a new zone will be
+        // discovered (and at this time, the wanted commands will be propagated by the listener)
     }
 
     /**
@@ -311,42 +355,21 @@ public class SonosCommander {
         if (debug) {
             LOGGER.info("Debug activated");
         }
-        commandStackStandard = (Collection<IStandardCommand>) CommandFactory.createCommandStack(command, IStandardCommand.class);
-        commandStackZone = (Collection<IZoneCommand>) CommandFactory.createCommandStack(command, IZoneCommand.class);
+        Collection<String> commandsAvailables = CollectionHelper.convertStringToCollection(command);
+        commandStackZone = (Collection<IZoneCommand>) CommandFactory.createCommandStack(commandsAvailables, IZoneCommand.class);
+        commandStackStandard = (Collection<IStandardCommand>) CommandFactory.createCommandStack(commandsAvailables, IStandardCommand.class);
+        if (!checkAllCommandsHaveBeenMapped(commandsAvailables)) {
+            LOGGER.error("The following commands haven't been recognized : " + CollectionHelper.singleDump(commandsAvailables));
+            usage(jCommander);
+        }
         if (!CollectionUtils.isEmpty(commandStackStandard)) {
             executeStandardCommands();
         }
         if (!CollectionUtils.isEmpty(commandStackZone)) {
             try {
                 startDiscovery();
-                zonesToWorkOn = CollectionHelper.convertStringToCollection(zone);
-                detectIfWorkOnAllZones();
-                if (!workOnAllZones) {
-                    // We propagate immediately the command that have to be runned
-                    // on a specific zone, even if that zone has still not be found
-                    // (it's up to the discovery process to detect Sonos box and to
-                    // fire up that event to the corresponding executor, allowing at
-                    // that time the executor to run every command that are in its
-                    // queue.
-                    for (final IZoneCommand command : commandStackZone) {
-                        ((AbstractCommand) command).setArgs(parameters);
-                        for (final String zoneToWorkOn : zonesToWorkOn) {
-                            ZoneCommandDispatcher.getInstance().dispatchCommand(command, zoneToWorkOn);
-                        }
-                    }
-                } else {
-                    // Commands will be re-forwared from listener each time a new
-                    // zones is discovered
-                    // TODO purge command list after a certain amount of time, maybe
-                    // ?
-                }
+                executeZoneCommands();
             } finally {
-                ZoneCommandDispatcher.getInstance().waitEndExecution(10000, !workOnAllZones); // if "ALL" mode, then we don't want to check
-                                                                                              // empty queues (are queues may be filled at
-                                                                                              // a later time, once a new zone will be
-                                                                                              // discovered (and at this time, the wanted
-                                                                                              // commands will be propagated by the
-                                                                                              // listener)
                 stopDiscovery();
                 ZoneCommandDispatcher.getInstance().logSummary();
                 ZoneCommandDispatcher.stopExecutors();
@@ -364,6 +387,7 @@ public class SonosCommander {
     private void startDiscovery() throws SonosException {
         Listener zonesDiscoveredListener = new ZonesDiscoveredListener();
         discover = DiscoverFactory.build(zonesDiscoveredListener);
+        discover.launch();
     }
 
     /**

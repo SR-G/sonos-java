@@ -2,7 +2,6 @@ package org.tensin.sonos;
 
 import org.tensin.sonos.upnp.DiscoverImpl;
 import org.tensin.sonos.upnp.IDiscover;
-import org.tensin.sonos.upnp.DiscoverImpl.Listener;
 
 /**
  * The Class DiscoverMock.
@@ -46,4 +45,12 @@ public class DiscoverMock implements IDiscover {
         return new String[] { "SALON", "CHAMBRE" };
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.upnp.IDiscover#launch()
+     */
+    @Override
+    public void launch() {
+    }
 }

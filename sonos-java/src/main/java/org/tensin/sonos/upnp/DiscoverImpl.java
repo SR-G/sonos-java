@@ -32,16 +32,10 @@ public class DiscoverImpl extends Thread implements IDiscover {
     }
 
     /** The Constant SSDP_PORT. */
-    static final int SSDP_PORT = 1900;
+    public static final int DEFAULT_SSDP_PORT = 1900;
 
     /** The Constant SSDP_ADDR. */
     static final String SSDP_ADDR = "239.255.255.250";
-
-    /** The query. */
-    static String query = "M-SEARCH * HTTP/1.1\r\n" + "HOST: " + SSDP_ADDR + ":" + SSDP_PORT + "\r\n" + "MAN: \"ssdp:discover\"\r\n" + "MX: 1\r\n"
-            + "ST: urn:schemas-upnp-org:service:AVTransport:1\r\n" +
-            // "ST: ssdp:all\r\n"+
-            "\r\n";
 
     /** The addr. */
     InetAddress addr;
@@ -67,11 +61,18 @@ public class DiscoverImpl extends Thread implements IDiscover {
     /** Logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscoverImpl.class);
 
+    /** The cb. */
+    private DiscoverImpl.Listener cb = null;
+
+    private static final String query = "M-SEARCH * HTTP/1.1\r\n" + "HOST: " + SSDP_ADDR + ":" + DEFAULT_SSDP_PORT + "\r\n" + "MAN: \"ssdp:discover\"\r\n"
+            + "MX: 1\r\n" + "ST: urn:schemas-upnp-org:service:AVTransport:1\r\n" +
+            // "ST: ssdp:all\r\n"+
+            "\r\n";
+
     /**
      * Instantiates a new discover.
      */
     public DiscoverImpl() {
-        init(null);
     }
 
     /**
@@ -81,7 +82,7 @@ public class DiscoverImpl extends Thread implements IDiscover {
      *            the cb
      */
     public DiscoverImpl(final DiscoverImpl.Listener cb) {
-        init(cb);
+        this.cb = cb;
     }
 
     /**
@@ -146,12 +147,22 @@ public class DiscoverImpl extends Thread implements IDiscover {
      * @param cb
      *            the cb
      */
-    void init(final DiscoverImpl.Listener cb) {
+    void init() {
         setName("SONOS-THREAD-DISCOVER");
         active = true;
         callback = cb;
         pLocation = Pattern.compile("^LOCATION:\\s*http://(.*):1400/xml/device_description.xml$", Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
         start();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.upnp.IDiscover#launch()
+     */
+    @Override
+    public void launch() {
+        init();
     }
 
     /**
@@ -166,7 +177,7 @@ public class DiscoverImpl extends Thread implements IDiscover {
         lock = new Object();
         try {
             addr = InetAddress.getByName(SSDP_ADDR);
-            socket = new MulticastSocket(SSDP_PORT);
+            socket = new MulticastSocket(DEFAULT_SSDP_PORT);
             socket.joinGroup(addr);
             send_query();
         } catch (IOException ioex) {
@@ -192,7 +203,7 @@ public class DiscoverImpl extends Thread implements IDiscover {
      */
     void send_query() throws IOException {
         DatagramPacket p;
-        p = new DatagramPacket(query.getBytes(), query.length(), addr, SSDP_PORT);
+        p = new DatagramPacket(query.getBytes(), query.length(), addr, DEFAULT_SSDP_PORT);
         socket.send(p);
         socket.send(p);
         try {
@@ -202,4 +213,5 @@ public class DiscoverImpl extends Thread implements IDiscover {
         }
         socket.send(p);
     }
+
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<assembly>
+	<id>dist</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<fileSets>
+		<!-- dependencies -->
+		<fileSet>
+			<directory>target/dependency/</directory>
+			<outputDirectory>lib/</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+		</fileSet>
+		<!-- current jar -->
+		<fileSet>
+			<directory>target/</directory>
+			<outputDirectory>lib/</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+			<excludes>
+				<exclude>*-javadoc.jar</exclude>
+				<exclude>*-sources.jar</exclude>
+			</excludes>
+		</fileSet>
+		<!-- launch script -->
+		<fileSet>
+			<directory>src/script</directory>
+			<outputDirectory>.</outputDirectory>
+			<includes>
+				<include>*.sh</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+</assembly>

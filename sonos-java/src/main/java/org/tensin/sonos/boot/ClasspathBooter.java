@@ -547,9 +547,14 @@ public class ClasspathBooter {
             if (startClassUrl != null) {
                 final String path = startClassUrl.getPath();
                 if (!isEmpty(path) && !isEmpty(containingJarName)) { // Ne
-                    final int p = path.indexOf(containingJarName);
-                    if (p != -1) {
-                        result = path.substring(0, p);
+                    if (path.matches(".*" + containingJarName + ".*")) {
+                        result = path;
+                        int p = result.indexOf("!");
+                        if (p != -1) {
+                            result = result.substring(0, p);
+                        }
+                        p = result.lastIndexOf("/");
+                        result = path.substring(0, p + 1);
                     }
                 }
             }
@@ -567,7 +572,7 @@ public class ClasspathBooter {
             final File[] files = new File(lib).listFiles(new FilenameFilterJar());
             if ((files != null) && (files.length > 0)) {
                 for (File jar : files) {
-                    if (jar.getName().equalsIgnoreCase(jarName) && jar.exists()) {
+                    if (jar.getName().matches(".*" + jarName + ".*") && jar.exists()) {
                         try {
                             JarFile jarFile = new JarFile(jar);
                             final JarEntry entry = jarFile.getJarEntry("META-INF/MANIFEST.MF");

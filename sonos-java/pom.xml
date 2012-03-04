@@ -42,6 +42,40 @@
 		</testResources>
 
 		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>
+							src/build/distrib.xml
+						</descriptor>
+					</descriptors>
+<!-- 					<outputDirectory> -->
+<!-- 						target/zip-ressources -->
+<!-- 					</outputDirectory> -->
+					<attach>false</attach>
+					<!-- <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot> -->
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Main-Class>org.tensin.sonos.run.Sonos</Main-Class>
+						</manifestEntries>
+					</archive>
+					<excludes>
+						<exclude>**/*.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+
 		</plugins>
 
 	</build>

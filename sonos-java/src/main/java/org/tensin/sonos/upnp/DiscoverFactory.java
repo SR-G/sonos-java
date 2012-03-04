@@ -22,7 +22,8 @@ public class DiscoverFactory {
      */
     public static IDiscover build() throws SonosException {
         try {
-            return iDiscoverClass.newInstance();
+            IDiscover discover = iDiscoverClass.newInstance();
+            return discover;
         } catch (IllegalArgumentException e) {
             throw new SonosException(e);
         } catch (InstantiationException e) {
@@ -33,7 +34,7 @@ public class DiscoverFactory {
             throw new SonosException(e);
         }
 
-    }
+    };
 
     /**
      * Builds the.
@@ -47,7 +48,8 @@ public class DiscoverFactory {
     public static IDiscover build(final Listener listener) throws SonosException {
         try {
             Constructor<? extends IDiscover> constructor = iDiscoverClass.getConstructor(new Class[] { Listener.class });
-            return constructor.newInstance(new Object[] { listener });
+            IDiscover discover = constructor.newInstance(new Object[] { listener });
+            return discover;
         } catch (IllegalArgumentException e) {
             throw new SonosException(e);
         } catch (InstantiationException e) {
@@ -73,5 +75,4 @@ public class DiscoverFactory {
     public static void setiDiscoverClass(final Class<? extends IDiscover> iDiscoverClass) {
         DiscoverFactory.iDiscoverClass = iDiscoverClass;
     }
-
 }

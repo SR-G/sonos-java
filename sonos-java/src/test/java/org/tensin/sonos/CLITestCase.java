@@ -135,6 +135,7 @@ public class CLITestCase {
             SonosCommander.main(new String[] { "--zzz" });
             Assert.fail("Expected exception not thrown");
         } catch (ParameterException e) {
+            e.printStackTrace();
         }
     }
 

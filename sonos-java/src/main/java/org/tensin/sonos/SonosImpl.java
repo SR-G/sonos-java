@@ -187,9 +187,9 @@ public class SonosImpl implements ISonos {
      */
     @Override
     public String getZoneName() {
-        rpc.prepare(props, "GetZoneAttributes");
-        XML xml = rpc.invoke();
         try {
+            rpc.prepare(props, "GetZoneAttributes");
+            XML xml = rpc.invoke();
             xml.open("u:GetZoneAttributesResponse");
             return xml.read("CurrentZoneName").toString();
             // xml.read("CurrentIcon").toString();
@@ -220,6 +220,16 @@ public class SonosImpl implements ISonos {
         media = new SoapRPC.Endpoint("ContentDirectory:1", "/MediaServer/ContentDirectory/Control");
         render = new SoapRPC.Endpoint("RenderingControl:1", "/MediaRenderer/RenderingControl/Control");
         props = new SoapRPC.Endpoint("DeviceProperties:1", "/DeviceProperties/Control");
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.ISonos#linein(java.lang.String)
+     */
+    @Override
+    public void linein(final String line) {
+
     }
 
     /**
@@ -382,6 +392,15 @@ public class SonosImpl implements ISonos {
     /**
      * {@inheritDoc}
      * 
+     * @see org.tensin.sonos.ISonos#refreshZoneAttributes()
+     */
+    @Override
+    public void refreshZoneAttributes() {
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.tensin.sonos.ISonos#remove(java.lang.String)
      */
     @Override
@@ -438,6 +457,24 @@ public class SonosImpl implements ISonos {
         rpc.simpleTag("Target", nr);
         rpc.invoke();
         // does not start playing if not already in playback mode
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.ISonos#setCrossfade(boolean)
+     */
+    @Override
+    public void setCrossfade(final boolean b) {
+        rpc.prepare(render, "SetCrossfadeMode");
+        rpc.simpleTag("InstanceID", 0);
+        // rpc.simpleTag("Channel", "Master");
+        if (b) {
+            rpc.simpleTag("CrossfadeMode", 1);
+        } else {
+            rpc.simpleTag("CrossfadeMode", 0);
+        }
+        rpc.invoke();
     }
 
     /**
