@@ -181,6 +181,9 @@ public class SonosCommander {
             LOGGER.error("The following commands haven't been recognized : " + CollectionHelper.singleDump(commandsAvailables));
             usage(jCommander);
         }
+        if ((commandStackZone.size() == 0) && (commandStackStandard.size() == 0)) {
+            usage(jCommander);
+        }
 
     }
 

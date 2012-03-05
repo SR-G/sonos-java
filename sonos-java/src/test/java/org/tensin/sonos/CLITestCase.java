@@ -55,6 +55,17 @@ public class CLITestCase {
     }
 
     /**
+     * Test cli.
+     * 
+     * @throws SonosException
+     *             the sonos exception
+     */
+    @Test
+    public void testDummyCommand() throws SonosException {
+        SonosCommander.main(new String[] { "zzz" });
+    }
+
+    /**
      * Test list.
      * (1) id: A: / Attributes
      * (2) id: S: / Music Shares
