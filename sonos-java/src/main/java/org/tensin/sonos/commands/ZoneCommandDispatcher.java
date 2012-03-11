@@ -39,6 +39,8 @@ public class ZoneCommandDispatcher {
 
     /**
      * Reset instance.
+     *
+     * @throws SonosException the sonos exception
      */
     public static void resetInstance() throws SonosException {
         stopExecutors();

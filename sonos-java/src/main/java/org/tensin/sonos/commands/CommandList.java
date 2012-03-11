@@ -5,8 +5,16 @@ import org.tensin.sonos.upnp.SonosException;
 import org.tensin.sonos.upnp.SonosItem;
 import org.tensin.sonos.upnp.SonosListener;
 
+/**
+ * The Class CommandList.
+ */
 public class CommandList extends AbstractCommand implements IZoneCommand, SonosListener {
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.commands.IZoneCommand#execute(org.tensin.sonos.ISonos)
+     */
     @Override
     public void execute(final ISonos sonos) throws SonosException {
         if (hasArgs()) {
@@ -14,6 +22,11 @@ public class CommandList extends AbstractCommand implements IZoneCommand, SonosL
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.commands.ICommand#getName()
+     */
     @Override
     public String getName() {
         return "list";

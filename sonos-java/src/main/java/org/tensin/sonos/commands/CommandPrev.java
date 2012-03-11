@@ -3,16 +3,29 @@ package org.tensin.sonos.commands;
 import org.tensin.sonos.ISonos;
 import org.tensin.sonos.upnp.SonosException;
 
+/**
+ * The Class CommandPrev.
+ */
 public class CommandPrev extends AbstractCommand implements IZoneCommand {
 
-	@Override
-	public String getName() {
-		return "prev";
-	}
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.commands.IZoneCommand#execute(org.tensin.sonos.ISonos)
+     */
+    @Override
+    public void execute(final ISonos sonos) throws SonosException {
+        sonos.prev();
+    }
 
-	@Override
-	public void execute(final ISonos sonos) throws SonosException {
-		sonos.prev();
-	}
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.commands.ICommand#getName()
+     */
+    @Override
+    public String getName() {
+        return "prev";
+    }
 
 }
