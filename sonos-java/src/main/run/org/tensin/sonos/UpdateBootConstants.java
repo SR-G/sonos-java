@@ -15,6 +15,9 @@ import org.tensin.common.tools.boot.updater.IAdapterOutput;
 import org.tensin.common.tools.boot.updater.JarContainer;
 import org.tensin.sonos.upnp.SonosException;
 
+/**
+ * The Class UpdateBootConstants.
+ */
 public class UpdateBootConstants {
 
     /** The Constant LOGGER. */
@@ -44,5 +47,4 @@ public class UpdateBootConstants {
         final Collection<JarContainer> jars = converter.process(inputs, outputs);
         LOGGER.info("Summary :\n" + converter.dumpDifferences(jars));
     }
-
 }
