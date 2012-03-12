@@ -144,6 +144,11 @@
 			<!-- <artifactId>commons-io</artifactId> -->
 			<!-- <version>1.4</version> -->
 			<!-- </dependency> -->
+                <dependency>
+                        <groupId>org.apache.commons</groupId>
+                        <artifactId>commons-exec</artifactId>
+                        <version>1.1</version>
+                </dependency>
 			<dependency>
 				<groupId>org.tensin.sonos</groupId>
 				<artifactId>sonos-java</artifactId>
@@ -168,7 +173,7 @@
 			<dependency>
 				<groupId>org.simpleframework</groupId>
 				<artifactId>simple-xml</artifactId>
-				<version>2.6.1</version>
+				<version>2.6.2</version>
 				<exclusions>
 					<exclusion>
 						<groupId>stax</groupId>
@@ -183,17 +188,17 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.6.2</version>
+				<version>1.6.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
-				<version>1.6.2</version>
+				<version>1.6.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>jcl-over-slf4j</artifactId>
-				<version>1.6.2</version>
+				<version>1.6.4</version>
 			</dependency>
 			<dependency>
 				<groupId>log4j</groupId>
@@ -203,14 +208,14 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.8.2</version>
+				<version>4.10</version>
 				<scope>test</scope>
 				<optional>true</optional>
 			</dependency>
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
-				<version>1.8.5</version>
+				<version>1.9.0</version>
 				<optional>true</optional>
 				<scope>test</scope>
 			</dependency>

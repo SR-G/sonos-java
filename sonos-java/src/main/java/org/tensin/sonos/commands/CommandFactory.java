@@ -40,11 +40,14 @@ public class CommandFactory {
      * Creates a new Command object.
      * Ex. command line : --command volume +5
      * First parameter is always the command, other ones are additionnal parameters
-     *
-     * @param commands the commands
-     * @param clazz the clazz
+     * 
+     * @param commands
+     *            the commands
+     * @param clazz
+     *            the clazz
      * @return the collection< i command>
-     * @throws SonosException the sonos exception
+     * @throws SonosException
+     *             the sonos exception
      */
     public static Collection<? extends ICommand> createCommandStack(final Collection<String> commands, final Class<? extends ICommand> clazz)
             throws SonosException {
@@ -89,6 +92,7 @@ public class CommandFactory {
             foundCommands.add(new CommandSave());
             foundCommands.add(new CommandSetXPort());
             foundCommands.add(new CommandShuffleOn());
+            foundCommands.add(new CommandStop());
             foundCommands.add(new CommandTrack());
             foundCommands.add(new CommandMuteOff());
             foundCommands.add(new CommandShuffleOff());
