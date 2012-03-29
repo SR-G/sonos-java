@@ -5,7 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tensin.sonos.ISonos;
-import org.tensin.sonos.SonosCommander;
+import org.tensin.sonos.commander.SonosCommander;
 import org.tensin.sonos.upnp.SonosException;
 
 /**
@@ -171,9 +171,13 @@ public class ZoneCommandExecutor extends Thread {
                 if (isSonosZoneAvailable()) {
                     final IZoneCommand command = commandsQueue.take();
                     if (command != null) {
-                        runningCommand = true;
-                        executeCommand(command);
-                        runningCommand = false;
+                        if (command instanceof CommandPoisonPill) {
+                            active = false;
+                        } else {
+                            runningCommand = true;
+                            executeCommand(command);
+                            runningCommand = false;
+                        }
                     }
                 } else {
                     Thread.sleep(100);

@@ -7,7 +7,7 @@ import org.tensin.sonos.upnp.SonosException;
 public class Sonos {
 
     /** The Constant BEERDUINO_MAIN_CLASS. */
-    private static final String BEERDUINO_MAIN_CLASS = org.tensin.sonos.SonosCommander.class.getName();
+    private static final String BEERDUINO_MAIN_CLASS = org.tensin.sonos.commander.SonosCommander.class.getName();
 
     /** The Constant BEERDUINO_BOOT_JAR. */
     private static final String BEERDUINO_BOOT_JAR = "sonos-java-.*\\.jar";

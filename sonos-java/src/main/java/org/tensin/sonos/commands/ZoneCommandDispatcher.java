@@ -22,9 +22,6 @@ public class ZoneCommandDispatcher {
     /** The INSTANCE. */
     private static ZoneCommandDispatcher INSTANCE;
 
-    /** The Constant executors. */
-    private static final Map<String, ZoneCommandExecutor> executors = new HashMap<String, ZoneCommandExecutor>();
-
     /**
      * Gets the single instance of ZoneCommandDispatcher.
      * 
@@ -37,32 +34,8 @@ public class ZoneCommandDispatcher {
         return INSTANCE;
     }
 
-    /**
-     * Reset instance.
-     *
-     * @throws SonosException the sonos exception
-     */
-    public static void resetInstance() throws SonosException {
-        stopExecutors();
-        synchronized (executors) {
-            executors.clear();
-        }
-    }
-
-    /**
-     * Stop.
-     * 
-     * @throws SonosException
-     *             the sonos exception
-     */
-    public static void stopExecutors() throws SonosException {
-        synchronized (executors) {
-            for (Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
-                ZoneCommandExecutor executor = entry.getValue();
-                executor.halt();
-            }
-        }
-    }
+    /** The Constant executors. */
+    private final Map<String, ZoneCommandExecutor> executors = new HashMap<String, ZoneCommandExecutor>();
 
     /**
      * Dispatch command.
@@ -163,14 +136,44 @@ public class ZoneCommandDispatcher {
     }
 
     /**
+     * Reset instance.
+     * 
+     * @throws SonosException
+     *             the sonos exception
+     */
+    public void resetInstance() throws SonosException {
+        stopExecutors();
+        synchronized (executors) {
+            executors.clear();
+        }
+    }
+
+    /**
+     * Stop.
+     * 
+     * @throws SonosException
+     *             the sonos exception
+     */
+    public void stopExecutors() throws SonosException {
+        synchronized (executors) {
+            for (Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
+                ZoneCommandExecutor executor = entry.getValue();
+                executor.halt();
+                executor.addCommand(new CommandPoisonPill());
+            }
+        }
+    }
+
+    /**
      * Wait end execution.
      * 
      * @param delay
      *            the delay
      * @param checkEmptyQueues
      *            the check empty queues
+     * @throws SonosException
      */
-    public void waitEndExecution(final int delay, final boolean checkEmptyQueues) {
+    public void waitEndExecution(final int delay, final boolean checkEmptyQueues) throws SonosException {
         final long start = System.currentTimeMillis();
         long current;
         boolean active = true;
@@ -213,4 +216,5 @@ public class ZoneCommandDispatcher {
             }
         }
     }
+
 }
