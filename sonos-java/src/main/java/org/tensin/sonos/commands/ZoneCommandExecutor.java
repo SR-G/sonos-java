@@ -168,7 +168,7 @@ public class ZoneCommandExecutor extends Thread {
     public void run() {
         while (active) {
             try {
-                if (isSonosZoneAvailable()) {
+                if (isSonosZoneAvailable()) { // TODO switch to wait / notify + interruption
                     final IZoneCommand command = commandsQueue.take();
                     if (command != null) {
                         if (command instanceof CommandPoisonPill) {

@@ -59,6 +59,8 @@ public abstract class AbstractCommander {
                     }
                     ZoneCommandDispatcher.getInstance().registerZoneAsAvailable(sonos, name);
                     if (isWorkOnAllZones()) {
+                        // in "all zones" mode, commands have not yet been pushed (as we don't know the zone yet, we can't create ZoneCommandExecutor before), so
+                        // we propage all needed command to the ZoneCommandDispatcher for him to propagate the command to the newly created ZonecommandExecutor
                         for (final IZoneCommand command : commandStackZone) {
                             ZoneCommandDispatcher.getInstance().dispatchCommand(command, name);
                         }
@@ -219,8 +221,9 @@ public abstract class AbstractCommander {
      * @throws SonosException
      *             the sonos exception
      */
-    protected void startDiscovery() throws SonosException {
-        Listener zonesDiscoveredListener = new ZonesDiscoveredListener();
+    protected void startDiscovery(final boolean debug) throws SonosException {
+        final ZonesDiscoveredListener zonesDiscoveredListener = new ZonesDiscoveredListener();
+        zonesDiscoveredListener.setDebug(debug);
         discover = DiscoverFactory.build(zonesDiscoveredListener);
         discover.launch();
     }

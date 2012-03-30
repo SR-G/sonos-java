@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.tensin.sonos.SonosConstants;
 import org.tensin.sonos.commands.CommandFactory;
 import org.tensin.sonos.commands.IZoneCommand;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
@@ -19,8 +20,8 @@ public class JavaCommander extends AbstractCommander {
     /** The Constant LOGGER. */
     private static final Log LOGGER = LogFactory.getLog(JavaCommander.class);
 
-    /** The Constant DEFAULT_MAX_TIMEOUT_WHEN_WORKING_ON_ALL_ZONES. */
-    private static final int DEFAULT_MAX_TIMEOUT_WHEN_WORKING_ON_ALL_ZONES = 3000;
+    /** The debug. */
+    private boolean debug;
 
     /**
      * Execute.
@@ -50,7 +51,7 @@ public class JavaCommander extends AbstractCommander {
             LOGGER.error("No command provided, won't do anything");
         } else {
             try {
-                startDiscovery();
+                startDiscovery(isDebug());
                 final Collection<String> commandsAvailables = CollectionHelper.convertStringToCollection(command);
                 setCommandStackZone((Collection<IZoneCommand>) CommandFactory.createCommandStack(commandsAvailables, IZoneCommand.class));
                 setZonesToWorkOn(CollectionHelper.convertStringToCollection(zoneNames));
@@ -68,12 +69,32 @@ public class JavaCommander extends AbstractCommander {
                     // TODO purge command list after a certain amount of time, maybe
                     // ?
                 }
-                ZoneCommandDispatcher.getInstance().waitEndExecution(DEFAULT_MAX_TIMEOUT_WHEN_WORKING_ON_ALL_ZONES, !isWorkOnAllZones());
+                ZoneCommandDispatcher.getInstance().waitEndExecution(SonosConstants.DEFAULT_MAX_TIMEOUT_JAVA_COMMANDER_WHEN_WORKING_ON_ALL_ZONES,
+                        !isWorkOnAllZones());
             } finally {
                 stopDiscovery();
                 ZoneCommandDispatcher.getInstance().logSummary();
                 ZoneCommandDispatcher.getInstance().stopExecutors();
             }
         }
+    }
+
+    /**
+     * Checks if is debug.
+     * 
+     * @return true, if is debug
+     */
+    public boolean isDebug() {
+        return debug;
+    }
+
+    /**
+     * Sets the debug.
+     * 
+     * @param debug
+     *            the new debug
+     */
+    public void setDebug(final boolean debug) {
+        this.debug = debug;
     }
 }

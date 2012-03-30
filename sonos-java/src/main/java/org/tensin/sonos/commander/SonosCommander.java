@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.tensin.sonos.SonosConstants;
 import org.tensin.sonos.SystemHelper;
 import org.tensin.sonos.commands.AbstractCommand;
 import org.tensin.sonos.commands.CommandFactory;
@@ -26,9 +27,6 @@ import com.beust.jcommander.ParameterException;
  * The Class SonosCommander.
  */
 public class SonosCommander extends AbstractCommander {
-
-    /** The Constant DEFAULT_MAX_TIMEOUT_WHEN_WORKING_ON_ALL_ZONES. */
-    private static final int DEFAULT_MAX_TIMEOUT_WHEN_WORKING_ON_ALL_ZONES = 10000;
 
     /** The Constant LOGGER. */
     private static final Log LOGGER = LogFactory.getLog(SonosCommander.class);
@@ -159,7 +157,7 @@ public class SonosCommander extends AbstractCommander {
     private void executeZoneCommands() throws SonosException {
         if (!CollectionUtils.isEmpty(getCommandStackZone())) {
             try {
-                startDiscovery();
+                startDiscovery(debug);
                 setZonesToWorkOn(CollectionHelper.convertStringToCollection(zone));
                 detectIfWorkOnAllZones();
                 if (!isWorkOnAllZones()) {
@@ -181,7 +179,8 @@ public class SonosCommander extends AbstractCommander {
                     // TODO purge command list after a certain amount of time, maybe
                     // ?
                 }
-                ZoneCommandDispatcher.getInstance().waitEndExecution(DEFAULT_MAX_TIMEOUT_WHEN_WORKING_ON_ALL_ZONES, !isWorkOnAllZones());
+                ZoneCommandDispatcher.getInstance().waitEndExecution(SonosConstants.DEFAULT_MAX_TIMEOUT_SONOS_COMMANDER_WHEN_WORKING_ON_ALL_ZONES,
+                        !isWorkOnAllZones());
                 // if "ALL" mode, then we don't want to check empty queues (are queues may be filled at a later time, once a new zone will be
                 // discovered (and at this time, the wanted commands will be propagated by the listener)
             } finally {
