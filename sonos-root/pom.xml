@@ -5,7 +5,7 @@
 
 	<properties>
 		<sourceEncoding>UTF-8</sourceEncoding>
-		<jetty.version>7.2.1.v20101111</jetty.version>
+		<jetty.version>7.6.2.v20120308</jetty.version>
 	</properties>
 
 	<groupId>org.tensin.sonos</groupId>
@@ -139,11 +139,11 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- <dependency> -->
-			<!-- <groupId>commons-io</groupId> -->
-			<!-- <artifactId>commons-io</artifactId> -->
-			<!-- <version>1.4</version> -->
-			<!-- </dependency> -->
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.2</version>
+			</dependency>
 			<dependency>
 				<groupId>org.tensin.sonos</groupId>
 				<artifactId>sonos-java</artifactId>
@@ -243,6 +243,11 @@
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-servlet</artifactId>
 				<version>${jetty.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-rewrite</artifactId>
+				<version>7.6.2.v20120308</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>

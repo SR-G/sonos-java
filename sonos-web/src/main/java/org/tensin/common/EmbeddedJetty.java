@@ -2,6 +2,7 @@ package org.tensin.common;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -13,13 +14,18 @@ import java.net.Socket;
 import java.util.Collection;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.bio.SocketConnector;
+import org.eclipse.jetty.server.handler.ErrorHandler;
+import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.webapp.WebInfConfiguration;
@@ -99,7 +105,7 @@ public class EmbeddedJetty {
                 accept = socket.accept();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(accept.getInputStream()));
                 reader.readLine();
-                log.info("Stopping jetty embedded server");
+                LOGGER.info("Stopping jetty embedded server");
                 JETTY.stop();
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -108,17 +114,26 @@ public class EmbeddedJetty {
                     accept.close();
                     socket.close();
                 } catch (IOException e) {
-                    log.error(e);
+                    LOGGER.error(e);
                 }
             }
         }
     }
+
+    /** Logger. */
+    private static final Log LOGGER = LogFactory.getLog(EmbeddedJetty.class);
 
     /** LOCALHOST. */
     public static final String DEFAULT_LOCALHOST = "127.0.0.1";
 
     /** The Constant DEFAULT_PORT. */
     public static final int DEFAULT_PORT = 8080;
+
+    /** JETTY. */
+    protected static final Server JETTY = new Server();
+
+    /** monitor. */
+    private static Thread monitor;
 
     /**
      * Méthode de test.
@@ -160,6 +175,9 @@ public class EmbeddedJetty {
         }
     }
 
+    /** port */
+    private int port = DEFAULT_PORT;
+
     /** console. */
     protected final PrintStream standardConsoleOut = System.out;
 
@@ -169,14 +187,36 @@ public class EmbeddedJetty {
     /** initLogger. */
     private boolean initLogger;
 
-    /** JETTY. */
-    private static final Server JETTY = new Server();
+    /**
+     * Builds the error handler.
+     * 
+     * @return the object
+     */
+    protected ErrorHandler buildErrorHandler() {
+        ErrorHandler errorHandler = new ErrorHandler();
+        errorHandler.setShowStacks(true);
+        return errorHandler;
+    }
 
-    /** monitor. */
-    private static Thread monitor;
+    /**
+     * Builds the handlers.
+     * 
+     * @param applicationHandler
+     *            the application handler
+     * @return the handler[]
+     */
+    protected Handler[] buildHandlers(final WebAppContext applicationHandler) {
+        return new Handler[] { applicationHandler };
+    }
 
-    /** Logger. */
-    private static final Log log = LogFactory.getLog(EmbeddedJetty.class);
+    /**
+     * Gets the port.
+     * 
+     * @return the port
+     */
+    public int getPort() {
+        return port;
+    }
 
     /**
      * Méthode initLogger. void
@@ -193,13 +233,39 @@ public class EmbeddedJetty {
     /**
      * Method.
      * 
+     * @see http://docs.codehaus.org/display/JETTY/Temporary+Directories
      * @param temp
      *            the temp
+     * @throws SonosException
      */
-    private void purgeJettyCache(final File temp) {
-        if ((temp != null) && temp.exists() && temp.isDirectory()) {
-            log.info("Purge du répertoire temporaire JETTY [" + temp.getAbsolutePath() + "]");
-            temp.delete();
+    private void purgeJettyCache() throws SonosException {
+        final File jettyWorkDir = new File("work/"); // Jetty stocke par défaut son cache .jsp, war, etc. dans ${jetty.home}/work si work/ existe http://docs.codehaus.org/display/JETTY/Temporary+Directories
+        final String jettyPattern = ".*jetty-.*"; // ex. jetty-0.0.0.0-8080-web-_-any-
+        // final IOFileFilter nameFilter = new RegexFileFilter(jettyPattern);
+        // final Collection<File> tempFiles = FileUtils.listFiles(jettyWorkDir, TrueFileFilter.INSTANCE, nameFilter);
+
+        final File[] tempFiles = jettyWorkDir.listFiles(new FileFilter() {
+
+            /**
+             * {@inheritDoc}
+             * 
+             * @see java.io.FileFilter#accept(java.io.File)
+             */
+            @Override
+            public boolean accept(final File pathname) {
+                return pathname.getName().matches(jettyPattern);
+            }
+
+        });
+
+        if (ArrayUtils.isNotEmpty(tempFiles)) {
+            for (final File tempFile : tempFiles) {
+                try {
+                    FileUtils.deleteDirectory(tempFile);
+                } catch (final IOException e) {
+                    throw new SonosException("Can't purge temporary Jetty directory [" + tempFile.getAbsolutePath() + "]", e);
+                }
+            }
         }
     }
 
@@ -225,6 +291,16 @@ public class EmbeddedJetty {
         if (logger != null) {
             logger.setLevel(level);
         }
+    }
+
+    /**
+     * Sets the port.
+     * 
+     * @param port
+     *            the new port
+     */
+    public void setPort(final int port) {
+        this.port = port;
     }
 
     /**
@@ -256,28 +332,23 @@ public class EmbeddedJetty {
     public void start(final String webContentRelativePath, final String webContext, final Collection<String> resourcesPath) throws SonosException {
         initLogger();
         try {
-
-            /*
-             * SelectChannelConnector connector = new SelectChannelConnector ();
-             * connector.setPort (8080);
-             */
             // We explicitly use the SocketConnector because the
             // SelectChannelConnector locks files
-            Connector connector = new SocketConnector();
-            connector.setPort(DEFAULT_PORT);
+            final Connector connector = new SocketConnector();
+            connector.setPort(getPort());
             connector.setMaxIdleTime(1000 * 60 * 60 * 4); // 4 heures
 
-            WebAppContext app = new WebAppContext();
-            app.setServer(JETTY);
-            app.setWar(webContentRelativePath);
-            app.setContextPath(webContext);
-            app.setCompactPath(true);
+            final WebAppContext applicationHandler = new WebAppContext();
+            applicationHandler.setServer(JETTY);
+            applicationHandler.setWar(webContentRelativePath);
+            applicationHandler.setContextPath(webContext);
+            applicationHandler.setCompactPath(true);
             if (CollectionUtils.isNotEmpty(resourcesPath)) {
                 ResourceCollection resourceCollection = new ResourceCollection();
                 for (String url : resourcesPath) {
                     resourceCollection.addPath(url);
                 }
-                app.setBaseResource(resourceCollection);
+                applicationHandler.setBaseResource(resourceCollection);
             }
 
             /*
@@ -291,21 +362,24 @@ public class EmbeddedJetty {
              */
 
             // Avoid the taglib configuration because its a PITA if you don't have a net connection
-            app.setConfigurationClasses(new String[] { WebInfConfiguration.class.getName(), WebXmlConfiguration.class.getName() });
-            app.setParentLoaderPriority(true);
+            applicationHandler.setConfigurationClasses(new String[] { WebInfConfiguration.class.getName(), WebXmlConfiguration.class.getName() });
+            applicationHandler.setParentLoaderPriority(true);
+            applicationHandler.setErrorHandler(buildErrorHandler());
 
             JETTY.setConnectors(new Connector[] { connector });
-            JETTY.setHandler(app);
-            JETTY.setAttribute("org.mortbay.jetty.Request.maxFormContentSize", 0);
-            // JETTY.setStopAtShutdown(true);
 
+            final HandlerCollection handlers = new HandlerCollection();
+            handlers.setHandlers(buildHandlers(applicationHandler));
+            JETTY.setHandler(handlers);
+            JETTY.setAttribute("org.mortbay.jetty.Request.maxFormContentSize", 0);
+            // purgeJettyCache();
             startJetty();
-            purgeJettyCache(app.getTempDirectory());
         } catch (MalformedURLException e) {
             throw new SonosException(e);
         } catch (IOException e) {
             throw new SonosException(e);
         }
+        LOGGER.info("Jetty internal web server started on [http://" + DEFAULT_LOCALHOST + ":" + getPort() + "]");
     }
 
     /**

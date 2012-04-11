@@ -1,5 +1,6 @@
 package org.tensin.sonos.commands;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -52,6 +53,15 @@ public class ZoneCommandDispatcher {
     }
 
     /**
+     * Gets the executors.
+     * 
+     * @return the executors
+     */
+    public Map<String, ZoneCommandExecutor> getExecutors() {
+        return executors;
+    }
+
+    /**
      * Gets the zone command executor.
      * 
      * @param zoneName
@@ -63,6 +73,15 @@ public class ZoneCommandDispatcher {
             return executors.get(zoneName.toUpperCase());
         }
         return null;
+    }
+
+    /**
+     * Gets the zones names.
+     * 
+     * @return the zones names
+     */
+    public Collection<String> getZonesNames() {
+        return executors.keySet();
     }
 
     /**
