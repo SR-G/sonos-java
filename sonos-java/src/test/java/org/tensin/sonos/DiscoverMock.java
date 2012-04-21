@@ -1,12 +1,21 @@
 package org.tensin.sonos;
 
-import org.tensin.sonos.upnp.DiscoverImpl;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.tensin.sonos.upnp.IDiscover;
+import org.tensin.sonos.upnp.Listener;
 
 /**
  * The Class DiscoverMock.
  */
 public class DiscoverMock implements IDiscover {
+
+    /** The cb. */
+    private Listener cb;
+
+    /** The zones. */
+    private final Collection<String> zones = new ArrayList<String>();
 
     /**
      * Instantiates a new discover.
@@ -20,9 +29,10 @@ public class DiscoverMock implements IDiscover {
      * @param cb
      *            the cb
      */
-    public DiscoverMock(final DiscoverImpl.Listener cb) {
-        cb.found("SALON");
-        cb.found("CHAMBRE");
+    public DiscoverMock(final Listener cb) {
+        this.cb = cb;
+        eventAddNewZone("SALON");
+        eventAddNewZone("CHAMBRE");
     }
 
     /**
@@ -36,13 +46,24 @@ public class DiscoverMock implements IDiscover {
     }
 
     /**
+     * Event add new zone.
+     * 
+     * @param zoneName
+     *            the zone name
+     */
+    public void eventAddNewZone(final String zoneName) {
+        cb.found(zoneName);
+        zones.add(zoneName);
+    }
+
+    /**
      * {@inheritDoc}
      * 
      * @see org.tensin.sonos.upnp.IDiscover#getList()
      */
     @Override
     public String[] getList() {
-        return new String[] { "SALON", "CHAMBRE" };
+        return zones.toArray(new String[] {});
     }
 
     /**

@@ -1,5 +1,6 @@
 package org.tensin.sonos.web.pages;
 
+import org.itsnat.core.CometNotifier;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.event.ItsNatEvent;
@@ -70,6 +71,45 @@ public class SonosDocument implements EventListener {
     }
 
     /**
+     * Inits the comet background notifier.
+     * 
+     */
+    private void initCometBackgroundNotifier() {
+        final CometNotifier notifier = itsNatDoc.getClientDocumentOwner().createCometNotifier();
+        // EventListener listener = new EventListener() {
+        // @Override
+        // public void handleEvent(final Event evt) {
+        // itsNatDoc.addCodeToSend("alert('Tick From Event');");
+        // }
+        // };
+        // notifier.addEventListener(listener);
+        Thread backgroundThr = new Thread() {
+            @Override
+            public void run() {
+                System.out.println("Background server task started");
+                long t1 = System.currentTimeMillis();
+                long t2 = t1;
+                do {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                    }
+                    if (!notifier.isStopped()) {
+                        synchronized (itsNatDoc) {
+                            itsNatDoc.addCodeToSend("alert('Tick From Thread');");
+                        }
+                        notifier.notifyClient();
+                    }
+                    t2 = System.currentTimeMillis();
+                } while ((t2 - t1) < (10 * 60 * 1000)); // Max 10 minutes
+                notifier.stop();
+                System.out.println("Background server task finished");
+            }
+        };
+        backgroundThr.start();
+    }
+
+    /**
      * Load.
      */
     public void load() {
@@ -89,6 +129,8 @@ public class SonosDocument implements EventListener {
         doc.getBody().appendChild(noteElem);
 
         ((EventTarget) clickElem1).addEventListener("click", this, false);
+
+        initCometBackgroundNotifier();
     }
 
     /**

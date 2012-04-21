@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.tensin.sonos.ISonos;
 import org.tensin.sonos.SonosFactory;
 import org.tensin.sonos.upnp.DiscoverFactory;
-import org.tensin.sonos.upnp.DiscoverImpl.Listener;
 import org.tensin.sonos.upnp.IDiscover;
+import org.tensin.sonos.upnp.Listener;
 import org.tensin.sonos.upnp.SonosException;
 
 /**
@@ -30,7 +30,7 @@ public class CommandDiscover implements IStandardCommand {
         /**
          * {@inheritDoc}
          * 
-         * @see org.tensin.sonos.upnp.DiscoverImpl.Listener#found(java.lang.String)
+         * @see org.tensin.sonos.upnp.Listener#found(java.lang.String)
          */
         @Override
         public void found(final String host) {

@@ -3,7 +3,6 @@ package org.tensin.sonos.upnp;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import org.tensin.sonos.upnp.DiscoverImpl.Listener;
 
 /**
  * A factory for creating Discover objects.

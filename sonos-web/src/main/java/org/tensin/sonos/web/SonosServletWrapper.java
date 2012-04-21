@@ -25,8 +25,8 @@ import org.tensin.sonos.SonosFactory;
 import org.tensin.sonos.SonosWebConstants;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
 import org.tensin.sonos.upnp.DiscoverFactory;
-import org.tensin.sonos.upnp.DiscoverImpl.Listener;
 import org.tensin.sonos.upnp.IDiscover;
+import org.tensin.sonos.upnp.Listener;
 import org.tensin.sonos.upnp.SonosException;
 import org.tensin.sonos.web.pages.SonosLoadListener;
 
@@ -53,7 +53,7 @@ public abstract class SonosServletWrapper extends HttpServlet {
         /**
          * {@inheritDoc}
          * 
-         * @see org.tensin.sonos.upnp.DiscoverImpl.Listener#found(java.lang.String)
+         * @see org.tensin.sonos.upnp.Listener#found(java.lang.String)
          */
         @Override
         public void found(final String host) {
@@ -253,7 +253,10 @@ public abstract class SonosServletWrapper extends HttpServlet {
      * @throws SonosException
      */
     private void initSonosDiscovery() throws SonosException {
-        startDiscovery(true);
+        final ZonesDiscoveredListener zonesDiscoveredListener = new ZonesDiscoveredListener();
+        zonesDiscoveredListener.setDebug(true);
+        discover = DiscoverFactory.build(zonesDiscoveredListener);
+        discover.launch();
     }
 
     /**
@@ -288,18 +291,5 @@ public abstract class SonosServletWrapper extends HttpServlet {
      */
     protected void processRequest(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         getItsNatHttpServlet().processRequest(request, response);
-    }
-
-    /**
-     * Start discovery.
-     * 
-     * @throws SonosException
-     *             the sonos exception
-     */
-    protected void startDiscovery(final boolean debug) throws SonosException {
-        final ZonesDiscoveredListener zonesDiscoveredListener = new ZonesDiscoveredListener();
-        zonesDiscoveredListener.setDebug(debug);
-        discover = DiscoverFactory.build(zonesDiscoveredListener);
-        discover.launch();
     }
 }

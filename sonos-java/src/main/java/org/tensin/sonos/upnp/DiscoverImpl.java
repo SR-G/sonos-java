@@ -17,20 +17,6 @@ import org.slf4j.LoggerFactory;
  */
 public class DiscoverImpl extends Thread implements IDiscover {
 
-    /**
-     * The Interface Listener.
-     */
-    public static interface Listener {
-
-        /**
-         * Found.
-         * 
-         * @param host
-         *            the host
-         */
-        public void found(String host);
-    }
-
     /** The Constant SSDP_PORT. */
     public static final int DEFAULT_SSDP_PORT = 1900;
 
@@ -50,7 +36,7 @@ public class DiscoverImpl extends Thread implements IDiscover {
     volatile boolean active;
 
     /** The callback. */
-    DiscoverImpl.Listener callback;
+    Listener callback;
 
     /** The lock. */
     Object lock;
@@ -62,7 +48,7 @@ public class DiscoverImpl extends Thread implements IDiscover {
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscoverImpl.class);
 
     /** The cb. */
-    private DiscoverImpl.Listener cb = null;
+    private Listener cb = null;
 
     private static final String query = "M-SEARCH * HTTP/1.1\r\n" + "HOST: " + SSDP_ADDR + ":" + DEFAULT_SSDP_PORT + "\r\n" + "MAN: \"ssdp:discover\"\r\n"
             + "MX: 1\r\n" + "ST: urn:schemas-upnp-org:service:AVTransport:1\r\n" +
@@ -81,7 +67,7 @@ public class DiscoverImpl extends Thread implements IDiscover {
      * @param cb
      *            the cb
      */
-    public DiscoverImpl(final DiscoverImpl.Listener cb) {
+    public DiscoverImpl(final Listener cb) {
         this.cb = cb;
     }
 

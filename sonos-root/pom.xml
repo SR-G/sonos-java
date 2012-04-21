@@ -5,7 +5,8 @@
 
 	<properties>
 		<sourceEncoding>UTF-8</sourceEncoding>
-		<jetty.version>7.6.2.v20120308</jetty.version>
+		<version.jetty>7.6.2.v20120308</version.jetty>
+		<version.guice>3.0</version.guice>
 	</properties>
 
 	<groupId>org.tensin.sonos</groupId>
@@ -101,9 +102,7 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-
 		</plugins>
-
 	</build>
 
 	<modules>
@@ -142,7 +141,7 @@
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
-				<version>2.2</version>
+				<version>2.3</version>
 			</dependency>
 			<dependency>
 				<groupId>org.tensin.sonos</groupId>
@@ -160,11 +159,6 @@
 				<artifactId>commons-lang3</artifactId>
 				<version>3.1</version>
 			</dependency>
-			<!-- <dependency> -->
-			<!-- <groupId>commons-net</groupId> -->
-			<!-- <artifactId>commons-net</artifactId> -->
-			<!-- <version>3.0.1</version> -->
-			<!-- </dependency> -->
 			<dependency>
 				<groupId>org.simpleframework</groupId>
 				<artifactId>simple-xml</artifactId>
@@ -215,6 +209,11 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
+				<groupId>com.google.inject</groupId>
+				<artifactId>guice</artifactId>
+				<version>${version.guice}</version>
+			</dependency>
+			<dependency>
 				<groupId>com.beust</groupId>
 				<artifactId>jcommander</artifactId>
 				<version>1.20</version>
@@ -227,27 +226,27 @@
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-server</artifactId>
-				<version>${jetty.version}</version>
+				<version>${version.jetty}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-util</artifactId>
-				<version>${jetty.version}</version>
+				<version>${version.jetty}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-webapp</artifactId>
-				<version>${jetty.version}</version>
+				<version>${version.jetty}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-servlet</artifactId>
-				<version>${jetty.version}</version>
+				<version>${version.jetty}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-rewrite</artifactId>
-				<version>7.6.2.v20120308</version>
+				<version>${version.jetty}</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>

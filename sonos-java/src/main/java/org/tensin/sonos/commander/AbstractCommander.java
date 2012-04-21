@@ -15,8 +15,8 @@ import org.tensin.sonos.commands.IZoneCommand;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
 import org.tensin.sonos.helpers.CollectionHelper;
 import org.tensin.sonos.upnp.DiscoverFactory;
-import org.tensin.sonos.upnp.DiscoverImpl.Listener;
 import org.tensin.sonos.upnp.IDiscover;
+import org.tensin.sonos.upnp.Listener;
 import org.tensin.sonos.upnp.SonosException;
 
 /**
@@ -42,7 +42,7 @@ public abstract class AbstractCommander {
         /**
          * {@inheritDoc}
          * 
-         * @see org.tensin.sonos.upnp.DiscoverImpl.Listener#found(java.lang.String)
+         * @see org.tensin.sonos.upnp.Listener#found(java.lang.String)
          */
         @Override
         public void found(final String host) {
