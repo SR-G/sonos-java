@@ -112,9 +112,11 @@ public class DiscoverImpl extends Thread implements IDiscover {
 
     /**
      * Instantiates a new discover.
-     *
-     * @param cb the cb
-     * @param controlPort the control port
+     * 
+     * @param cb
+     *            the cb
+     * @param controlPort
+     *            the control port
      */
     public DiscoverImpl(final Listener cb, final Integer controlPort) {
         this.cb = cb;
@@ -193,7 +195,9 @@ public class DiscoverImpl extends Thread implements IDiscover {
     public void done() {
         active = false;
         for (final MulticastSocket ssdpSocket : ssdpSockets) {
-            ssdpSocket.close();
+            if ((ssdpSocket != null) && !ssdpSocket.isClosed()) {
+                ssdpSocket.close();
+            }
         }
     }
 
@@ -264,10 +268,13 @@ public class DiscoverImpl extends Thread implements IDiscover {
 
     /**
      * Handle socket.
-     *
-     * @param packet the packet
-     * @param socket the socket
-     * @throws IOException Signals that an I/O exception has occurred.
+     * 
+     * @param packet
+     *            the packet
+     * @param socket
+     *            the socket
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
      */
     private void handleNotifyOnControlSocket(final DatagramPacket packet, final DatagramSocket socket) throws IOException {
         socket.receive(packet);
@@ -276,10 +283,13 @@ public class DiscoverImpl extends Thread implements IDiscover {
 
     /**
      * Handle_notify.
-     *
-     * @param packet the packet
-     * @param ssdpSocket the ssdp socket
-     * @throws IOException Signals that an I/O exception has occurred.
+     * 
+     * @param packet
+     *            the packet
+     * @param ssdpSocket
+     *            the ssdp socket
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
      */
     void handleNotifyOnSSDPSocket(final DatagramPacket packet, final MulticastSocket ssdpSocket) throws IOException {
         ssdpSocket.receive(packet);
@@ -310,8 +320,9 @@ public class DiscoverImpl extends Thread implements IDiscover {
 
     /**
      * Receive packet.
-     *
-     * @param packet the packet
+     * 
+     * @param packet
+     *            the packet
      */
     private void receivePacket(final DatagramPacket packet) {
         String s = new String(packet.getData(), 0, packet.getLength());
@@ -356,10 +367,13 @@ public class DiscoverImpl extends Thread implements IDiscover {
 
     /**
      * Send_query.
-     *
-     * @param networkInterface the network interface
-     * @param ssdpSocket the ssdp socket
-     * @throws SonosException the sonos exception
+     * 
+     * @param networkInterface
+     *            the network interface
+     * @param ssdpSocket
+     *            the ssdp socket
+     * @throws SonosException
+     *             the sonos exception
      */
     void sendQuery(final NetworkInterface networkInterface, final MulticastSocket ssdpSocket) throws SonosException {
         MulticastSocket multicastSocket = null;

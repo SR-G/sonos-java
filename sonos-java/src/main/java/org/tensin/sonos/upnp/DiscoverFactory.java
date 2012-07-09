@@ -3,19 +3,18 @@ package org.tensin.sonos.upnp;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import org.tensin.sonos.SonosConstants;
+
 /**
  * A factory for creating Discover objects.
  */
 public class DiscoverFactory {
 
-    /** The Constant SSDP_CONTROL_PORT. May be changed if needed. */
-    public static final int DEFAULT_SSDP_CONTROL_PORT = 8009;
-
     /** The i discover class. */
     private static Class<? extends IDiscover> iDiscoverClass = DiscoverImpl.class;
 
     /** discoverControlPort. */
-    private static int discoverControlPort = DEFAULT_SSDP_CONTROL_PORT;
+    private static int discoverControlPort = SonosConstants.DEFAULT_SSDP_CONTROL_PORT;
 
     /**
      * Builds the.

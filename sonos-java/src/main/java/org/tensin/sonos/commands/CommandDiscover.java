@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tensin.sonos.ISonos;
+import org.tensin.sonos.SonosConstants;
 import org.tensin.sonos.SonosFactory;
 import org.tensin.sonos.upnp.DiscoverFactory;
 import org.tensin.sonos.upnp.IDiscover;
@@ -52,10 +53,7 @@ public class CommandDiscover implements IStandardCommand {
     private int count = 0;
 
     /** The discover control port. May be changed if needed. */
-    private int discoverControlPort = DiscoverFactory.DEFAULT_SSDP_CONTROL_PORT;
-
-    /** The Constant MAX_DISCOVER_TIME_IN_MILLISECONDS. */
-    private static final int MAX_DISCOVER_TIME_IN_MILLISECONDS = 2500;
+    private int discoverControlPort = SonosConstants.DEFAULT_SSDP_CONTROL_PORT;
 
     /** Logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandDiscover.class);
@@ -70,11 +68,11 @@ public class CommandDiscover implements IStandardCommand {
         final IDiscover d = DiscoverFactory.build(new ZonesDiscoveredListener(), discoverControlPort);
         d.launch();
         try {
-            Thread.sleep(MAX_DISCOVER_TIME_IN_MILLISECONDS);
+            Thread.sleep(SonosConstants.MAX_DISCOVER_TIME_IN_MILLISECONDS);
         } catch (InterruptedException x) {
         }
         d.done();
-        LOGGER.info(count + " Sonos zones found on Network in " + MAX_DISCOVER_TIME_IN_MILLISECONDS + "ms.");
+        LOGGER.info(count + " Sonos zones found on Network in " + SonosConstants.MAX_DISCOVER_TIME_IN_MILLISECONDS + "ms.");
     }
 
     /**
