@@ -12,10 +12,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,7 +101,9 @@ public class AdapterPomXml implements IAdapterInput, IAdapterOutput {
      * (non-Javadoc)
      * @see com.inetpsa.ltp.tools.excluded.IAdapterOutput#generate()
      */
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.tensin.common.tools.boot.updater.IAdapterOutput#generate(java.util.Collection)
      */
     @Override
@@ -122,7 +124,9 @@ public class AdapterPomXml implements IAdapterInput, IAdapterOutput {
      * (non-Javadoc)
      * @see com.inetpsa.ltp.tools.excluded.IAdapterInput#getName()
      */
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.tensin.common.tools.boot.updater.IAdapterInput#getName()
      */
     @Override
@@ -143,7 +147,9 @@ public class AdapterPomXml implements IAdapterInput, IAdapterOutput {
      * (non-Javadoc)
      * @see com.inetpsa.ltp.tools.excluded.IAdapterInput#load()
      */
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.tensin.common.tools.boot.updater.IAdapterInput#load()
      */
     @Override

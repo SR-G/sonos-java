@@ -9,6 +9,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.tensin.sonos.SonosConstants;
 import org.tensin.sonos.commands.CommandFactory;
 import org.tensin.sonos.commands.ICommand;
 import org.tensin.sonos.commands.IStandardCommand;
@@ -137,7 +138,7 @@ public class SonosCommander extends AbstractCommander {
                 DiscoverFactory.setDiscoverControlPort(port);
             } catch (NumberFormatException e) {
                 LOGGER.error("Can't convert as integer the provided SSDP control port [" + controlPort + "], will still use the default one ["
-                        + DiscoverFactory.DEFAULT_SSDP_CONTROL_PORT + "]");
+                        + SonosConstants.DEFAULT_SSDP_CONTROL_PORT + "]");
             }
         }
     }
