@@ -10,6 +10,9 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CoderResult;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * The Class SoapRPC.
  */
@@ -36,6 +39,9 @@ public class SoapRPC {
             this.path = path;
         }
     }
+
+    /** The Constant LOGGER. */
+    private static final Log LOGGER = LogFactory.getLog(SoapRPC.class);
 
     /** The cs. */
     static Charset cs = Charset.forName("UTF-8");
@@ -103,9 +109,7 @@ public class SoapRPC {
             InputStream in = s.getInputStream();
 
             if (trace_io) {
-                System.err.println("--------- xmit -----------");
-                System.err.print(hdr);
-                System.err.print(msg);
+                LOGGER.debug("Emitting :\n" + hdr + "\n" + msg);
             }
 
             buf = bb.array();
@@ -140,13 +144,10 @@ public class SoapRPC {
 
             s.close();
             if (trace_io) {
-                System.err.println("--------- recv -----------");
-                System.err.println(new String(buf, 0, off));
-                System.err.println("--------- done -----------");
+                LOGGER.info("Received : \n" + new String(buf, 0, off));
             }
-        } catch (Exception x) {
-            System.out.println("OOPS: " + x.getMessage());
-            x.printStackTrace();
+        } catch (Exception e) {
+            LOGGER.error("Error while sending message: " + e.getMessage(), e);
         }
     }
 
@@ -255,7 +256,7 @@ public class SoapRPC {
         xml.init(bb);
         try {
             if (trace_reply) {
-                System.out.println("--------- reply -----------");
+                LOGGER.info("Reply : \n");
                 xml.print(System.out, 64);
                 xml.rewind();
             }

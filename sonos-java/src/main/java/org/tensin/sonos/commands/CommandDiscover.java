@@ -5,11 +5,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tensin.sonos.ISonos;
 import org.tensin.sonos.SonosConstants;
+import org.tensin.sonos.SonosException;
 import org.tensin.sonos.SonosFactory;
 import org.tensin.sonos.upnp.DiscoverFactory;
 import org.tensin.sonos.upnp.IDiscover;
 import org.tensin.sonos.upnp.Listener;
-import org.tensin.sonos.upnp.SonosException;
 
 /**
  * The Class CommandDiscover.

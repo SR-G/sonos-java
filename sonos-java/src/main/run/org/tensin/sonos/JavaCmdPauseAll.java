@@ -1,7 +1,6 @@
 package org.tensin.sonos;
 
 import org.tensin.sonos.commander.JavaCommander;
-import org.tensin.sonos.upnp.SonosException;
 
 /**
  * The Class CmdPlaySalon.

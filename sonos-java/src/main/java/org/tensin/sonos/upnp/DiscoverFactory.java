@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import org.tensin.sonos.SonosConstants;
+import org.tensin.sonos.SonosException;
 
 /**
  * A factory for creating Discover objects.

@@ -25,7 +25,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import org.tensin.common.tools.boot.updater.FilenameFilterJar;
-import org.tensin.sonos.upnp.SonosException;
+import org.tensin.sonos.SonosException;
 
 /**
  * The Class ClasspathBooter.
@@ -565,9 +565,11 @@ public class ClasspathBooter {
 
     /**
      * Gets the manifest.
-     *
-     * @param jarName the jar name
-     * @param lineSeparator the line separator
+     * 
+     * @param jarName
+     *            the jar name
+     * @param lineSeparator
+     *            the line separator
      * @return the manifest
      */
     public String getManifest(final String jarName, final String lineSeparator) {
@@ -594,7 +596,6 @@ public class ClasspathBooter {
                                 jarFile = null;
                             }
                         } catch (final Exception e) {
-                            // SystemHelper.sysoutln("Unable to read MANIFEST.MF from [" + jar + "]");
                         }
                     }
                 }

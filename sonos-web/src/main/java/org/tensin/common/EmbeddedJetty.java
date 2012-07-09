@@ -30,7 +30,7 @@ import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.webapp.WebInfConfiguration;
 import org.eclipse.jetty.webapp.WebXmlConfiguration;
-import org.tensin.sonos.upnp.SonosException;
+import org.tensin.sonos.SonosException;
 
 /**
  * Lancement Jetty. Dépendances Maven =

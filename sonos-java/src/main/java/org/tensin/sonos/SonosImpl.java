@@ -20,32 +20,32 @@ public class SonosImpl implements ISonos {
      * The Enum PlayerState.
      */
     public enum PlayerState {
-        
+
         /** The stopped. */
-        STOPPED, 
- /** The playing. */
- PLAYING, 
- /** The paused playback. */
- PAUSED_PLAYBACK, 
- /** The transitioning. */
- TRANSITIONING, 
- /** The unknown. */
- UNKNOWN
+        STOPPED,
+        /** The playing. */
+        PLAYING,
+        /** The paused playback. */
+        PAUSED_PLAYBACK,
+        /** The transitioning. */
+        TRANSITIONING,
+        /** The unknown. */
+        UNKNOWN
     }
 
     /**
      * The Enum PlayMode.
      */
     public enum PlayMode {
-        
+
         /** The shuffle norepeat. */
-        SHUFFLE_NOREPEAT, 
- /** The normal. */
- NORMAL, 
- /** The repeat all. */
- REPEAT_ALL, 
- /** The shuffle. */
- SHUFFLE
+        SHUFFLE_NOREPEAT,
+        /** The normal. */
+        NORMAL,
+        /** The repeat all. */
+        REPEAT_ALL,
+        /** The shuffle. */
+        SHUFFLE
     }
 
     /** The trace_browse. */
@@ -366,7 +366,7 @@ public class SonosImpl implements ISonos {
     int processBrowseResults(final XML result, int n, final String _id, final SonosListener cb) throws XML.Oops {
         SonosItem item = this.item;
         if (trace_browse) {
-            System.out.println("--------- list -----------");
+            LOGGER.info("List : \n");
             result.print(System.out, 1024);
             result.rewind();
         }

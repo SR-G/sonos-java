@@ -1,8 +1,9 @@
 package org.tensin.sonos.run;
 
+import org.tensin.sonos.SonosException;
 import org.tensin.sonos.boot.BootConstants;
 import org.tensin.sonos.boot.ClasspathBooter;
-import org.tensin.sonos.upnp.SonosException;
+import org.tensin.sonos.helpers.SystemHelper;
 
 /**
  * The Class Sonos.
@@ -28,16 +29,19 @@ public class Sonos {
      *            the arguments
      */
     public static void main(final String args[]) {
+        final SystemHelper systemHelper = new SystemHelper();
         try {
             final ClasspathBooter cb = new ClasspathBooter(BEERDUINO_BOOT_JAR, "Beerduino");
             // final String libDirectory = cb.getLibraryPathName(BEERDUINO_BOOT_JAR);
             // cb.initLibDirectory(libDirectory);
             cb.addJarsToClasspath(BootConstants.LIBS);
-            System.out.println(FAKE_LOG_LABEL + "Classpath :" + cb.displayClasspath(LINE_SEPARATOR));
-            System.out.println(FAKE_LOG_LABEL + "Manifest :" + cb.getManifest(BEERDUINO_BOOT_JAR, LINE_SEPARATOR));
+            systemHelper.outln(FAKE_LOG_LABEL + "Classpath :" + cb.displayClasspath(LINE_SEPARATOR));
+            systemHelper.outln(FAKE_LOG_LABEL + "Manifest :" + cb.getManifest(BEERDUINO_BOOT_JAR, LINE_SEPARATOR));
             cb.execute(BEERDUINO_MAIN_CLASS, "main", new Class[] { args.getClass() }, new Object[] { args });
         } catch (final SonosException e) {
             throw new RuntimeException(e.getMessage(), e);
+        } finally {
+            systemHelper.exit(0);
         }
     }
 }

@@ -1,6 +1,6 @@
 package org.tensin.sonos.commands;
 
-import org.tensin.sonos.upnp.SonosException;
+import org.tensin.sonos.SonosException;
 
 /**
  * The Interface ICommand.

@@ -40,9 +40,13 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>buildnumber-maven-plugin</artifactId>
-				<version>1.1</version>
+				<groupId>com.keyboardsamurais.maven</groupId>
+				<artifactId>maven-timestamp-plugin</artifactId>
+				<version>1.0</version>
+				<configuration>
+					<propertyName>timestamp</propertyName>
+					<timestampPattern>yyyy-MM-dd HH:mm</timestampPattern>
+				</configuration>
 				<executions>
 					<execution>
 						<phase>validate</phase>
@@ -51,14 +55,6 @@
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<doCheck>false</doCheck>
-					<doUpdate>false</doUpdate>
-					<format>{0,date,yyyy-MM-dd HH:mm:ss}</format>
-					<items>
-						<item>timestamp</item>
-					</items>
-				</configuration>
 			</plugin>
 
 			<plugin>
@@ -76,7 +72,6 @@
 							<Implementation-Vendor>Tensin</Implementation-Vendor>
 							<Implementation-Title>${project.name}</Implementation-Title>
 							<Implementation-Version>${project.version}</Implementation-Version>
-							<Implementation-Build>${buildNumber}</Implementation-Build>
 							<Build-Date>${timestamp}</Build-Date>
 						</manifestEntries>
 					</archive>

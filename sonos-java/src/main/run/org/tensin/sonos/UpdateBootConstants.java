@@ -13,7 +13,6 @@ import org.tensin.common.tools.boot.updater.DependencyConverter;
 import org.tensin.common.tools.boot.updater.IAdapterInput;
 import org.tensin.common.tools.boot.updater.IAdapterOutput;
 import org.tensin.common.tools.boot.updater.JarContainer;
-import org.tensin.sonos.upnp.SonosException;
 
 /**
  * The Class UpdateBootConstants.

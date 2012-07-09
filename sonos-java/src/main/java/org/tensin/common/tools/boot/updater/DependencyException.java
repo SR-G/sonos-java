@@ -1,6 +1,6 @@
 package org.tensin.common.tools.boot.updater;
 
-import org.tensin.sonos.upnp.SonosException;
+import org.tensin.sonos.SonosException;
 
 /**
  * AdapterException.

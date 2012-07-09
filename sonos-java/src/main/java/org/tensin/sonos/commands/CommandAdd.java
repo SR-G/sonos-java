@@ -1,7 +1,7 @@
 package org.tensin.sonos.commands;
 
 import org.tensin.sonos.ISonos;
-import org.tensin.sonos.upnp.SonosException;
+import org.tensin.sonos.SonosException;
 
 /**
  * The Class CommandAdd.

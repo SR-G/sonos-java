@@ -2,7 +2,6 @@ package org.tensin.sonos;
 
 import org.apache.log4j.BasicConfigurator;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
-import org.tensin.sonos.upnp.SonosException;
 
 /**
  * The Class StartWeb.

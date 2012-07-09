@@ -1,7 +1,6 @@
 package org.tensin.sonos;
 
 import org.tensin.sonos.commander.SonosCommander;
-import org.tensin.sonos.upnp.SonosException;
 
 /**
  * The Class CmdGetXPort.

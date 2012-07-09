@@ -5,8 +5,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tensin.sonos.ISonos;
+import org.tensin.sonos.SonosException;
 import org.tensin.sonos.commander.SonosCommander;
-import org.tensin.sonos.upnp.SonosException;
 
 /**
  * The Class CommandExecutor.
@@ -32,7 +32,13 @@ public class ZoneCommandExecutor extends Thread {
     private boolean active = true;
 
     /** The running command. */
-    private boolean runningCommand = false;
+    private boolean runningCommand;
+
+    /** The semaphore. */
+    private final Object queueSemaphore = new Object();
+
+    /** The queue commands. */
+    private final Object queueCommands = new Object();
 
     /** The executed commands count. */
     private int executedCommandsCount = 0;
@@ -56,7 +62,9 @@ public class ZoneCommandExecutor extends Thread {
      *            the command
      */
     public void addCommand(final IZoneCommand command) {
-        commandsQueue.offer(command);
+        synchronized (queueSemaphore) {
+            commandsQueue.offer(command);
+        }
     }
 
     /**
@@ -68,8 +76,8 @@ public class ZoneCommandExecutor extends Thread {
     private void executeCommand(final IZoneCommand command) {
         try {
             LOGGER.info("Executing command [" + command.getName() + "] on zone [" + zoneName + "]");
-            command.execute(sonosZone);
             executedCommandsCount++;
+            command.execute(sonosZone);
         } catch (SonosException e) {
             LOGGER.error("Error while executing command [" + command.getName() + "] on zone [" + zoneName + "]");
         }
@@ -124,7 +132,9 @@ public class ZoneCommandExecutor extends Thread {
      * @return true, if successful
      */
     public boolean hasNoCommandLeft() {
-        return commandsQueue.size() == 0;
+        synchronized (queueSemaphore) {
+            return commandsQueue.size() == 0;
+        }
     }
 
     /**
@@ -133,17 +143,8 @@ public class ZoneCommandExecutor extends Thread {
      * @return true, if successful
      */
     public boolean hasRunningCommand() {
-        return runningCommand;
-    }
-
-    /**
-     * Checks if is sonos zone available.
-     * 
-     * @return true, if is sonos zone available
-     */
-    private boolean isSonosZoneAvailable() {
-        synchronized (sonosZoneLocker) {
-            return sonosZone != null;
+        synchronized (queueCommands) {
+            return runningCommand;
         }
     }
 
@@ -156,6 +157,7 @@ public class ZoneCommandExecutor extends Thread {
     public void registerZoneAsAvailable(final ISonos sonos) {
         synchronized (sonosZoneLocker) {
             sonosZone = sonos;
+            sonosZoneLocker.notifyAll();
         }
     }
 
@@ -166,21 +168,31 @@ public class ZoneCommandExecutor extends Thread {
      */
     @Override
     public void run() {
+        try {
+            synchronized (sonosZoneLocker) {
+                if (sonosZone == null) {
+                    sonosZoneLocker.wait();
+                }
+            }
+        } catch (InterruptedException e) {
+            LOGGER.error(e);
+        }
         while (active) {
             try {
-                if (isSonosZoneAvailable()) { // TODO switch to wait / notify + interruption
-                    final IZoneCommand command = commandsQueue.take();
-                    if (command != null) {
-                        if (command instanceof CommandPoisonPill) {
-                            active = false;
-                        } else {
-                            runningCommand = true;
-                            executeCommand(command);
-                            runningCommand = false;
+                final IZoneCommand command = commandsQueue.take();
+                synchronized (queueCommands) {
+                    try {
+                        runningCommand = true;
+                        if (command != null) {
+                            if (command instanceof CommandPoisonPill) {
+                                active = false;
+                            } else {
+                                executeCommand(command);
+                            }
                         }
+                    } finally {
+                        runningCommand = false;
                     }
-                } else {
-                    Thread.sleep(100);
                 }
             } catch (InterruptedException e) {
                 LOGGER.error(e);

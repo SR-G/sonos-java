@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tensin.sonos.SonosConstants;
+import org.tensin.sonos.SonosException;
 import org.tensin.sonos.commands.CommandFactory;
 import org.tensin.sonos.commands.ICommand;
 import org.tensin.sonos.commands.IStandardCommand;
@@ -18,7 +19,6 @@ import org.tensin.sonos.commands.ZoneCommandDispatcher;
 import org.tensin.sonos.helpers.CollectionHelper;
 import org.tensin.sonos.helpers.SystemHelper;
 import org.tensin.sonos.upnp.DiscoverFactory;
-import org.tensin.sonos.upnp.SonosException;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;

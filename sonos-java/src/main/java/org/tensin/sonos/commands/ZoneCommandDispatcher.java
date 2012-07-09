@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tensin.sonos.ISonos;
-import org.tensin.sonos.upnp.SonosException;
+import org.tensin.sonos.SonosException;
 
 /**
  * The Class ZoneCommandDispatcher. Send the right command to the right zone executor, and keeps a map linking zone name to the corresponding executor.
@@ -96,8 +96,8 @@ public class ZoneCommandDispatcher {
         StringBuilder summary = new StringBuilder();
 
         int problems = 0, reports = 0;
-        for (Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
-            ZoneCommandExecutor executor = entry.getValue();
+        for (final Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
+            final ZoneCommandExecutor executor = entry.getValue();
             if (executor.getSonosZone() == null) {
                 sb.append("- Zone [" + executor.getZoneName() + "] hasn't been found on the network by discovery !\n");
                 problems++;
@@ -216,8 +216,8 @@ public class ZoneCommandDispatcher {
                     synchronized (executors) {
                         boolean allCommandsProcessed = true;
                         boolean allCommandsEnded = true;
-                        for (Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
-                            ZoneCommandExecutor executor = entry.getValue();
+                        for (final Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
+                            final ZoneCommandExecutor executor = entry.getValue();
                             if (!executor.hasNoCommandLeft()) {
                                 allCommandsProcessed = false;
                                 break;

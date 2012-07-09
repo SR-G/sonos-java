@@ -1,7 +1,7 @@
 package org.tensin.sonos.helpers;
 
 /**
- * The Class SystemHelper.
+ * The Class SystemHelper. Has to be an object and not static method in order to put another implementation while running tests (for example, in order not to do any System.exit() while running tests)
  */
 public class SystemHelper {
 

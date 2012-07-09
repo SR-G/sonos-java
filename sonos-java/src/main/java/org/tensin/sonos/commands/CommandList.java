@@ -1,7 +1,9 @@
 package org.tensin.sonos.commands;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.tensin.sonos.ISonos;
-import org.tensin.sonos.upnp.SonosException;
+import org.tensin.sonos.SonosException;
 import org.tensin.sonos.upnp.SonosItem;
 import org.tensin.sonos.upnp.SonosListener;
 
@@ -9,6 +11,9 @@ import org.tensin.sonos.upnp.SonosListener;
  * The Class CommandList.
  */
 public class CommandList extends AbstractCommand implements IZoneCommand, SonosListener {
+
+    /** The Constant LOGGER. */
+    private static final Log LOGGER = LogFactory.getLog(CommandList.class);
 
     /**
      * {@inheritDoc}
@@ -68,15 +73,17 @@ public class CommandList extends AbstractCommand implements IZoneCommand, SonosL
      */
     @Override
     public void updateItem(final String id, final int idx, final SonosItem item) {
-        System.out.println("(" + idx + ")\t    id: " + item.idURI);
-        System.out.println("\t   res: " + item.playURI);
-        System.out.println("\t title: " + item.title);
+        final StringBuilder sb = new StringBuilder();
+        sb.append("(" + idx + ")\t    id: " + item.idURI);
+        sb.append("\t   res: " + item.playURI);
+        sb.append("\t title: " + item.title);
         if (item.album != null) {
-            System.out.println("\t album: " + item.album);
+            sb.append("\t album: " + item.album);
         }
         if (item.artist != null) {
-            System.out.println("\tartist: " + item.artist);
+            sb.append("\tartist: " + item.artist);
         }
+        LOGGER.info(sb.toString());
     }
 
 }

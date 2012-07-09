@@ -1,12 +1,17 @@
 package org.tensin.sonos.commands;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.tensin.sonos.ISonos;
-import org.tensin.sonos.upnp.SonosException;
+import org.tensin.sonos.SonosException;
 
 /**
  * The Class CommandVolume.
  */
 public class CommandVolume extends AbstractCommand implements IZoneCommand {
+
+    /** The Constant LOGGER. */
+    private static final Log LOGGER = LogFactory.getLog(CommandVolume.class);
 
     /**
      * {@inheritDoc}
@@ -17,7 +22,7 @@ public class CommandVolume extends AbstractCommand implements IZoneCommand {
     public void execute(final ISonos sonos) throws SonosException {
         if (!hasArgs()) {
             int n = sonos.volume();
-            System.out.println("Volume of zone [" + sonos.getZoneName() + "] = [" + n + "]");
+            LOGGER.info("Volume of zone [" + sonos.getZoneName() + "] = [" + n + "]");
         } else {
             sonos.volume(Integer.parseInt(getArgs().get(0)));
         }
