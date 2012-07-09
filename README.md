@@ -27,6 +27,7 @@ Examples :
 	sonos.sh -c play # will play on all zones, like if -z all had been provided
 
 Usage :
+
     Usage: <main class> [options] Additionnal command parameters
       Options:
         --command, -c         Command to be run
