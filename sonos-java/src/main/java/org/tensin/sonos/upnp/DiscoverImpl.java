@@ -21,38 +21,37 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Discover.
  */
 public class DiscoverImpl extends Thread implements IDiscover {
 
     /** The Constant SSDP_TIME_TO_LIVE. */
-    private static final int SSDP_TIME_TO_LIVE = 200;
+    private static final int SSDP_TIME_TO_LIVE = 32;
 
-    /** The Constant SSDP_PORT. */
+    /** The Constant SSDP_PORT. Can't be changed. */
     public static final int DEFAULT_SSDP_PORT = 1900;
 
-    /** The Constant SSDP_CONTROL_PORT. */
-    public static final int SSDP_CONTROL_PORT = 8009;
-
     /** The Constant PACKET_SIZE. */
-    protected static final int BUFFER_SIZE = 8192;
+    private static final int BUFFER_SIZE = 8192;
 
     /** The Constant SSDP_ADDR. */
-    static final String SSDP_ADDR = "239.255.255.250";
+    private static final String SSDP_ADDR = "239.255.255.250";
 
     /** The socket. */
     private final Collection<MulticastSocket> ssdpSockets = new ArrayList<MulticastSocket>();
 
     /** The p location. */
-    private Pattern pLocation;
+    private Pattern patternLocation;
 
     /** The active. */
     volatile boolean active;
 
     /** The callback. */
     private Listener callback;
+
+    /** ssdpControlPort */
+    private int ssdpControlPort;
 
     /** The group address. */
     private static InetSocketAddress groupAddress;
@@ -61,19 +60,21 @@ public class DiscoverImpl extends Thread implements IDiscover {
     private final Object lock = new Object();
 
     /** The list. */
-    private final HashMap<String, String> list = new HashMap<String, String>();;
+    private final HashMap<String, String> list = new HashMap<String, String>();
 
     /** Logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscoverImpl.class);
 
-    /** The discovered network interface. */
-    private final Collection<NetworkInterface> discoveredNetworkInterfaces = new ArrayList<NetworkInterface>();
-
     /** The cb. */
-    private Listener cb = null;
+    private Listener cb = null;;
 
+    /** HTTP_VERSION */
     private static final String HTTP_VERSION = "1.1";
+
+    /** NL */
     private static final String NL = "\r\n";
+
+    /** SSD_MX */
     private static final String SSD_MX = "1";
 
     /** The Constant query. */
@@ -114,8 +115,72 @@ public class DiscoverImpl extends Thread implements IDiscover {
      * @param cb
      *            the cb
      */
-    public DiscoverImpl(final Listener cb) {
+    public DiscoverImpl(final Listener cb, final Integer controlPort) {
         this.cb = cb;
+        ssdpControlPort = controlPort.intValue();
+    }
+
+    /**
+     * Creates the ssdp control socket.
+     * 
+     * @param inetAddress
+     *            the inet address
+     * @return the datagram socket
+     * @throws SonosException
+     *             the sonos exception
+     */
+    private DatagramSocket createSSDPControlSocket(final InetAddress inetAddress) throws SonosException {
+        DatagramSocket controlSocket = null;
+        try {
+            controlSocket = new DatagramSocket(null);
+            controlSocket.setReuseAddress(true);
+            controlSocket.bind(new InetSocketAddress(inetAddress, ssdpControlPort));
+        } catch (SocketException e) {
+            throw new SonosException("Cannont create SSDP control socket on port [" + ssdpControlPort + "]", e);
+        } finally {
+
+        }
+        return controlSocket;
+    }
+
+    /**
+     * Creates the ssdp multicast socket.
+     * 
+     * @param networkInterface
+     *            the network interface
+     * @param inetAddress
+     *            the inet address
+     * @return the multicast socket
+     * @throws SonosException
+     *             the sonos exception
+     */
+    private MulticastSocket createSSDPMulticastSocket(final NetworkInterface networkInterface, final InetAddress inetAddress) throws SonosException {
+        final InetSocketAddress addr = getInetSocketAddress();
+        MulticastSocket ssdpSocket = null;
+        try {
+            ssdpSocket = new MulticastSocket(DEFAULT_SSDP_PORT);
+            ssdpSockets.add(ssdpSocket);
+
+            // Set up the socket configuration
+            LOGGER.debug("Setting main SSDP socket configuration");
+            ssdpSocket.setInterface(inetAddress);
+            ssdpSocket.setReuseAddress(true);
+            ssdpSocket.setNetworkInterface(networkInterface);
+            ssdpSocket.setLoopbackMode(true);
+            try {
+                ssdpSocket.setTimeToLive(SSDP_TIME_TO_LIVE);
+            } catch (Throwable e) {
+                LOGGER.error("Unsupported setTimeToLive function", e);
+            }
+            ssdpSocket.joinGroup(addr, networkInterface);
+        } catch (SocketException e) {
+            throw new SonosException("Cannot create main SSDP socket on port [" + DEFAULT_SSDP_PORT + "]", e);
+        } catch (IOException e) {
+            throw new SonosException("Cannot create main SSDP socket on port [" + DEFAULT_SSDP_PORT + "]", e);
+        } finally {
+
+        }
+        return ssdpSocket;
     }
 
     /**
@@ -188,18 +253,12 @@ public class DiscoverImpl extends Thread implements IDiscover {
     }
 
     /**
-     * Handle_notify.
+     * Gets the ssdp control port.
      * 
-     * @param p
-     *            the p
-     * @param ssdpSocket
-     *            the ssdp socket
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
+     * @return the ssdp control port
      */
-    void handle_notify(final DatagramPacket packet, final MulticastSocket ssdpSocket) throws IOException {
-        ssdpSocket.receive(packet);
-        receivePacket(packet);
+    public int getSsdpControlPort() {
+        return ssdpControlPort;
     }
 
     /**
@@ -211,27 +270,26 @@ public class DiscoverImpl extends Thread implements IDiscover {
      *            the local_address
      * @param socket
      *            the socket
+     * @throws IOException
      */
-    private void handleSocket(final NetworkInterface network_interface, final InetAddress local_address, final DatagramSocket socket) {
-        long successful_accepts = 0;
-        long failed_accepts = 0;
-        int port = socket.getLocalPort();
-        while (true) {
-            try {
-                byte[] buf = new byte[BUFFER_SIZE];
-                DatagramPacket packet = new DatagramPacket(buf, buf.length);
-                socket.receive(packet);
-                successful_accepts++;
-                receivePacket(packet);
-            } catch (Throwable e) {
-                failed_accepts++;
-                LOGGER.info("SSDP: receive failed on port " + port, e);
-                if ((failed_accepts > 100) && (successful_accepts == 0)) {
-                    // LOGGER.logUnrepeatableAlertUsingResource(LGLogger.AT_ERROR, "Network.alert.acceptfail", new String[] { "" + port, "UDP" });
-                    break;
-                }
-            }
-        }
+    private void handleNotifyOnControlSocket(final DatagramPacket packet, final DatagramSocket socket) throws IOException {
+        socket.receive(packet);
+        receivePacket(packet);
+    }
+
+    /**
+     * Handle_notify.
+     * 
+     * @param p
+     *            the p
+     * @param ssdpSocket
+     *            the ssdp socket
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    void handleNotifyOnSSDPSocket(final DatagramPacket packet, final MulticastSocket ssdpSocket) throws IOException {
+        ssdpSocket.receive(packet);
+        receivePacket(packet);
     }
 
     /**
@@ -242,7 +300,7 @@ public class DiscoverImpl extends Thread implements IDiscover {
         setName("SONOS-THREAD-DISCOVER");
         active = true;
         callback = cb;
-        pLocation = Pattern.compile("^LOCATION:\\s*http://(.*):1400/xml/device_description.xml$", Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
+        patternLocation = Pattern.compile("^LOCATION:\\s*http://(.*):1400/xml/device_description.xml$", Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
         start();
     }
 
@@ -258,7 +316,7 @@ public class DiscoverImpl extends Thread implements IDiscover {
 
     private void receivePacket(final DatagramPacket packet) {
         String s = new String(packet.getData(), 0, packet.getLength());
-        Matcher m = pLocation.matcher(s);
+        Matcher m = patternLocation.matcher(s);
         if (m.find(0)) {
             boolean notify = false;
             String a = m.group(1);
@@ -302,37 +360,52 @@ public class DiscoverImpl extends Thread implements IDiscover {
      * 
      * @param ssdpSocket
      *            the ssdp socket
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
+     * @throws SonosException
      */
-    void send_query(final MulticastSocket ssdpSocket) throws IOException {
-        // DatagramPacket p = new DatagramPacket(query.getBytes(), query.length(), groupAddress.getAddress(), DEFAULT_SSDP_PORT);
-        // ssdpSocket.send(p);
-        // ssdpSocket.send(p);
-        // try {
-        // Thread.sleep(100);
-        // } catch (InterruptedException e) {
-        // LOGGER.error("Error while querying network through UPNP", e);
-        // }
-        // ssdpSocket.send(p);
-
-        for (final NetworkInterface networkInterface : discoveredNetworkInterfaces) {
+    void sendQuery(final NetworkInterface networkInterface, final MulticastSocket ssdpSocket) throws SonosException {
+        MulticastSocket multicastSocket = null;
+        try {
+            LOGGER.info("Sending search query on network interface [" + networkInterface.getDisplayName() + "] (" + ssdpSocket.getInterface()
+                    + ") with socket TTL [" + ssdpSocket.getTimeToLive() + "]");
+            multicastSocket = new MulticastSocket(null);
+            multicastSocket.setReuseAddress(true);
             try {
-                MulticastSocket mc_sock = new MulticastSocket(null);
-                mc_sock.setReuseAddress(true);
-                try {
-                    mc_sock.setTimeToLive(SSDP_TIME_TO_LIVE);
-                } catch (Throwable e) {
-                }
-                mc_sock.bind(new InetSocketAddress(SSDP_CONTROL_PORT));
-                mc_sock.setNetworkInterface(networkInterface);
-                DatagramPacket p = new DatagramPacket(query.getBytes(), query.length(), groupAddress.getAddress(), DEFAULT_SSDP_PORT);
-                mc_sock.send(p);
-                mc_sock.send(p);
-                mc_sock.close();
+                multicastSocket.setTimeToLive(SSDP_TIME_TO_LIVE);
             } catch (Throwable e) {
             }
+            multicastSocket.bind(new InetSocketAddress(ssdpControlPort));
+            multicastSocket.setNetworkInterface(networkInterface);
+            final DatagramPacket p = new DatagramPacket(query.getBytes(), query.length(), groupAddress.getAddress(), DEFAULT_SSDP_PORT);
+            // double the sending
+            multicastSocket.send(p);
+            multicastSocket.send(p);
+            // 3 sending maybe not needed ...
+            // try {
+            // Thread.sleep(100);
+            // } catch (InterruptedException e) {
+            // LOGGER.error("Error while querying network through UPNP", e);
+            // }
+            // ssdpSocket.send(p);
+        } catch (SocketException e) {
+            throw new SonosException("Error while sending search query on interface [" + networkInterface.getDisplayName() + "], search query [" + query + "]");
+        } catch (IOException e) {
+            throw new SonosException("Error while sending search query on interface [" + networkInterface.getDisplayName() + "], search query [" + query + "]");
+        } finally {
+            if (!multicastSocket.isClosed()) {
+                multicastSocket.close();
+            }
         }
+    }
+
+    /**
+     * Sets the ssdp control port.
+     * 
+     * @param ssdpControlPort
+     *            the new ssdp control port
+     */
+    @Override
+    public void setSsdpControlPort(final int ssdpControlPort) {
+        this.ssdpControlPort = ssdpControlPort;
     }
 
     /**
@@ -359,101 +432,95 @@ public class DiscoverImpl extends Thread implements IDiscover {
      *             the sonos exception
      */
     private void startWorkingOnNetworkInterface(final NetworkInterface networkInterface) throws SonosException {
-        final byte[] rxbuf = new byte[BUFFER_SIZE];
-        final DatagramPacket p = new DatagramPacket(rxbuf, rxbuf.length);
-        try {
-            final MulticastSocket ssdpSocket = new MulticastSocket(DEFAULT_SSDP_PORT);
 
-            for (final InetAddress inetAddress : getInetAddresses(networkInterface)) {
-                // force IPv4 address
-                if (inetAddress.isLoopbackAddress()) {
-                    LOGGER.debug("Ignoring local address [" + inetAddress.getHostName() + "] / [" + inetAddress.getHostAddress() + "]");
-                } else if (inetAddress instanceof Inet6Address) {
-                    LOGGER.debug("Ignoring IPv6 address [" + inetAddress.getHostName() + "] / [" + inetAddress.getHostAddress() + "]");
-                } else {
-                    if (!discoveredNetworkInterfaces.contains(networkInterface)) {
-                        discoveredNetworkInterfaces.add(networkInterface);
-                        ssdpSocket.setInterface(inetAddress);
+        for (final InetAddress inetAddress : getInetAddresses(networkInterface)) {
+            // force IPv4 address
+            if (inetAddress.isLoopbackAddress()) {
+                LOGGER.debug("Ignoring local address [" + inetAddress.getHostName() + "] / [" + inetAddress.getHostAddress() + "]");
+            } else if (inetAddress instanceof Inet6Address) {
+                LOGGER.debug("Ignoring IPv6 address [" + inetAddress.getHostName() + "] / [" + inetAddress.getHostAddress() + "]");
+            } else {
+                // Create main SSDP multicast socket
+                final MulticastSocket ssdpSocket = createSSDPMulticastSocket(networkInterface, inetAddress);
 
-                        final InetSocketAddress addr = getInetSocketAddress();
-                        ssdpSockets.add(ssdpSocket);
-                        ssdpSocket.setReuseAddress(true);
+                // Set up the shutdown hook for group leaving when the JVM ends
+                LOGGER.debug("Registering shutdown hook for SSDP socket group leaving");
+                Runtime.getRuntime().addShutdownHook(new Thread() {
+
+                    /**
+                     * {@inheritDoc}
+                     * 
+                     * @see java.lang.Thread#run()
+                     */
+                    @Override
+                    public void run() {
+                        setName("SONOS-THREAD-SSDP-DISCONNECTING");
                         try {
-                            ssdpSocket.setTimeToLive(SSDP_TIME_TO_LIVE);
+                            if (!ssdpSocket.isClosed()) {
+                                LOGGER.info("Now disconnecting ssdpSocket from current group for networkInterface [" + networkInterface.getDisplayName() + "]");
+                                ssdpSocket.leaveGroup(groupAddress, networkInterface);
+                            }
                         } catch (Throwable e) {
-                            LOGGER.error("Unsupported setTimeToLive function", e);
+                            LOGGER.error("Can't leave group for ssdp socket", e);
                         }
-
-                        ssdpSocket.setNetworkInterface(networkInterface);
-                        ssdpSocket.setLoopbackMode(true);
-                        ssdpSocket.joinGroup(addr, networkInterface);
-                        Runtime.getRuntime().addShutdownHook(new Thread() {
-
-                            /**
-                             * {@inheritDoc}
-                             * 
-                             * @see java.lang.Thread#run()
-                             */
-                            @Override
-                            public void run() {
-                                try {
-                                    if (!ssdpSocket.isClosed()) {
-                                        LOGGER.info("Now disconnecting ssdpSocket from current group for networkInterface ["
-                                                + networkInterface.getDisplayName() + "]");
-                                        ssdpSocket.leaveGroup(groupAddress, networkInterface);
-                                    }
-                                } catch (Throwable e) {
-                                    LOGGER.error("Can't leave group for ssdp socket", e);
-                                }
-                            }
-                        });
-
-                        final Thread handleThread = new Thread() {
-
-                            /**
-                             * {@inheritDoc}
-                             * 
-                             * @see java.lang.Thread#run()
-                             */
-                            @Override
-                            public void run() {
-                                try {
-                                    while (active) {
-                                        handle_notify(p, ssdpSocket);
-                                    }
-                                } catch (IOException ioex) {
-                                    /* done causes an exception when it closes the socket */
-                                    if (active) {
-                                        LOGGER.error("IO Error", ioex);
-                                    }
-                                }
-                            }
-                        };
-                        handleThread.setDaemon(true);
-                        handleThread.start();
-
-                        final DatagramSocket control_socket = new DatagramSocket(null);
-                        control_socket.setReuseAddress(true);
-                        control_socket.bind(new InetSocketAddress(inetAddress, SSDP_CONTROL_PORT));
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                handleSocket(networkInterface, inetAddress, control_socket);
-                            }
-                        }.start();
-
-                        LOGGER.info("Setting multicast network interface: " + networkInterface.getDisplayName());
-                        LOGGER.info("Sending message from multicast socket on network interface: " + ssdpSocket.getNetworkInterface());
-                        LOGGER.info("Multicast socket is on interface: " + ssdpSocket.getInterface());
-                        LOGGER.info("Socket TTL: " + ssdpSocket.getTimeToLive());
-
-                        send_query(ssdpSocket);
                     }
-                }
-            }
+                });
 
-        } catch (IOException ioex) {
-            LOGGER.error("Cannot create socket", ioex);
+                // Set up the main SSDP handle thread
+                LOGGER.debug("Starting main SSDP handle thread on port [" + DEFAULT_SSDP_PORT + "]");
+                final Thread handleThread = new Thread() {
+
+                    /**
+                     * {@inheritDoc}
+                     * 
+                     * @see java.lang.Thread#run()
+                     */
+                    @Override
+                    public void run() {
+                        setName("SONOS-THREAD-SSDP-HANDLE");
+                        try {
+                            while (active) {
+                                final byte[] rxbuf = new byte[BUFFER_SIZE];
+                                final DatagramPacket p = new DatagramPacket(rxbuf, rxbuf.length);
+                                handleNotifyOnSSDPSocket(p, ssdpSocket);
+                            }
+                        } catch (IOException ioex) {
+                            /* done causes an exception when it closes the socket */
+                            if (active) {
+                                LOGGER.error("IO Error on main ssdp handle thread on port [" + DEFAULT_SSDP_PORT + "]", ioex);
+                            }
+                        }
+                    }
+                };
+                handleThread.setDaemon(true);
+                handleThread.start();
+
+                // Set up the control SSDP handle thread
+                LOGGER.debug("Starting control handle thread on port [" + ssdpControlPort + "]");
+                final DatagramSocket controlSocket = createSSDPControlSocket(inetAddress);
+                final Thread controlThread = new Thread() {
+                    @Override
+                    public void run() {
+                        setName("SONOS-THREAD-SSDP-CONTROL-HANDLE");
+                        try {
+                            while (active) {
+                                final byte[] rxbuf = new byte[BUFFER_SIZE];
+                                final DatagramPacket p = new DatagramPacket(rxbuf, rxbuf.length);
+                                handleNotifyOnControlSocket(p, controlSocket);
+                            }
+                        } catch (IOException ioex) {
+                            /* done causes an exception when it closes the socket */
+                            if (active) {
+                                LOGGER.error("IO Error on control handle thread on port [" + ssdpControlPort + "]", ioex);
+                            }
+                        }
+                    }
+                };
+                controlThread.setDaemon(true);
+                controlThread.start();
+
+                sendQuery(networkInterface, ssdpSocket);
+            }
         }
     }
 }

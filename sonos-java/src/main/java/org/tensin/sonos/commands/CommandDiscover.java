@@ -51,6 +51,9 @@ public class CommandDiscover implements IStandardCommand {
     /** The count. */
     private int count = 0;
 
+    /** The discover control port. May be changed if needed. */
+    private int discoverControlPort = DiscoverFactory.DEFAULT_SSDP_CONTROL_PORT;
+
     /** The Constant MAX_DISCOVER_TIME_IN_MILLISECONDS. */
     private static final int MAX_DISCOVER_TIME_IN_MILLISECONDS = 2500;
 
@@ -64,7 +67,7 @@ public class CommandDiscover implements IStandardCommand {
      */
     @Override
     public void execute() throws SonosException {
-        IDiscover d = DiscoverFactory.build(new ZonesDiscoveredListener());
+        final IDiscover d = DiscoverFactory.build(new ZonesDiscoveredListener(), discoverControlPort);
         d.launch();
         try {
             Thread.sleep(MAX_DISCOVER_TIME_IN_MILLISECONDS);
@@ -82,6 +85,16 @@ public class CommandDiscover implements IStandardCommand {
     @Override
     public String getName() {
         return "discover";
+    }
+
+    /**
+     * Sets the discover control port.
+     * 
+     * @param discoverControlPort
+     *            the new discover control port
+     */
+    public void setDiscoverControlPort(final int discoverControlPort) {
+        this.discoverControlPort = discoverControlPort;
     }
 
 }

@@ -3,14 +3,19 @@ package org.tensin.sonos.upnp;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-
 /**
  * A factory for creating Discover objects.
  */
 public class DiscoverFactory {
 
+    /** The Constant SSDP_CONTROL_PORT. May be changed if needed. */
+    public static final int DEFAULT_SSDP_CONTROL_PORT = 8009;
+
     /** The i discover class. */
     private static Class<? extends IDiscover> iDiscoverClass = DiscoverImpl.class;
+
+    /** discoverControlPort. */
+    private static int discoverControlPort = DEFAULT_SSDP_CONTROL_PORT;
 
     /**
      * Builds the.
@@ -46,8 +51,8 @@ public class DiscoverFactory {
      */
     public static IDiscover build(final Listener listener) throws SonosException {
         try {
-            Constructor<? extends IDiscover> constructor = iDiscoverClass.getConstructor(new Class[] { Listener.class });
-            IDiscover discover = constructor.newInstance(new Object[] { listener });
+            Constructor<? extends IDiscover> constructor = iDiscoverClass.getConstructor(new Class[] { Listener.class, Integer.class });
+            IDiscover discover = constructor.newInstance(new Object[] { listener, Integer.valueOf(discoverControlPort) });
             return discover;
         } catch (IllegalArgumentException e) {
             throw new SonosException(e);
@@ -62,7 +67,41 @@ public class DiscoverFactory {
         } catch (NoSuchMethodException e) {
             throw new SonosException(e);
         }
+    }
 
+    /**
+     * Builds the.
+     * 
+     * @param listener
+     *            the listener
+     * @param port
+     *            the port
+     * @return the i discover
+     * @throws SonosException
+     *             the sonos exception
+     */
+    public static IDiscover build(final Listener listener, final int port) throws SonosException {
+        setDiscoverControlPort(port);
+        return build(listener);
+    }
+
+    /**
+     * Gets the discover control port.
+     * 
+     * @return the discover control port
+     */
+    public static int getDiscoverControlPort() {
+        return discoverControlPort;
+    }
+
+    /**
+     * Sets the discover control port.
+     * 
+     * @param discoverControlPort
+     *            the new discover control port
+     */
+    public static void setDiscoverControlPort(final int discoverControlPort) {
+        DiscoverFactory.discoverControlPort = discoverControlPort;
     }
 
     /**

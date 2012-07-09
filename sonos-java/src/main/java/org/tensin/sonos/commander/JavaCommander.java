@@ -1,12 +1,17 @@
 package org.tensin.sonos.commander;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tensin.sonos.SonosConstants;
+import org.tensin.sonos.commands.AbstractCommand;
 import org.tensin.sonos.commands.CommandFactory;
+import org.tensin.sonos.commands.IStandardCommand;
 import org.tensin.sonos.commands.IZoneCommand;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
 import org.tensin.sonos.helpers.CollectionHelper;
@@ -22,6 +27,9 @@ public class JavaCommander extends AbstractCommander {
 
     /** The debug. */
     private boolean debug;
+
+    /** The command stack standard. */
+    private Collection<IStandardCommand> commandStackStandard;
 
     /**
      * Execute.
@@ -51,16 +59,54 @@ public class JavaCommander extends AbstractCommander {
             LOGGER.error("No command provided, won't do anything");
         } else {
             try {
-                startDiscovery(isDebug());
                 final Collection<String> commandsAvailables = CollectionHelper.convertStringToCollection(command);
                 setCommandStackZone((Collection<IZoneCommand>) CommandFactory.createCommandStack(commandsAvailables, IZoneCommand.class));
-                setZonesToWorkOn(CollectionHelper.convertStringToCollection(zoneNames));
+                setCommandStackStandard((Collection<IStandardCommand>) CommandFactory.createCommandStack(commandsAvailables, IStandardCommand.class));
+                executeStandardCommands();
+                executeZoneCommands(zoneNames, new ArrayList<String>());
+            } finally {
+                ZoneCommandDispatcher.getInstance().logSummary();
+                ZoneCommandDispatcher.getInstance().stopExecutors();
+            }
+        }
+    }
+
+    /**
+     * Execute standard commands.
+     * 
+     * @throws SonosException
+     *             the sonos exception
+     */
+    public void executeStandardCommands() throws SonosException {
+        if (!CollectionUtils.isEmpty(commandStackStandard)) {
+            for (final IStandardCommand command : commandStackStandard) {
+                command.execute();
+            }
+        }
+    }
+
+    /**
+     * Execute zone commands.
+     * 
+     * @throws SonosException
+     */
+    public void executeZoneCommands(final String zone, final List<String> parameters) throws SonosException {
+        if (!CollectionUtils.isEmpty(getCommandStackZone())) {
+            try {
+                startDiscovery(debug);
+                setZonesToWorkOn(CollectionHelper.convertStringToCollection(zone));
                 detectIfWorkOnAllZones();
                 if (!isWorkOnAllZones()) {
-                    for (final IZoneCommand c : getCommandStackZone()) {
-                        // ((AbstractCommand) c).setArgs(parameters); // TODO ?
+                    // We propagate immediately the command that have to be runned
+                    // on a specific zone, even if that zone has still not be found
+                    // (it's up to the discovery process to detect Sonos box and to
+                    // fire up that event to the corresponding executor, allowing at
+                    // that time the executor to run every command that are in its
+                    // queue.
+                    for (final IZoneCommand command : getCommandStackZone()) {
+                        ((AbstractCommand) command).setArgs(parameters);
                         for (final String zoneToWorkOn : getZonesToWorkOn()) {
-                            ZoneCommandDispatcher.getInstance().dispatchCommand(c, zoneToWorkOn);
+                            ZoneCommandDispatcher.getInstance().dispatchCommand(command, zoneToWorkOn);
                         }
                     }
                 } else {
@@ -69,14 +115,23 @@ public class JavaCommander extends AbstractCommander {
                     // TODO purge command list after a certain amount of time, maybe
                     // ?
                 }
-                ZoneCommandDispatcher.getInstance().waitEndExecution(SonosConstants.DEFAULT_MAX_TIMEOUT_JAVA_COMMANDER_WHEN_WORKING_ON_ALL_ZONES,
+                ZoneCommandDispatcher.getInstance().waitEndExecution(SonosConstants.DEFAULT_MAX_TIMEOUT_SONOS_COMMANDER_WHEN_WORKING_ON_ALL_ZONES,
                         !isWorkOnAllZones());
+                // if "ALL" mode, then we don't want to check empty queues (are queues may be filled at a later time, once a new zone will be
+                // discovered (and at this time, the wanted commands will be propagated by the listener)
             } finally {
                 stopDiscovery();
-                ZoneCommandDispatcher.getInstance().logSummary();
-                ZoneCommandDispatcher.getInstance().stopExecutors();
             }
         }
+    }
+
+    /**
+     * Gets the command stack standard.
+     * 
+     * @return the command stack standard
+     */
+    public Collection<IStandardCommand> getCommandStackStandard() {
+        return commandStackStandard;
     }
 
     /**
@@ -86,6 +141,16 @@ public class JavaCommander extends AbstractCommander {
      */
     public boolean isDebug() {
         return debug;
+    }
+
+    /**
+     * Sets the command stack standard.
+     * 
+     * @param commandStackStandard
+     *            the new command stack standard
+     */
+    public void setCommandStackStandard(final Collection<IStandardCommand> commandStackStandard) {
+        this.commandStackStandard = commandStackStandard;
     }
 
     /**

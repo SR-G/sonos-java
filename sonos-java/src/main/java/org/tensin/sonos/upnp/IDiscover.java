@@ -8,18 +8,26 @@ public interface IDiscover {
     /**
      * Done.
      */
-    public abstract void done();
+    public void done();
 
     /**
      * Gets the list.
      * 
      * @return the list
      */
-    public abstract String[] getList();
+    public String[] getList();
 
     /**
      * Launch.
      */
-    public abstract void launch();
+    public void launch();
+
+    /**
+     * Sets the ssdp control port.
+     * 
+     * @param ssdpControlPort
+     *            the new ssdp control port
+     */
+    public void setSsdpControlPort(final int ssdpControlPort);
 
 }

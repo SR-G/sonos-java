@@ -6,17 +6,17 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.tensin.sonos.SonosConstants;
 import org.tensin.sonos.SystemHelper;
-import org.tensin.sonos.commands.AbstractCommand;
 import org.tensin.sonos.commands.CommandFactory;
 import org.tensin.sonos.commands.ICommand;
 import org.tensin.sonos.commands.IStandardCommand;
 import org.tensin.sonos.commands.IZoneCommand;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
 import org.tensin.sonos.helpers.CollectionHelper;
+import org.tensin.sonos.upnp.DiscoverFactory;
 import org.tensin.sonos.upnp.SonosException;
 
 import com.beust.jcommander.JCommander;
@@ -30,6 +30,15 @@ public class SonosCommander extends AbstractCommander {
 
     /** The Constant LOGGER. */
     private static final Log LOGGER = LogFactory.getLog(SonosCommander.class);
+
+    /**
+     * Gets the system helper.
+     * 
+     * @return the system helper
+     */
+    public static SystemHelper getSystemHelper() {
+        return systemHelper;
+    }
 
     /**
      * The main method.
@@ -70,24 +79,18 @@ public class SonosCommander extends AbstractCommander {
     @Parameter(names = { "-h", "--usage", "--help" }, description = "Shows available commands")
     private boolean usage;
 
-    /** The command stack standard. */
-    private Collection<IStandardCommand> commandStackStandard;
-
     /** The parameters. */
     @Parameter(description = "Additionnal command parameters")
     private List<String> parameters = new ArrayList<String>();
 
+    /** The command stack standard. */
+    private Collection<IStandardCommand> commandStackStandard;
+
+    @Parameter(names = { "--control-port" }, description = "Control port (needed for SSDP discovery, default = 8009)")
+    private String controlPort;
+
     /** The system helper. */
     private static SystemHelper systemHelper = new SystemHelper();
-
-    /**
-     * Gets the system helper.
-     * 
-     * @return the system helper
-     */
-    public static SystemHelper getSystemHelper() {
-        return systemHelper;
-    }
 
     /**
      * Builds the j commander from command line.
@@ -113,7 +116,7 @@ public class SonosCommander extends AbstractCommander {
         }
         Collection<String> commandsAvailables = CollectionHelper.convertStringToCollection(command);
         setCommandStackZone((Collection<IZoneCommand>) CommandFactory.createCommandStack(commandsAvailables, IZoneCommand.class));
-        commandStackStandard = (Collection<IStandardCommand>) CommandFactory.createCommandStack(commandsAvailables, IStandardCommand.class);
+        setCommandStackStandard((Collection<IStandardCommand>) CommandFactory.createCommandStack(commandsAvailables, IStandardCommand.class));
         if (!checkAllCommandsHaveBeenMapped(commandsAvailables)) {
             LOGGER.error("The following commands haven't been recognized : " + CollectionHelper.singleDump(commandsAvailables));
             usage(jCommander);
@@ -121,7 +124,19 @@ public class SonosCommander extends AbstractCommander {
         if ((getCommandStackZone().size() == 0) && (commandStackStandard.size() == 0)) {
             usage(jCommander);
         }
+        LOGGER.debug("Standard commands to run : \n" + CollectionHelper.singleDump(getCommandStackStandard()));
+        LOGGER.debug("Zone commands to run : \n" + CollectionHelper.singleDump(getCommandStackZone()));
 
+        if (StringUtils.isNotBlank(controlPort)) {
+            try {
+                final int port = Integer.valueOf(controlPort).intValue();
+                LOGGER.info("Using SSDP control port [" + port + "]");
+                DiscoverFactory.setDiscoverControlPort(port);
+            } catch (NumberFormatException e) {
+                LOGGER.error("Can't convert as integer the provided SSDP control port [" + controlPort + "], will still use the default one ["
+                        + DiscoverFactory.DEFAULT_SSDP_CONTROL_PORT + "]");
+            }
+        }
     }
 
     /**
@@ -133,60 +148,6 @@ public class SonosCommander extends AbstractCommander {
      */
     private boolean checkAllCommandsHaveBeenMapped(final Collection<String> commandsAvailables) {
         return CollectionUtils.isEmpty((commandsAvailables));
-    }
-
-    /**
-     * Execute standard commands.
-     * 
-     * @throws SonosException
-     *             the sonos exception
-     */
-    private void executeStandardCommands() throws SonosException {
-        if (!CollectionUtils.isEmpty(commandStackStandard)) {
-            for (IStandardCommand command : commandStackStandard) {
-                command.execute();
-            }
-        }
-    }
-
-    /**
-     * Execute zone commands.
-     * 
-     * @throws SonosException
-     */
-    private void executeZoneCommands() throws SonosException {
-        if (!CollectionUtils.isEmpty(getCommandStackZone())) {
-            try {
-                startDiscovery(debug);
-                setZonesToWorkOn(CollectionHelper.convertStringToCollection(zone));
-                detectIfWorkOnAllZones();
-                if (!isWorkOnAllZones()) {
-                    // We propagate immediately the command that have to be runned
-                    // on a specific zone, even if that zone has still not be found
-                    // (it's up to the discovery process to detect Sonos box and to
-                    // fire up that event to the corresponding executor, allowing at
-                    // that time the executor to run every command that are in its
-                    // queue.
-                    for (final IZoneCommand command : getCommandStackZone()) {
-                        ((AbstractCommand) command).setArgs(parameters);
-                        for (final String zoneToWorkOn : getZonesToWorkOn()) {
-                            ZoneCommandDispatcher.getInstance().dispatchCommand(command, zoneToWorkOn);
-                        }
-                    }
-                } else {
-                    // Commands will be re-forwared from listener each time a new
-                    // zones is discovered
-                    // TODO purge command list after a certain amount of time, maybe
-                    // ?
-                }
-                ZoneCommandDispatcher.getInstance().waitEndExecution(SonosConstants.DEFAULT_MAX_TIMEOUT_SONOS_COMMANDER_WHEN_WORKING_ON_ALL_ZONES,
-                        !isWorkOnAllZones());
-                // if "ALL" mode, then we don't want to check empty queues (are queues may be filled at a later time, once a new zone will be
-                // discovered (and at this time, the wanted commands will be propagated by the listener)
-            } finally {
-                stopDiscovery();
-            }
-        }
     }
 
     /**
@@ -205,6 +166,15 @@ public class SonosCommander extends AbstractCommander {
      */
     public Collection<IStandardCommand> getCommandStackStandard() {
         return commandStackStandard;
+    }
+
+    /**
+     * Gets the control port.
+     * 
+     * @return the control port
+     */
+    public String getControlPort() {
+        return controlPort;
     }
 
     /**
@@ -242,6 +212,26 @@ public class SonosCommander extends AbstractCommander {
      */
     public void setCommand(final String command) {
         this.command = command;
+    }
+
+    /**
+     * Sets the command stack standard.
+     * 
+     * @param commandStackStandard
+     *            the new command stack standard
+     */
+    public void setCommandStackStandard(final Collection<IStandardCommand> commandStackStandard) {
+        this.commandStackStandard = commandStackStandard;
+    }
+
+    /**
+     * Sets the control port.
+     * 
+     * @param controlPort
+     *            the new control port
+     */
+    public void setControlPort(final String controlPort) {
+        this.controlPort = controlPort;
     }
 
     /**
@@ -287,8 +277,11 @@ public class SonosCommander extends AbstractCommander {
         try {
             initLog();
             buildJCommanderFromCommandLine(args);
-            executeStandardCommands();
-            executeZoneCommands();
+            final JavaCommander javaCommander = new JavaCommander();
+            javaCommander.setCommandStackStandard(getCommandStackStandard());
+            javaCommander.setCommandStackZone(getCommandStackZone());
+            javaCommander.executeStandardCommands();
+            javaCommander.executeZoneCommands(zone, parameters);
         } finally {
             ZoneCommandDispatcher.getInstance().logSummary();
             ZoneCommandDispatcher.getInstance().stopExecutors();

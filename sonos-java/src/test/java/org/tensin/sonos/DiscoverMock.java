@@ -29,7 +29,7 @@ public class DiscoverMock implements IDiscover {
      * @param cb
      *            the cb
      */
-    public DiscoverMock(final Listener cb) {
+    public DiscoverMock(final Listener cb, final Integer controlPort) {
         this.cb = cb;
         eventAddNewZone("SALON");
         eventAddNewZone("CHAMBRE");
@@ -73,5 +73,15 @@ public class DiscoverMock implements IDiscover {
      */
     @Override
     public void launch() {
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.upnp.IDiscover#setSsdpControlPort(int)
+     */
+    @Override
+    public void setSsdpControlPort(final int ssdpControlPort) {
+
     }
 }

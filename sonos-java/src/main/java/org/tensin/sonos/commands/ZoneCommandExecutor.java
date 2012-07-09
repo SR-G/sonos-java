@@ -46,7 +46,7 @@ public class ZoneCommandExecutor extends Thread {
     public ZoneCommandExecutor(final String zoneName) {
         super();
         this.zoneName = zoneName;
-        setName("SONOS-THREAD-" + zoneName);
+        setName("SONOS-THREAD-ZONE-" + zoneName);
     }
 
     /**

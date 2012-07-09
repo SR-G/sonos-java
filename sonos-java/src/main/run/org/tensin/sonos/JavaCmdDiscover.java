@@ -6,7 +6,7 @@ import org.tensin.sonos.upnp.SonosException;
 /**
  * The Class CmdPlaySalon.
  */
-public class JavaCmdPlaySalon {
+public class JavaCmdDiscover {
 
     /**
      * The main method.
@@ -17,6 +17,6 @@ public class JavaCmdPlaySalon {
      *             the sonos exception
      */
     public static void main(final String[] args) throws SonosException {
-        new JavaCommander().execute("salon", "play");
+        new JavaCommander().execute("discover");
     }
 }
