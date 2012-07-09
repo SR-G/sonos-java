@@ -84,9 +84,6 @@ public class SonosCommander extends AbstractCommander {
     @Parameter(description = "Additionnal command parameters")
     private List<String> parameters = new ArrayList<String>();
 
-    /** The command stack standard. */
-    private Collection<IStandardCommand> commandStackStandard;
-
     /** The control port. */
     @Parameter(names = { "--control-port" }, description = "Control port (needed for SSDP discovery, default = 8009)")
     private String controlPort;
@@ -125,7 +122,7 @@ public class SonosCommander extends AbstractCommander {
             LOGGER.error("The following commands haven't been recognized : " + CollectionHelper.singleDump(commandsAvailables));
             usage(jCommander);
         }
-        if ((getCommandStackZone().size() == 0) && (commandStackStandard.size() == 0)) {
+        if ((getCommandStackZone().size() == 0) && (getCommandStackStandard().size() == 0)) {
             usage(jCommander);
         }
         LOGGER.debug("Standard commands to run : \n" + CollectionHelper.singleDump(getCommandStackStandard()));
@@ -161,15 +158,6 @@ public class SonosCommander extends AbstractCommander {
      */
     public String getCommand() {
         return command;
-    }
-
-    /**
-     * Gets the command stack standard.
-     * 
-     * @return the command stack standard
-     */
-    public Collection<IStandardCommand> getCommandStackStandard() {
-        return commandStackStandard;
     }
 
     /**
@@ -216,16 +204,6 @@ public class SonosCommander extends AbstractCommander {
      */
     public void setCommand(final String command) {
         this.command = command;
-    }
-
-    /**
-     * Sets the command stack standard.
-     * 
-     * @param commandStackStandard
-     *            the new command stack standard
-     */
-    public void setCommandStackStandard(final Collection<IStandardCommand> commandStackStandard) {
-        this.commandStackStandard = commandStackStandard;
     }
 
     /**

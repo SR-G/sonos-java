@@ -35,6 +35,9 @@ public class ZoneCommandDispatcher {
         return INSTANCE;
     }
 
+    /** The no command executed. */
+    private boolean noCommandExecuted = true;
+
     /** The Constant executors. */
     private final Map<String, ZoneCommandExecutor> executors = new HashMap<String, ZoneCommandExecutor>();
 
@@ -50,6 +53,7 @@ public class ZoneCommandDispatcher {
         LOGGER.debug("Dispatching [" + command.getName() + "]");
         final ZoneCommandExecutor executor = registerZoneExecutor(zoneName);
         executor.addCommand(command);
+        noCommandExecuted = false;
     }
 
     /**
@@ -185,10 +189,13 @@ public class ZoneCommandDispatcher {
 
     /**
      * Wait end execution.
-     *
-     * @param delay the delay
-     * @param checkEmptyQueues the check empty queues
-     * @throws SonosException the sonos exception
+     * 
+     * @param delay
+     *            the delay
+     * @param checkEmptyQueues
+     *            the check empty queues
+     * @throws SonosException
+     *             the sonos exception
      */
     public void waitEndExecution(final int delay, final boolean checkEmptyQueues) throws SonosException {
         final long start = System.currentTimeMillis();
@@ -220,7 +227,7 @@ public class ZoneCommandDispatcher {
                                 break;
                             }
                         }
-                        if (allCommandsProcessed && allCommandsEnded) {
+                        if (allCommandsProcessed && allCommandsEnded && !noCommandExecuted) { // for the start case : no commands have been issued yet on the zone dispatcher
                             active = false;
                         }
                     }
