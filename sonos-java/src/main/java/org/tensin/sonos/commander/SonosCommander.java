@@ -86,6 +86,7 @@ public class SonosCommander extends AbstractCommander {
     /** The command stack standard. */
     private Collection<IStandardCommand> commandStackStandard;
 
+    /** The control port. */
     @Parameter(names = { "--control-port" }, description = "Control port (needed for SSDP discovery, default = 8009)")
     private String controlPort;
 
@@ -98,6 +99,8 @@ public class SonosCommander extends AbstractCommander {
      * @param args
      *            the args
      * @return the j commander
+     * @throws SonosException
+     *             the sonos exception
      */
     private void buildJCommanderFromCommandLine(final String[] args) throws SonosException {
         JCommander jCommander = null;
@@ -280,8 +283,8 @@ public class SonosCommander extends AbstractCommander {
             final JavaCommander javaCommander = new JavaCommander();
             javaCommander.setCommandStackStandard(getCommandStackStandard());
             javaCommander.setCommandStackZone(getCommandStackZone());
-            javaCommander.executeStandardCommands();
-            javaCommander.executeZoneCommands(zone, parameters);
+            javaCommander.executeStandardCommands(); // sequential executions
+            javaCommander.executeZoneCommands(zone, parameters); // should halt until all commands are executed or timeout elapsed
         } finally {
             ZoneCommandDispatcher.getInstance().logSummary();
             ZoneCommandDispatcher.getInstance().stopExecutors();
@@ -300,8 +303,20 @@ public class SonosCommander extends AbstractCommander {
         jCommander.usage(sb);
         sb.append("\n");
         sb.append("  Commands :").append("\n");
+        boolean needArgs;
+        String description;
         for (final ICommand c : CommandFactory.getAvailableCommands(ICommand.class)) {
-            sb.append("    ").append(c.getName()).append("\n");
+            needArgs = c.needArgs();
+            description = c.getDescription();
+
+            sb.append("    ").append(StringUtils.rightPad(c.getName(), 30, " "));
+            if (StringUtils.isNotEmpty(description)) {
+                sb.append(" : ").append(description);
+            }
+            if (needArgs) {
+                sb.append(" [additionnal parameters needed]");
+            }
+            sb.append("\n");
         }
         sb.append("\n");
         sb.append("  Examples :\n");

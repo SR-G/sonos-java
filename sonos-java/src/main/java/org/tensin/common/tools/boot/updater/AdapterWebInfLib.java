@@ -43,6 +43,9 @@ public class AdapterWebInfLib implements IAdapterInput {
      * 
      * @see com.inetpsa.ltp.tools.excluded.IAdapterInput#getName()
      */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterInput#getName()
+     */
     public String getName() {
         return "Load from web/WEB-INF/lib - or similar path - content";
     }
@@ -60,6 +63,9 @@ public class AdapterWebInfLib implements IAdapterInput {
      * (non-Javadoc)
      * 
      * @see com.inetpsa.ltp.tools.excluded.IAdapterInput#load()
+     */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterInput#load()
      */
     @SuppressWarnings("unchecked")
     public Collection<JarContainer> load() throws DependencyException {

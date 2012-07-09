@@ -217,9 +217,9 @@ public abstract class AbstractCommander {
 
     /**
      * Start discovery.
-     * 
-     * @throws SonosException
-     *             the sonos exception
+     *
+     * @param debug the debug
+     * @throws SonosException the sonos exception
      */
     protected void startDiscovery(final boolean debug) throws SonosException {
         final ZonesDiscoveredListener zonesDiscoveredListener = new ZonesDiscoveredListener();

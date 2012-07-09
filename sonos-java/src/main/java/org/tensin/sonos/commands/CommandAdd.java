@@ -23,11 +23,31 @@ public class CommandAdd extends AbstractCommand implements IZoneCommand {
     /**
      * {@inheritDoc}
      * 
+     * @see org.tensin.sonos.commands.ICommand#getDescription()
+     */
+    @Override
+    public String getDescription() {
+        return "Enqueue something in the queue list";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.tensin.sonos.commands.ICommand#getName()
      */
     @Override
     public String getName() {
         return "add";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.commands.AbstractCommand#needArgs()
+     */
+    @Override
+    public boolean needArgs() {
+        return true;
     }
 
 }

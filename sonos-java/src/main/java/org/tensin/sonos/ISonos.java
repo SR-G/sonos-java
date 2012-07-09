@@ -63,7 +63,9 @@ public interface ISonos {
     public abstract String getZoneName();
 
     /**
-     * @param line
+     * Linein.
+     *
+     * @param line the line
      */
     public abstract void linein(final String line);
 
@@ -94,9 +96,9 @@ public interface ISonos {
 
     /**
      * Shuffle.
-     * 
-     * @param shuffle
-     *            the shuffle
+     *
+     * @param shuffle the shuffle
+     * @param repeat the repeat
      */
     public abstract void playmode(final boolean shuffle, final boolean repeat);
 

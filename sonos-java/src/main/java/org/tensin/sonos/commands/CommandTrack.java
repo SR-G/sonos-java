@@ -23,11 +23,31 @@ public class CommandTrack extends AbstractCommand implements IZoneCommand {
     /**
      * {@inheritDoc}
      * 
+     * @see org.tensin.sonos.commands.ICommand#getDescription()
+     */
+    @Override
+    public String getDescription() {
+        return "Skip to specified track";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.tensin.sonos.commands.ICommand#getName()
      */
     @Override
     public String getName() {
         return "track";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.commands.AbstractCommand#needArgs()
+     */
+    @Override
+    public boolean needArgs() {
+        return true;
     }
 
 }

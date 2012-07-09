@@ -50,7 +50,7 @@ public class DiscoverImpl extends Thread implements IDiscover {
     /** The callback. */
     private Listener callback;
 
-    /** ssdpControlPort */
+    /** ssdpControlPort. */
     private int ssdpControlPort;
 
     /** The group address. */
@@ -68,13 +68,13 @@ public class DiscoverImpl extends Thread implements IDiscover {
     /** The cb. */
     private Listener cb = null;;
 
-    /** HTTP_VERSION */
+    /** HTTP_VERSION. */
     private static final String HTTP_VERSION = "1.1";
 
-    /** NL */
+    /** NL. */
     private static final String NL = "\r\n";
 
-    /** SSD_MX */
+    /** SSD_MX. */
     private static final String SSD_MX = "1";
 
     /** The Constant query. */
@@ -101,6 +101,7 @@ public class DiscoverImpl extends Thread implements IDiscover {
         return groupAddress;
     }
 
+    /** The first_response. */
     boolean first_response = true;
 
     /**
@@ -111,9 +112,9 @@ public class DiscoverImpl extends Thread implements IDiscover {
 
     /**
      * Instantiates a new discover.
-     * 
-     * @param cb
-     *            the cb
+     *
+     * @param cb the cb
+     * @param controlPort the control port
      */
     public DiscoverImpl(final Listener cb, final Integer controlPort) {
         this.cb = cb;
@@ -263,14 +264,10 @@ public class DiscoverImpl extends Thread implements IDiscover {
 
     /**
      * Handle socket.
-     * 
-     * @param network_interface
-     *            the network_interface
-     * @param local_address
-     *            the local_address
-     * @param socket
-     *            the socket
-     * @throws IOException
+     *
+     * @param packet the packet
+     * @param socket the socket
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     private void handleNotifyOnControlSocket(final DatagramPacket packet, final DatagramSocket socket) throws IOException {
         socket.receive(packet);
@@ -279,13 +276,10 @@ public class DiscoverImpl extends Thread implements IDiscover {
 
     /**
      * Handle_notify.
-     * 
-     * @param p
-     *            the p
-     * @param ssdpSocket
-     *            the ssdp socket
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
+     *
+     * @param packet the packet
+     * @param ssdpSocket the ssdp socket
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     void handleNotifyOnSSDPSocket(final DatagramPacket packet, final MulticastSocket ssdpSocket) throws IOException {
         ssdpSocket.receive(packet);
@@ -314,6 +308,11 @@ public class DiscoverImpl extends Thread implements IDiscover {
         init();
     }
 
+    /**
+     * Receive packet.
+     *
+     * @param packet the packet
+     */
     private void receivePacket(final DatagramPacket packet) {
         String s = new String(packet.getData(), 0, packet.getLength());
         Matcher m = patternLocation.matcher(s);
@@ -357,10 +356,10 @@ public class DiscoverImpl extends Thread implements IDiscover {
 
     /**
      * Send_query.
-     * 
-     * @param ssdpSocket
-     *            the ssdp socket
-     * @throws SonosException
+     *
+     * @param networkInterface the network interface
+     * @param ssdpSocket the ssdp socket
+     * @throws SonosException the sonos exception
      */
     void sendQuery(final NetworkInterface networkInterface, final MulticastSocket ssdpSocket) throws SonosException {
         MulticastSocket multicastSocket = null;

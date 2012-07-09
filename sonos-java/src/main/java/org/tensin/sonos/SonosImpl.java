@@ -16,12 +16,36 @@ import org.tensin.sonos.upnp.XMLSequence;
  */
 public class SonosImpl implements ISonos {
 
+    /**
+     * The Enum PlayerState.
+     */
     public enum PlayerState {
-        STOPPED, PLAYING, PAUSED_PLAYBACK, TRANSITIONING, UNKNOWN
+        
+        /** The stopped. */
+        STOPPED, 
+ /** The playing. */
+ PLAYING, 
+ /** The paused playback. */
+ PAUSED_PLAYBACK, 
+ /** The transitioning. */
+ TRANSITIONING, 
+ /** The unknown. */
+ UNKNOWN
     }
 
+    /**
+     * The Enum PlayMode.
+     */
     public enum PlayMode {
-        SHUFFLE_NOREPEAT, NORMAL, REPEAT_ALL, SHUFFLE
+        
+        /** The shuffle norepeat. */
+        SHUFFLE_NOREPEAT, 
+ /** The normal. */
+ NORMAL, 
+ /** The repeat all. */
+ REPEAT_ALL, 
+ /** The shuffle. */
+ SHUFFLE
     }
 
     /** The trace_browse. */

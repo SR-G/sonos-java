@@ -23,11 +23,31 @@ public class CommandMove extends AbstractCommand implements IZoneCommand {
     /**
      * {@inheritDoc}
      * 
+     * @see org.tensin.sonos.commands.ICommand#getDescription()
+     */
+    @Override
+    public String getDescription() {
+        return "Move song to another position in the track list";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.tensin.sonos.commands.ICommand#getName()
      */
     @Override
     public String getName() {
         return "move";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.commands.AbstractCommand#needArgs()
+     */
+    @Override
+    public boolean needArgs() {
+        return true;
     }
 
 }

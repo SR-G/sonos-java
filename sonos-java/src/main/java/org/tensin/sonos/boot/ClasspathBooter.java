@@ -563,6 +563,13 @@ public class ClasspathBooter {
         return result;
     }
 
+    /**
+     * Gets the manifest.
+     *
+     * @param jarName the jar name
+     * @param lineSeparator the line separator
+     * @return the manifest
+     */
     public String getManifest(final String jarName, final String lineSeparator) {
         StringBuilder sb = new StringBuilder();
 

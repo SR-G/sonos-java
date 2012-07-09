@@ -28,6 +28,16 @@ public class CommandPlay extends AbstractCommand implements IZoneCommand {
     /**
      * {@inheritDoc}
      * 
+     * @see org.tensin.sonos.commands.ICommand#getDescription()
+     */
+    @Override
+    public String getDescription() {
+        return "Starts playing";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.tensin.sonos.commands.ICommand#getName()
      */
     @Override

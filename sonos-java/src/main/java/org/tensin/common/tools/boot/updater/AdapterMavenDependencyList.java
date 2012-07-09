@@ -24,11 +24,10 @@ public class AdapterMavenDependencyList implements IAdapterInput {
 
     /**
      * Méthode.
-     * 
-     * @param dependencyFileName
-     *            the dependency file name
+     *
+     * @param dependencyFileName the dependency file name
      * @return the adapter maven dependency list
-     * @throws DependencyException
+     * @throws DependencyException the dependency exception
      */
     public static AdapterMavenDependencyList buildAdapter(final String dependencyFileName) throws DependencyException {
         final AdapterMavenDependencyList adapter = new AdapterMavenDependencyList();
@@ -96,6 +95,9 @@ public class AdapterMavenDependencyList implements IAdapterInput {
      * (non-Javadoc)
      * @see com.inetpsa.ltp.tools.excluded.IAdapterInput#getName()
      */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterInput#getName()
+     */
     @Override
     public String getName() {
         return "Load maven dependencies list (from 'mvn dependency:list' output for file [" + getDependencyFileName() + "])";
@@ -104,6 +106,9 @@ public class AdapterMavenDependencyList implements IAdapterInput {
     /*
      * (non-Javadoc)
      * @see com.inetpsa.ltp.tools.excluded.IAdapterInput#load()
+     */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterInput#load()
      */
     @Override
     public Collection<JarContainer> load() throws DependencyException {

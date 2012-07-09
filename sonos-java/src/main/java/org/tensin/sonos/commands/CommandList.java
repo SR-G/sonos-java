@@ -25,11 +25,31 @@ public class CommandList extends AbstractCommand implements IZoneCommand, SonosL
     /**
      * {@inheritDoc}
      * 
+     * @see org.tensin.sonos.commands.ICommand#getDescription()
+     */
+    @Override
+    public String getDescription() {
+        return "Browse the playlist";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.tensin.sonos.commands.ICommand#getName()
      */
     @Override
     public String getName() {
         return "list";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.commands.AbstractCommand#needArgs()
+     */
+    @Override
+    public boolean needArgs() {
+        return true;
     }
 
     /**
@@ -58,4 +78,5 @@ public class CommandList extends AbstractCommand implements IZoneCommand, SonosL
             System.out.println("\tartist: " + item.artist);
         }
     }
+
 }

@@ -392,6 +392,9 @@ public class JarContainer implements Comparable<JarContainer> {
      * (non-Javadoc)
      * @see java.lang.Comparable#compareTo(T)
      */
+    /** {@inheritDoc}
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     @Override
     public int compareTo(final JarContainer arg0) {
         return getJarName().compareTo((arg0).getJarName());
@@ -890,6 +893,11 @@ public class JarContainer implements Comparable<JarContainer> {
     /*
      * (non-Javadoc)
      * @see java.lang.Object#toString()
+     */
+    /**
+     * To string.
+     *
+     * @return the string
      */
     @Override
     public String toString() {

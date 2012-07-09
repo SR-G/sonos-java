@@ -33,6 +33,9 @@ public class AdapterDump implements IAdapterOutput {
      * 
      * @see com.inetpsa.ltp.tools.excluded.IAdapterOutput#generate()
      */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterOutput#generate(java.util.Collection)
+     */
     public void generate(final Collection<JarContainer> jars) throws DependencyException {
         StringBuilder sb = new StringBuilder("Liste de tous les jars chargés :\n");
         if ((jars != null) && (jars.size() > 0)) {
@@ -50,6 +53,9 @@ public class AdapterDump implements IAdapterOutput {
      * (non-Javadoc)
      * 
      * @see com.inetpsa.ltp.tools.excluded.IAdapterInput#getName()
+     */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterOutput#getName()
      */
     public String getName() {
         return "Dump items (for debug)";

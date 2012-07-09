@@ -23,11 +23,31 @@ public class CommandRemove extends AbstractCommand implements IZoneCommand {
     /**
      * {@inheritDoc}
      * 
+     * @see org.tensin.sonos.commands.ICommand#getDescription()
+     */
+    @Override
+    public String getDescription() {
+        return "Remove the specified song number from the current playlist";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.tensin.sonos.commands.ICommand#getName()
      */
     @Override
     public String getName() {
         return "remove";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.commands.AbstractCommand#needArgs()
+     */
+    @Override
+    public boolean needArgs() {
+        return true;
     }
 
 }

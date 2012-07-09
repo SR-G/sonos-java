@@ -185,12 +185,10 @@ public class ZoneCommandDispatcher {
 
     /**
      * Wait end execution.
-     * 
-     * @param delay
-     *            the delay
-     * @param checkEmptyQueues
-     *            the check empty queues
-     * @throws SonosException
+     *
+     * @param delay the delay
+     * @param checkEmptyQueues the check empty queues
+     * @throws SonosException the sonos exception
      */
     public void waitEndExecution(final int delay, final boolean checkEmptyQueues) throws SonosException {
         final long start = System.currentTimeMillis();

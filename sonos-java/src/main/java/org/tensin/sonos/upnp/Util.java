@@ -11,10 +11,10 @@ public class Util {
 
     /**
      * Load file.
-     * 
-     * @param fileName
-     *            the file name
+     *
+     * @param fileName the file name
      * @return the byte[]
+     * @throws SonosException the sonos exception
      */
     public static byte[] loadFile(final String fileName) throws SonosException {
         try {

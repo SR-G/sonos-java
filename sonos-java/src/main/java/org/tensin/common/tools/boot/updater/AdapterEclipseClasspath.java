@@ -56,6 +56,9 @@ public class AdapterEclipseClasspath implements IAdapterInput, IAdapterOutput {
      * 
      * @see com.inetpsa.ltp.tools.excluded.IAdapterOutput#generate()
      */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterOutput#generate(java.util.Collection)
+     */
     public void generate(final Collection<JarContainer> jars) throws DependencyException {
         for (JarContainer jar : jars) {
 
@@ -77,6 +80,9 @@ public class AdapterEclipseClasspath implements IAdapterInput, IAdapterOutput {
      * 
      * @see com.inetpsa.ltp.tools.excluded.IAdapterInput#getName()
      */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterInput#getName()
+     */
     public String getName() {
         return "Load and save from and to eclipse .classpath XML file";
     }
@@ -85,6 +91,9 @@ public class AdapterEclipseClasspath implements IAdapterInput, IAdapterOutput {
      * (non-Javadoc)
      * 
      * @see com.inetpsa.ltp.tools.excluded.IAdapterInput#load()
+     */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterInput#load()
      */
     public Collection<JarContainer> load() throws DependencyException {
         return loadClasspathContent();

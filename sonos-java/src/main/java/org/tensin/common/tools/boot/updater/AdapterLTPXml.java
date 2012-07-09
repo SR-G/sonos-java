@@ -48,6 +48,9 @@ public class AdapterLTPXml implements IAdapterInput, IAdapterOutput {
      * (non-Javadoc)
      * @see com.inetpsa.ltp.tools.excluded.IAdapterOutput#generate()
      */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterOutput#generate(java.util.Collection)
+     */
     @Override
     public void generate(final Collection<JarContainer> jars) throws DependencyException {
 
@@ -102,6 +105,9 @@ public class AdapterLTPXml implements IAdapterInput, IAdapterOutput {
      * (non-Javadoc)
      * @see com.inetpsa.ltp.tools.excluded.IAdapterInput#getName()
      */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterInput#getName()
+     */
     @Override
     public String getName() {
         return "Load and save from and to LTP internal XML file";
@@ -110,6 +116,9 @@ public class AdapterLTPXml implements IAdapterInput, IAdapterOutput {
     /*
      * (non-Javadoc)
      * @see com.inetpsa.ltp.tools.excluded.IAdapterInput#load()
+     */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterInput#load()
      */
     @Override
     public Collection<JarContainer> load() throws DependencyException {

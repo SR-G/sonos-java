@@ -46,15 +46,11 @@ public class AdapterBootConstants implements IAdapterInput, IAdapterOutput {
 
     /**
      * Remplacement d'une chaîne par une autre dans un fichier.
-     * 
-     * @param filePathName
-     *            Le fichier dans lequel faire le remplacement
-     * @param oldString
-     *            L'ancienne chaine
-     * @param newString
-     *            La nouvelle chaîne
-     * @throws CoreException
-     *             the core exception
+     *
+     * @param filePathName Le fichier dans lequel faire le remplacement
+     * @param oldString L'ancienne chaine
+     * @param newString La nouvelle chaîne
+     * @throws DependencyException the dependency exception
      */
     public static void replace(final String filePathName, final String oldString, final String newString) throws DependencyException {
         StringBuilder sb = new StringBuilder();
@@ -260,6 +256,9 @@ public class AdapterBootConstants implements IAdapterInput, IAdapterOutput {
      * (non-Javadoc)
      * @see com.inetpsa.ltp.tools.excluded.IAdapterOutput#generate()
      */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterOutput#generate(java.util.Collection)
+     */
     @Override
     public void generate(final Collection<JarContainer> jars) throws DependencyException {
         if (!new File(destFileName).exists()) {
@@ -345,6 +344,9 @@ public class AdapterBootConstants implements IAdapterInput, IAdapterOutput {
      * (non-Javadoc)
      * @see com.inetpsa.ltp.tools.excluded.IAdapterInput#getName()
      */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterInput#getName()
+     */
     @Override
     public String getName() {
         return "Load and save from and to LTP java StartConstants file";
@@ -384,6 +386,9 @@ public class AdapterBootConstants implements IAdapterInput, IAdapterOutput {
     /*
      * (non-Javadoc)
      * @see com.inetpsa.ltp.tools.excluded.IAdapterInput#load()
+     */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterInput#load()
      */
     @Override
     public Collection<JarContainer> load() throws DependencyException {

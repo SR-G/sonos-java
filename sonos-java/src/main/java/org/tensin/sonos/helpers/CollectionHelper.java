@@ -6,6 +6,9 @@ import java.util.Iterator;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * The Class CollectionHelper.
+ */
 public class CollectionHelper {
 	
     /**
@@ -27,10 +30,9 @@ public class CollectionHelper {
     }
 
     /**
-     * Dump du contenu d'une liste
-     * 
-     * @param l
-     *            La liste à dumper
+     * Dump du contenu d'une liste.
+     *
+     * @param l La liste à dumper
      * @return La représentation textuelle
      */
     public static String singleDump(final Collection<?> l) {

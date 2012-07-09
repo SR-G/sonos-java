@@ -29,6 +29,15 @@ public abstract class AbstractCommand {
     }
 
     /**
+     * Need args.
+     * 
+     * @return true, if successful
+     */
+    public boolean needArgs() {
+        return false;
+    }
+
+    /**
      * Sets the args.
      * 
      * @param args

@@ -25,12 +25,23 @@ public class CommandLineIn extends AbstractCommand implements IZoneCommand {
     /**
      * {@inheritDoc}
      * 
+     * @see org.tensin.sonos.commands.ICommand#getDescription()
+     */
+    @Override
+    public String getDescription() {
+        return "Activate line-in and starts playing it";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.tensin.sonos.commands.ICommand#getName()
      */
     @Override
     public String getName() {
         return "line";
     }
+
     /*
      * Action a = avtransportService.getAction("SetAVTransportURI");
      * a.setArgumentValue("InstanceID", "0");
@@ -41,4 +52,15 @@ public class CommandLineIn extends AbstractCommand implements IZoneCommand {
      * play();
      * }
      */
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.commands.AbstractCommand#needArgs()
+     */
+    @Override
+    public boolean needArgs() {
+        return true;
+    }
+
 }

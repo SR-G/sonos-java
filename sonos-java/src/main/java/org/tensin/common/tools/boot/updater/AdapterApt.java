@@ -32,6 +32,9 @@ public class AdapterApt implements IAdapterOutput {
      * 
      * @see com.inetpsa.ltp.tools.excluded.IAdapterOutput#generate()
      */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterOutput#generate(java.util.Collection)
+     */
     public void generate(final Collection<JarContainer> jars) throws DependencyException {
         StringBuffer sb = new StringBuffer();
     }
@@ -49,6 +52,9 @@ public class AdapterApt implements IAdapterOutput {
      * (non-Javadoc)
      * 
      * @see com.inetpsa.ltp.tools.excluded.IAdapterInput#getName()
+     */
+    /** {@inheritDoc}
+     * @see org.tensin.common.tools.boot.updater.IAdapterOutput#getName()
      */
     public String getName() {
         return "Save to APT file";

@@ -21,10 +21,21 @@ public class CommandCrossfadeOn extends AbstractCommand implements IZoneCommand 
     /**
      * {@inheritDoc}
      * 
+     * @see org.tensin.sonos.commands.ICommand#getDescription()
+     */
+    @Override
+    public String getDescription() {
+        return "Activate cross fading";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.tensin.sonos.commands.ICommand#getName()
      */
     @Override
     public String getName() {
-        return "crossfadeoff";
+        return "crossfadeon";
     }
+
 }

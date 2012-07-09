@@ -80,11 +80,31 @@ public class CommandDiscover implements IStandardCommand {
     /**
      * {@inheritDoc}
      * 
+     * @see org.tensin.sonos.commands.ICommand#getDescription()
+     */
+    @Override
+    public String getDescription() {
+        return "Discover every Sonos box on the network";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.tensin.sonos.commands.ICommand#getName()
      */
     @Override
     public String getName() {
         return "discover";
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.commands.ICommand#needArgs()
+     */
+    @Override
+    public boolean needArgs() {
+        return false;
     }
 
     /**

@@ -4,6 +4,9 @@ import org.tensin.sonos.boot.BootConstants;
 import org.tensin.sonos.boot.ClasspathBooter;
 import org.tensin.sonos.upnp.SonosException;
 
+/**
+ * The Class Sonos.
+ */
 public class Sonos {
 
     /** The Constant BEERDUINO_MAIN_CLASS. */

@@ -87,8 +87,10 @@ public class JavaCommander extends AbstractCommander {
 
     /**
      * Execute zone commands.
-     * 
-     * @throws SonosException
+     *
+     * @param zone the zone
+     * @param parameters the parameters
+     * @throws SonosException the sonos exception
      */
     public void executeZoneCommands(final String zone, final List<String> parameters) throws SonosException {
         if (!CollectionUtils.isEmpty(getCommandStackZone())) {
