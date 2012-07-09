@@ -7,6 +7,7 @@ import org.tensin.sonos.upnp.SonosException;
 
 /**
  * A factory for creating Sonos objects.
+ * TODO Get rid of all those factories and switch to Google Guice 3.0
  */
 public class SonosFactory {
 

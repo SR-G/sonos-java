@@ -32,6 +32,9 @@
 			<includes>
 				<include>*.sh</include>
 			</includes>
+			<excludes>
+				<exclude>deploy.sh</exclude>
+			</excludes>
 		</fileSet>
 	</fileSets>
 </assembly>
