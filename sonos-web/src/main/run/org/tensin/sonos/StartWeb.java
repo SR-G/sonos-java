@@ -2,7 +2,6 @@ package org.tensin.sonos;
 
 import org.apache.log4j.BasicConfigurator;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
-import org.tensin.sonos.upnp.DiscoverFactory;
 import org.tensin.sonos.upnp.SonosException;
 
 /**
@@ -21,8 +20,8 @@ public class StartWeb {
     public static void main(final String[] args) throws SonosException {
         BasicConfigurator.configure();
 
-        SonosFactory.setiSonosClass(SonosMock.class);
-        DiscoverFactory.setiDiscoverClass(DiscoverMock.class);
+        // SonosFactory.setiSonosClass(SonosMock.class);
+        // DiscoverFactory.setiDiscoverClass(DiscoverMock.class);
 
         final SonosJetty jetty = new SonosJetty();
         jetty.setPort(8081);
