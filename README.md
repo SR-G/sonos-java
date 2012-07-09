@@ -41,30 +41,31 @@ Usage :
                               interacting on all zones, or separate zones with comma. Valid
                               examples are : '-z kitchen', '-z ALL', '-z kitchen,room', '-z
                               192.168.1.54'.
+                              Default: 
     
       Commands :
-        add
-        discover
-        getxport
-        list
-        move
-        mute
-        next
-        pause
-        play
-        prev
-        remove
-        removeall
-        save
-        setxport
-        shuffle
-        stop
-        track
-        unmute
-        unshuffle
-        volume
-        down
-        up
+        add                            : Enqueue something in the queue list [additionnal parameters needed]
+        discover                       : Discover every Sonos box on the network
+        getxport                      
+        list                           : Browse the playlist [additionnal parameters needed]
+        move                           : Move song to another position in the track list [additionnal parameters needed]
+        mute                           : Mute a zone
+        next                           : Skip to next song
+        pause                          : Pause zone
+        play                           : Starts playing
+        prev                           : Skip to previous song
+        remove                         : Remove the specified song number from the current playlist [additionnal parameters needed]
+        removeall                      : Clear the playlist
+        save                           : Save playlist [additionnal parameters needed]
+        setxport                       : Set the XPort [additionnal parameters needed]
+        shuffle                        : Set shuffle on
+        stop                           : Pause zone
+        track                          : Skip to specified track [additionnal parameters needed]
+        unmute                         : Unmute a zone
+        unshuffle                      : Set shuffle off
+        volume                         : Set volume to a given level [0-100] [additionnal parameters needed]
+        down                           : Lower volume by 5
+        up                             : Up volume by 5
     
       Examples :
         --command play --zone kitchen,room        Starts music in kitchen and room
@@ -77,4 +78,5 @@ Usage :
 Check the few junit.
 
 Example :
-> new JavaCommander().execute("salon", "play");
+
+    new JavaCommander().execute("salon", "play");
