@@ -50,7 +50,7 @@ public class SonosCommander extends AbstractCommander {
      *             the sonos exception
      */
     public static void main(final String args[]) throws SonosException {
-        SonosCommander a = new SonosCommander();
+        final SonosCommander a = new SonosCommander();
         a.start(args);
     }
 

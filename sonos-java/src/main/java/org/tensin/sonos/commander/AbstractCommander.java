@@ -46,7 +46,7 @@ public abstract class AbstractCommander {
     protected void initLog() {
         if (!initLog) {
             BasicConfigurator.configure();
-            Logger rootLogger = Logger.getRootLogger();
+            final Logger rootLogger = Logger.getRootLogger();
             rootLogger.setLevel(Level.INFO);
             initLog = true;
         }
