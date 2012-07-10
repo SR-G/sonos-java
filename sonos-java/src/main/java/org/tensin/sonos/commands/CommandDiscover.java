@@ -66,12 +66,13 @@ public class CommandDiscover implements IStandardCommand {
     @Override
     public void execute() throws SonosException {
         final IDiscover d = DiscoverFactory.build(new ZonesDiscoveredListener(), discoverControlPort);
-        d.launch();
         try {
+            d.launch();
             Thread.sleep(SonosConstants.MAX_DISCOVER_TIME_IN_MILLISECONDS);
         } catch (InterruptedException x) {
+        } finally {
+            d.done();
         }
-        d.done();
         LOGGER.info(count + " Sonos zones found on Network in " + SonosConstants.MAX_DISCOVER_TIME_IN_MILLISECONDS + "ms.");
     }
 

@@ -42,6 +42,12 @@ public class SonosMock implements ISonos {
 
     }
 
+    @Override
+    public void browseMetadata(final String _id, final SonosListener cb) {
+        // TODO Auto-generated method stub
+
+    }
+
     /**
      * {@inheritDoc}
      * 

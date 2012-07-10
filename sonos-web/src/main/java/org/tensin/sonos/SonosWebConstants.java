@@ -7,6 +7,9 @@ import org.apache.commons.lang3.CharEncoding;
  */
 public final class SonosWebConstants {
 
+    /** The Constant DEFAULT_HTTP_PORT. */
+    public static final int DEFAULT_HTTP_PORT = 8081;
+
     /** The Constant DOC_NAME. */
     public static final String DOC_NAME = "itsnat_doc_name";
 

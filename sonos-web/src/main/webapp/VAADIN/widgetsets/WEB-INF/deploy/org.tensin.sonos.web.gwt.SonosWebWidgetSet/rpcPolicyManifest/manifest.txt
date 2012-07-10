@@ -1,0 +1,2 @@
+# Module org.tensin.sonos.web.gwt.SonosWebWidgetSet
+# RPC service class, partial path of RPC policy file

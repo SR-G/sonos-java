@@ -23,9 +23,9 @@ import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.bio.SocketConnector;
 import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.webapp.WebInfConfiguration;
@@ -334,7 +334,7 @@ public class EmbeddedJetty {
         try {
             // We explicitly use the SocketConnector because the
             // SelectChannelConnector locks files
-            final Connector connector = new SocketConnector();
+            final Connector connector = new SelectChannelConnector();
             connector.setPort(getPort());
             connector.setMaxIdleTime(1000 * 60 * 60 * 4); // 4 heures
 
@@ -371,6 +371,7 @@ public class EmbeddedJetty {
             final HandlerCollection handlers = new HandlerCollection();
             handlers.setHandlers(buildHandlers(applicationHandler));
             JETTY.setHandler(handlers);
+
             JETTY.setAttribute("org.mortbay.jetty.Request.maxFormContentSize", 0);
             // purgeJettyCache();
             startJetty();

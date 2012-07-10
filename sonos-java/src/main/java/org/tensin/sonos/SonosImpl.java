@@ -150,6 +150,51 @@ public class SonosImpl implements ISonos {
         cb.updateDone(_id);
     }
 
+    /* content service calls */
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.ISonos#browse(java.lang.String, org.tensin.sonos.upnp.SonosListener)
+     */
+    @Override
+    public void browseMetadata(final String _id, final SonosListener cb) {
+        int total, count, updateid;
+        int n = 0;
+        XML xml;
+
+        do {
+            rpc.prepare(media, "Browse");
+            rpc.simpleTag("ObjectID", _id);
+            rpc.simpleTag("BrowseFlag", "BrowseMetadata"); // BrowseMetadata
+            rpc.simpleTag("Filter", "*");
+            rpc.simpleTag("StartingIndex", n);
+            rpc.simpleTag("RequestedCount", 100);
+            rpc.simpleTag("SortCriteria", "");
+
+            xml = rpc.invoke();
+            try {
+                xml.open("u:BrowseResponse");
+                value.init(xml.read("Result"));
+
+                // Eww, toString()? really? surely there's
+                // a non-allocating Int parser somewhere
+                // in the bloat that is java standard libraries?
+                count = Integer.parseInt(xml.read("NumberReturned").toString());
+                total = Integer.parseInt(xml.read("TotalMatches").toString());
+                updateid = Integer.parseInt(xml.read("UpdateID").toString());
+
+                /* descend in to the contained results */
+                value.unescape();
+                xml.init(value);
+                n = processBrowseResults(xml, n, _id, cb);
+            } catch (Oops e) {
+                LOGGER.error("Error while browsing", e);
+                break;
+            }
+        } while (n < total);
+        cb.updateDone(_id);
+    }
+
     /**
      * {@inheritDoc}
      * 

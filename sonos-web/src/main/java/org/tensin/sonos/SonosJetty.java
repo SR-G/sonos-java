@@ -7,8 +7,6 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jetty.rewrite.handler.RedirectRegexRule;
-import org.eclipse.jetty.rewrite.handler.RewriteHandler;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.ErrorHandler;
@@ -112,17 +110,22 @@ public class SonosJetty extends EmbeddedJetty {
      */
     @Override
     protected Handler[] buildHandlers(final WebAppContext applicationHandler) {
-        final RewriteHandler rewriteHandler = new RewriteHandler();
-        rewriteHandler.setRewriteRequestURI(true);
-        rewriteHandler.setRewritePathInfo(false);
-        rewriteHandler.setOriginalPathAttribute("requestedPath");
+        return super.buildHandlers(applicationHandler);
 
-        final RedirectRegexRule redirect = new RedirectRegexRule();
-        redirect.setRegex("^/$");
-        redirect.setReplacement("/pages/sonos");
-        // redirect.setTerminating(false);
-        // redirect.setHandling(false);
-        rewriteHandler.addRule(redirect);
+        // final RewriteHandler rewriteHandler = new RewriteHandler();
+        // rewriteHandler.setRewriteRequestURI(true);
+        // rewriteHandler.setRewritePathInfo(false);
+        // rewriteHandler.setOriginalPathAttribute("requestedPath");
+
+        /*
+         * // This one work fine
+         * final RedirectRegexRule redirect = new RedirectRegexRule();
+         * redirect.setRegex("^/$");
+         * redirect.setReplacement("/pages/sonos");
+         * // redirect.setTerminating(false);
+         * // redirect.setHandling(false);
+         * rewriteHandler.addRule(redirect);
+         */
 
         // final RewritePatternRule oldToNew = new RewritePatternRule();
         // oldToNew.setPattern("/");
@@ -134,7 +137,7 @@ public class SonosJetty extends EmbeddedJetty {
         // reverse.setReplacement("/reverse/$2/$1");
         // rewriteHandler.addRule(reverse);
 
-        return new Handler[] { rewriteHandler, applicationHandler };
+        // return new Handler[] { rewriteHandler, applicationHandler };
     }
 
 }

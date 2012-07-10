@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atmosphere-handlers>
+    <atmosphere-handler context-root="/UIDL"  class-name="org.vaadin.dontpush.server.AtmosphereDontPushHandler">
+    </atmosphere-handler>
+</atmosphere-handlers>

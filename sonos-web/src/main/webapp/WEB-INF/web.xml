@@ -1,20 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	version="2.5">
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<display-name>SonosWeb</display-name>
 
-	<!-- Definition des Servlets -->
+	<!-- This setup tested to work with Jetty 8, Tomcat 7 and Glassfish 3.1.1, 
+		refer to atmosphere docs if you need some other setup to work. -->
+
+	<context-param>
+		<description>Vaadin production mode</description>
+		<param-name>productionMode</param-name>
+		<param-value>false</param-value>
+	</context-param>
+
 	<servlet>
-		<servlet-name>SonosServlet</servlet-name>
-		<servlet-class>org.tensin.sonos.web.SonosServlet</servlet-class>
+		<description>AtmosphereServlet</description>
+		<servlet-name>AtmosphereServlet</servlet-name>
+		<servlet-class>org.atmosphere.cpr.AtmosphereServlet</servlet-class>
+		<init-param>
+			<!-- prevent deadlocks -->
+			<param-name>org.atmosphere.disableOnStateEvent</param-name>
+			<param-value>true</param-value>
+		</init-param>
 		<load-on-startup>1</load-on-startup>
+		<!--Uncomment if you want to use Servlet 3.0 Async Support -->
+		<async-supported>true</async-supported>
 	</servlet>
 
-	<!-- Definition des Mapping -->
+	<servlet>
+		<servlet-name>SonosServlet</servlet-name>
+		<servlet-class>org.vaadin.dontpush.server.DontPushOzoneServlet</servlet-class>
+		<!-- 
+			<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
+			 -->
+		<init-param>
+			<description>Sonos Web Application to start</description>
+			<param-name>application</param-name>
+    		<param-value>org.tensin.sonos.web.SonosWebApplication</param-value>
+		</init-param>
+		<init-param>
+			<description>Application widgetset</description>
+			<param-name>widgetset</param-name>
+    		<param-value>org.tensin.sonos.web.gwt.SonosWebWidgetSet</param-value>
+		</init-param>
+
+		<init-param>
+			<description>This is optinal parameter that control the 
+			timeout before "Conection guard" is for end user. If you 
+			have lots of synchronous tasks that take long time, you might 
+			want to increase this value to avoid non-intentional red screens. 
+			Default value is 5 seconds.</description>
+			<param-name>connectionGuardTimeout</param-name>
+			<param-value>2</param-value>
+		</init-param>
+
+		<load-on-startup>2</load-on-startup>
+
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AtmosphereServlet</servlet-name>
+		<url-pattern>/UIDL/*</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>SonosServlet</servlet-name>
-		<url-pattern>/pages/*</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
-
 </web-app>

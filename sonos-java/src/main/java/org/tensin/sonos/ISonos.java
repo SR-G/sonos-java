@@ -26,6 +26,8 @@ public interface ISonos {
      */
     public abstract void browse(final String _id, final SonosListener cb);
 
+    public abstract void browseMetadata(final String _id, final SonosListener cb);
+
     /**
      * Destroy.
      * can be used to delete saved queues (SQ:*)
@@ -64,8 +66,9 @@ public interface ISonos {
 
     /**
      * Linein.
-     *
-     * @param line the line
+     * 
+     * @param line
+     *            the line
      */
     public abstract void linein(final String line);
 
@@ -96,9 +99,11 @@ public interface ISonos {
 
     /**
      * Shuffle.
-     *
-     * @param shuffle the shuffle
-     * @param repeat the repeat
+     * 
+     * @param shuffle
+     *            the shuffle
+     * @param repeat
+     *            the repeat
      */
     public abstract void playmode(final boolean shuffle, final boolean repeat);
 
