@@ -7,6 +7,7 @@
 		<sourceEncoding>UTF-8</sourceEncoding>
 		<version.jetty>7.6.4.v20120524</version.jetty>
 		<version.guice>3.0</version.guice>
+		<version.guava>13.0</version.guava>
 	</properties>
 
 	<groupId>org.tensin.sonos</groupId>
@@ -234,6 +235,11 @@
 				<groupId>com.google.inject</groupId>
 				<artifactId>guice</artifactId>
 				<version>${version.guice}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${version.guava}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.beust</groupId>
