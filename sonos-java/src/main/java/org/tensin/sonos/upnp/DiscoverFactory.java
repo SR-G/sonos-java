@@ -49,9 +49,9 @@ public class DiscoverFactory {
      * @throws SonosException
      *             the sonos exception
      */
-    public static IDiscover build(final Listener listener) throws SonosException {
+    public static IDiscover build(final ISonosZonesDiscoverListener listener) throws SonosException {
         try {
-            Constructor<? extends IDiscover> constructor = iDiscoverClass.getConstructor(new Class[] { Listener.class, Integer.class });
+            Constructor<? extends IDiscover> constructor = iDiscoverClass.getConstructor(new Class[] { ISonosZonesDiscoverListener.class, Integer.class });
             IDiscover discover = constructor.newInstance(new Object[] { listener, Integer.valueOf(discoverControlPort) });
             return discover;
         } catch (IllegalArgumentException e) {
@@ -80,7 +80,7 @@ public class DiscoverFactory {
      * @throws SonosException
      *             the sonos exception
      */
-    public static IDiscover build(final Listener listener, final int port) throws SonosException {
+    public static IDiscover build(final ISonosZonesDiscoverListener listener, final int port) throws SonosException {
         setDiscoverControlPort(port);
         return build(listener);
     }

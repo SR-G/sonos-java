@@ -4,16 +4,62 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tensin.sonos.ISonos;
 import org.tensin.sonos.SonosException;
+import org.tensin.sonos.upnp.ISonosBrowseListener;
 import org.tensin.sonos.upnp.SonosItem;
-import org.tensin.sonos.upnp.SonosListener;
 
 /**
  * The Class CommandList.
  */
-public class CommandList extends AbstractCommand implements IZoneCommand, SonosListener {
+public class CommandList extends AbstractCommand implements IZoneCommand {
 
-    /** The Constant LOGGER. */
-    private static final Log LOGGER = LogFactory.getLog(CommandList.class);
+    /**
+     * The listener interface for receiving consolerSonos events.
+     * The class that is interested in processing a consolerSonos
+     * event implements this interface, and the object created
+     * with that class is registered with a component using the
+     * component's <code>addConsolerSonosListener<code> method. When
+     * the consolerSonos event occurs, that object's appropriate
+     * method is invoked.
+     * 
+     * @see ConsolerSonosEvent
+     */
+    private static final class ConsoleSonosBrowseListener implements ISonosBrowseListener {
+
+        /** The Constant LOGGER. */
+        private static final Log LOGGER = LogFactory.getLog(ConsoleSonosBrowseListener.class);
+
+        /**
+         * {@inheritDoc}
+         * 
+         * @see org.tensin.sonos.upnp.ISonosBrowseListener#updateDone(java.lang.String)
+         */
+        @Override
+        public void updateDone(final String id) {
+        }
+
+        /**
+         * {@inheritDoc}
+         * 
+         * @see org.tensin.sonos.upnp.ISonosBrowseListener#updateItem(java.lang.String, int, org.tensin.sonos.upnp.SonosItem)
+         */
+        @Override
+        public void updateItem(final String id, final int idx, final SonosItem item) {
+            final StringBuilder sb = new StringBuilder();
+            sb.append("(" + idx + ")\t    id: " + item.idURI);
+            sb.append("\t   res: " + item.playURI);
+            sb.append("\t title: " + item.title);
+            if (item.album != null) {
+                sb.append("\t album: " + item.album);
+            }
+            if (item.artist != null) {
+                sb.append("\tartist: " + item.artist);
+            }
+            LOGGER.info(sb.toString());
+        }
+    }
+
+    /** The listener. */
+    private ISonosBrowseListener listener = new ConsoleSonosBrowseListener();
 
     /**
      * {@inheritDoc}
@@ -23,7 +69,7 @@ public class CommandList extends AbstractCommand implements IZoneCommand, SonosL
     @Override
     public void execute(final ISonos sonos) throws SonosException {
         if (hasArgs()) {
-            sonos.browse(getArgs().get(0), this);
+            sonos.browse(getArgs().get(0), listener);
         }
     }
 
@@ -34,7 +80,16 @@ public class CommandList extends AbstractCommand implements IZoneCommand, SonosL
      */
     @Override
     public String getDescription() {
-        return "Browse the playlist";
+        return "Browse the sonos informations";
+    }
+
+    /**
+     * Gets the listener.
+     * 
+     * @return the listener
+     */
+    public ISonosBrowseListener getListener() {
+        return listener;
     }
 
     /**
@@ -58,32 +113,13 @@ public class CommandList extends AbstractCommand implements IZoneCommand, SonosL
     }
 
     /**
-     * {@inheritDoc}
+     * Sets the listener.
      * 
-     * @see org.tensin.sonos.upnp.SonosListener#updateDone(java.lang.String)
+     * @param listener
+     *            the new listener
      */
-    @Override
-    public void updateDone(final String id) {
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.tensin.sonos.upnp.SonosListener#updateItem(java.lang.String, int, org.tensin.sonos.upnp.SonosItem)
-     */
-    @Override
-    public void updateItem(final String id, final int idx, final SonosItem item) {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("(" + idx + ")\t    id: " + item.idURI);
-        sb.append("\t   res: " + item.playURI);
-        sb.append("\t title: " + item.title);
-        if (item.album != null) {
-            sb.append("\t album: " + item.album);
-        }
-        if (item.artist != null) {
-            sb.append("\tartist: " + item.artist);
-        }
-        LOGGER.info(sb.toString());
+    public void setListener(final ISonosBrowseListener listener) {
+        this.listener = listener;
     }
 
 }

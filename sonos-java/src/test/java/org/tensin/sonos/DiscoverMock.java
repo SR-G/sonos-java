@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.tensin.sonos.upnp.IDiscover;
-import org.tensin.sonos.upnp.Listener;
+import org.tensin.sonos.upnp.ISonosZonesDiscoverListener;
 
 /**
  * The Class DiscoverMock.
@@ -12,7 +12,7 @@ import org.tensin.sonos.upnp.Listener;
 public class DiscoverMock implements IDiscover {
 
     /** The cb. */
-    private Listener cb;
+    private ISonosZonesDiscoverListener cb;
 
     /** The zones. */
     private final Collection<String> zones = new ArrayList<String>();
@@ -29,7 +29,7 @@ public class DiscoverMock implements IDiscover {
      * @param cb
      *            the cb
      */
-    public DiscoverMock(final Listener cb, final Integer controlPort) {
+    public DiscoverMock(final ISonosZonesDiscoverListener cb, final Integer controlPort) {
         this.cb = cb;
         eventAddNewZone("SALON");
         eventAddNewZone("CHAMBRE");

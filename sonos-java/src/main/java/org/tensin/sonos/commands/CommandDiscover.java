@@ -9,7 +9,7 @@ import org.tensin.sonos.SonosException;
 import org.tensin.sonos.SonosFactory;
 import org.tensin.sonos.upnp.DiscoverFactory;
 import org.tensin.sonos.upnp.IDiscover;
-import org.tensin.sonos.upnp.Listener;
+import org.tensin.sonos.upnp.ISonosZonesDiscoverListener;
 
 /**
  * The Class CommandDiscover.
@@ -26,19 +26,19 @@ public class CommandDiscover implements IStandardCommand {
      * 
      * @see ZonesDiscoveredEvent
      */
-    class ZonesDiscoveredListener implements Listener {
+    private final class ConsoleSonosZonesDiscoveredListener implements ISonosZonesDiscoverListener {
 
         /**
          * {@inheritDoc}
          * 
-         * @see org.tensin.sonos.upnp.Listener#found(java.lang.String)
+         * @see org.tensin.sonos.upnp.ISonosZonesDiscoverListener#found(java.lang.String)
          */
         @Override
         public void found(final String host) {
             try {
-                ISonos sonos = SonosFactory.build(host);
+                final ISonos sonos = SonosFactory.build(host);
                 sonos.refreshZoneAttributes();
-                String name = sonos.getZoneName();
+                final String name = sonos.getZoneName();
                 if (StringUtils.isNotEmpty(name)) {
                     LOGGER.info("Zone [" + name + "] discovered, IP [" + host + "]");
                     count++;
@@ -65,7 +65,7 @@ public class CommandDiscover implements IStandardCommand {
      */
     @Override
     public void execute() throws SonosException {
-        final IDiscover d = DiscoverFactory.build(new ZonesDiscoveredListener(), discoverControlPort);
+        final IDiscover d = DiscoverFactory.build(new ConsoleSonosZonesDiscoveredListener(), discoverControlPort);
         try {
             d.launch();
             Thread.sleep(SonosConstants.MAX_DISCOVER_TIME_IN_MILLISECONDS);

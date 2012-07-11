@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tensin.sonos.upnp.SoapRPC;
 import org.tensin.sonos.upnp.SonosItem;
-import org.tensin.sonos.upnp.SonosListener;
+import org.tensin.sonos.upnp.ISonosBrowseListener;
 import org.tensin.sonos.upnp.XML;
 import org.tensin.sonos.upnp.XML.Oops;
 import org.tensin.sonos.upnp.XMLSequence;
@@ -109,10 +109,10 @@ public class SonosImpl implements ISonos {
     /**
      * {@inheritDoc}
      * 
-     * @see org.tensin.sonos.ISonos#browse(java.lang.String, org.tensin.sonos.upnp.SonosListener)
+     * @see org.tensin.sonos.ISonos#browse(java.lang.String, org.tensin.sonos.upnp.ISonosBrowseListener)
      */
     @Override
-    public void browse(final String _id, final SonosListener cb) {
+    public void browse(final String _id, final ISonosBrowseListener cb) {
         int total, count, updateid;
         int n = 0;
         XML xml;
@@ -154,10 +154,10 @@ public class SonosImpl implements ISonos {
     /**
      * {@inheritDoc}
      * 
-     * @see org.tensin.sonos.ISonos#browse(java.lang.String, org.tensin.sonos.upnp.SonosListener)
+     * @see org.tensin.sonos.ISonos#browse(java.lang.String, org.tensin.sonos.upnp.ISonosBrowseListener)
      */
     @Override
-    public void browseMetadata(final String _id, final SonosListener cb) {
+    public void browseMetadata(final String _id, final ISonosBrowseListener cb) {
         int total, count, updateid;
         int n = 0;
         XML xml;
@@ -408,7 +408,7 @@ public class SonosImpl implements ISonos {
      * @throws Oops
      *             the oops
      */
-    int processBrowseResults(final XML result, int n, final String _id, final SonosListener cb) throws XML.Oops {
+    int processBrowseResults(final XML result, int n, final String _id, final ISonosBrowseListener cb) throws XML.Oops {
         SonosItem item = this.item;
         if (trace_browse) {
             LOGGER.info("List : \n");

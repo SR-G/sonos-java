@@ -1,5 +1,7 @@
 package org.tensin.sonos.commands;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -45,6 +47,21 @@ public abstract class AbstractCommand {
      */
     public void setArgs(final List<String> args) {
         this.args = args;
+    }
+
+    public void setArgs(final String singleArg) {
+        args = new ArrayList<String>();
+        args.add(singleArg);
+    }
+
+    /**
+     * Sets the args.
+     * 
+     * @param args
+     *            the new args
+     */
+    public void setArgs(final String[] args) {
+        this.args = Arrays.asList(args);
     }
 
 }

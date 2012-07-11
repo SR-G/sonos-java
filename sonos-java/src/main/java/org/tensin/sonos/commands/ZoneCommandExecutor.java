@@ -6,6 +6,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tensin.sonos.ISonos;
 import org.tensin.sonos.SonosException;
+import org.tensin.sonos.commander.CommandExecution;
+import org.tensin.sonos.commander.CommandFuture;
+import org.tensin.sonos.commander.ICommandFuture;
 import org.tensin.sonos.commander.SonosCommander;
 
 /**
@@ -26,7 +29,7 @@ public class ZoneCommandExecutor extends Thread {
     private final String zoneName;
 
     /** The commands queue. */
-    private final LinkedBlockingQueue<IZoneCommand> commandsQueue = new LinkedBlockingQueue<IZoneCommand>();
+    private final LinkedBlockingQueue<CommandExecution> commandsQueue = new LinkedBlockingQueue<CommandExecution>();
 
     /** The active. */
     private boolean active = true;
@@ -63,7 +66,9 @@ public class ZoneCommandExecutor extends Thread {
      */
     public void addCommand(final IZoneCommand command) {
         synchronized (queueSemaphore) {
-            commandsQueue.offer(command);
+            final CommandFuture future = new CommandFuture();
+            final CommandExecution commandExecution = new CommandExecution(command, future);
+            commandsQueue.offer(commandExecution);
         }
     }
 
@@ -179,7 +184,9 @@ public class ZoneCommandExecutor extends Thread {
         }
         while (active) {
             try {
-                final IZoneCommand command = commandsQueue.take();
+                final CommandExecution commandExecution = commandsQueue.take();
+                final IZoneCommand command = commandExecution.getCommand();
+                final ICommandFuture future = commandExecution.getFuture();
                 synchronized (queueCommands) {
                     try {
                         runningCommand = true;

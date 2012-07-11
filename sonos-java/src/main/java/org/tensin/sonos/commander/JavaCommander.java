@@ -21,7 +21,7 @@ import org.tensin.sonos.commands.ZoneCommandDispatcher;
 import org.tensin.sonos.helpers.CollectionHelper;
 import org.tensin.sonos.upnp.DiscoverFactory;
 import org.tensin.sonos.upnp.IDiscover;
-import org.tensin.sonos.upnp.Listener;
+import org.tensin.sonos.upnp.ISonosZonesDiscoverListener;
 
 /**
  * The Class JavaCommander.
@@ -38,7 +38,7 @@ public class JavaCommander extends AbstractCommander {
      * 
      * @see ZonesDiscoveredEvent
      */
-    class ZonesDiscoveredListener implements Listener {
+    class ZonesDiscoveredListener implements ISonosZonesDiscoverListener {
 
         /** The debug. */
         private boolean debug;
@@ -46,7 +46,7 @@ public class JavaCommander extends AbstractCommander {
         /**
          * {@inheritDoc}
          * 
-         * @see org.tensin.sonos.upnp.Listener#found(java.lang.String)
+         * @see org.tensin.sonos.upnp.ISonosZonesDiscoverListener#found(java.lang.String)
          */
         @Override
         public void found(final String host) {

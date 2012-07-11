@@ -49,7 +49,7 @@ public class DiscoverImpl extends Thread implements IDiscover {
     volatile boolean active;
 
     /** The callback. */
-    private Listener callback;
+    private ISonosZonesDiscoverListener callback;
 
     /** ssdpControlPort. */
     private int ssdpControlPort;
@@ -67,7 +67,7 @@ public class DiscoverImpl extends Thread implements IDiscover {
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscoverImpl.class);
 
     /** The cb. */
-    private Listener cb = null;;
+    private ISonosZonesDiscoverListener cb = null;;
 
     /** HTTP_VERSION. */
     private static final String HTTP_VERSION = "1.1";
@@ -119,7 +119,7 @@ public class DiscoverImpl extends Thread implements IDiscover {
      * @param controlPort
      *            the control port
      */
-    public DiscoverImpl(final Listener cb, final Integer controlPort) {
+    public DiscoverImpl(final ISonosZonesDiscoverListener cb, final Integer controlPort) {
         this.cb = cb;
         ssdpControlPort = controlPort.intValue();
     }

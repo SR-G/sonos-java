@@ -1,6 +1,6 @@
 package org.tensin.sonos;
 
-import org.tensin.sonos.upnp.SonosListener;
+import org.tensin.sonos.upnp.ISonosBrowseListener;
 
 /**
  * The Class SonosMock.
@@ -34,16 +34,16 @@ public class SonosMock implements ISonos {
     /**
      * {@inheritDoc}
      * 
-     * @see org.tensin.sonos.ISonos#browse(java.lang.String, org.tensin.sonos.upnp.SonosListener)
+     * @see org.tensin.sonos.ISonos#browse(java.lang.String, org.tensin.sonos.upnp.ISonosBrowseListener)
      */
     @Override
-    public void browse(final String _id, final SonosListener cb) {
+    public void browse(final String _id, final ISonosBrowseListener cb) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void browseMetadata(final String _id, final SonosListener cb) {
+    public void browseMetadata(final String _id, final ISonosBrowseListener cb) {
         // TODO Auto-generated method stub
 
     }

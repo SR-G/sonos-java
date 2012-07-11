@@ -1,6 +1,6 @@
 package org.tensin.sonos;
 
-import org.tensin.sonos.upnp.SonosListener;
+import org.tensin.sonos.upnp.ISonosBrowseListener;
 
 /**
  * The Interface ISonos.
@@ -24,9 +24,9 @@ public interface ISonos {
      * @param cb
      *            the cb
      */
-    public abstract void browse(final String _id, final SonosListener cb);
+    public abstract void browse(final String _id, final ISonosBrowseListener cb);
 
-    public abstract void browseMetadata(final String _id, final SonosListener cb);
+    public abstract void browseMetadata(final String _id, final ISonosBrowseListener cb);
 
     /**
      * Destroy.
