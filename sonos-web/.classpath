@@ -4,6 +4,7 @@
   <classpathentry kind="output" path="bin"/>
   <classpathentry kind="var" path="M2_REPO/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1.jar" sourcepath="M2_REPO/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-jbossweb/0.8.6/atmosphere-compat-jbossweb-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-jbossweb/0.8.6/atmosphere-compat-jbossweb-0.8.6-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-jetty/0.8.6/atmosphere-compat-jetty-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-jetty/0.8.6/atmosphere-compat-jetty-0.8.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-tomcat/0.8.6/atmosphere-compat-tomcat-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-tomcat/0.8.6/atmosphere-compat-tomcat-0.8.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-tomcat7/0.8.6/atmosphere-compat-tomcat7-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-tomcat7/0.8.6/atmosphere-compat-tomcat7-0.8.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-weblogic/0.8.6/atmosphere-compat-weblogic-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-weblogic/0.8.6/atmosphere-compat-weblogic-0.8.6-sources.jar"/>

@@ -14,6 +14,13 @@
 	</context-param>
 
 	<servlet>
+		<servlet-name>SonosEngineServlet</servlet-name>
+		<servlet-class>org.tensin.sonos.web.servlet.SonosEngineServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+
+	<servlet>
 		<description>AtmosphereServlet</description>
 		<servlet-name>AtmosphereServlet</servlet-name>
 		<servlet-class>org.atmosphere.cpr.AtmosphereServlet</servlet-class>
@@ -22,13 +29,13 @@
 			<param-name>org.atmosphere.disableOnStateEvent</param-name>
 			<param-value>true</param-value>
 		</init-param>
-		<load-on-startup>1</load-on-startup>
+		<load-on-startup>2</load-on-startup>
 		<!--Uncomment if you want to use Servlet 3.0 Async Support -->
 		<async-supported>true</async-supported>
 	</servlet>
 
 	<servlet>
-		<servlet-name>SonosServlet</servlet-name>
+		<servlet-name>SonosWebServlet</servlet-name>
 		<servlet-class>org.vaadin.dontpush.server.DontPushOzoneServlet</servlet-class>
 		<!-- 
 			<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
@@ -45,24 +52,21 @@
 		</init-param>
 
 		<init-param>
-			<description>This is optinal parameter that control the 
-			timeout before "Conection guard" is for end user. If you 
-			have lots of synchronous tasks that take long time, you might 
-			want to increase this value to avoid non-intentional red screens. 
-			Default value is 5 seconds.</description>
+			<description>This is optinal parameter that control the  timeout before "Conection guard" is for end user. If you  have lots of synchronous tasks that take long time, you might 
+			want to increase this value to avoid non-intentional red screens. Default value is 5 seconds.</description>
 			<param-name>connectionGuardTimeout</param-name>
-			<param-value>2</param-value>
+			<param-value>10</param-value>
 		</init-param>
 
-		<load-on-startup>2</load-on-startup>
-
+		<load-on-startup>3</load-on-startup>
 	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>AtmosphereServlet</servlet-name>
 		<url-pattern>/UIDL/*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>SonosServlet</servlet-name>
+		<servlet-name>SonosWebServlet</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 </web-app>

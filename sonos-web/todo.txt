@@ -1,0 +1,13 @@
+Back office :
+	Cacher les infos
+	Déporter les listeners pour la partie browse 
+	Tout passer par ZoneCommandDispatcher depuis la web app (y compris listener, à injecter sur les commandes)
+
+Web :
+	Déporter le code de détection Sonos dans une servlet dédiée (pour démarrer avant génération de la page)
+	Revoir le layout (adaptive)
+	Faire une classe séparée par zone
+	Mécanisme de thèmes (layout en .html ?)
+	
+	Mécanisme de plugins
+
