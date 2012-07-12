@@ -46,6 +46,10 @@ public class PanelZones extends Panel {
         zonesList.setImmediate(true);
         // zonesList.setSizeFull();
 
+        Object[] properties = { "Name" };
+        boolean[] ordering = { true };
+        zonesList.sort(properties, ordering);
+
         zonesList.setContainerDataSource(SonosState.getInstance().getZonesData());
         zonesList.setVisibleColumns(new String[] { "Name" });
         zonesList.setSelectable(true);

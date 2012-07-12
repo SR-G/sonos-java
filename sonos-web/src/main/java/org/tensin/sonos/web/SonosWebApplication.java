@@ -73,7 +73,7 @@ public class SonosWebApplication extends Application implements ClickListener, V
         LOGGER.info("Starting sonos web application");
         initLayout();
         initPanels();
-        initBackgroundTestThread();
+        // initBackgroundTestThread();
     }
 
     /**
