@@ -47,8 +47,8 @@ public class PanelPlaylist extends Panel {
          */
         @Override
         public void updateDone(final String parent) {
-            // TODO Auto-generated method stub
-
+            playList.setContainerDataSource(playlistData);
+            playList.setPageLength(playlistData.size());
         }
 
         /**
@@ -100,17 +100,15 @@ public class PanelPlaylist extends Panel {
      * Fire event zone changed.
      */
     public void fireEventZoneChanged() {
-        SonosState.getInstance().setPlaylistData(new IndexedContainer());
-        SonosState.getInstance().getPlaylistData().addContainerProperty("Title", String.class, "");
+        playList.setContainerDataSource(null);
+        SonosState.getInstance().setPlaylistData(null);
         playlistListener.setPlaylistData(SonosState.getInstance().getPlaylistData());
-        playList.setContainerDataSource(SonosState.getInstance().getPlaylistData());
 
         CommandList command = new CommandList();
         command.setListener(playlistListener);
         command.setArgs("Q:0");
 
         SonosState.getInstance().sendCommand(command);
-
         // SonosState.getInstance().getSelectedSonos().browse("Q:0", playlistListener);
     }
 
@@ -120,6 +118,9 @@ public class PanelPlaylist extends Panel {
     public void init() {
         playList.setWidth("100%");
         playList.setPageLength(10);
+        playList.setImmediate(true);
+        playList.setSelectable(true);
+        playList.setPageLength(0);
         addComponent(playList);
     }
 

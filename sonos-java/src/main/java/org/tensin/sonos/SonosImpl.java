@@ -2,9 +2,9 @@ package org.tensin.sonos;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tensin.sonos.upnp.ISonosBrowseListener;
 import org.tensin.sonos.upnp.SoapRPC;
 import org.tensin.sonos.upnp.SonosItem;
-import org.tensin.sonos.upnp.ISonosBrowseListener;
 import org.tensin.sonos.upnp.XML;
 import org.tensin.sonos.upnp.XML.Oops;
 import org.tensin.sonos.upnp.XMLSequence;
@@ -117,37 +117,40 @@ public class SonosImpl implements ISonos {
         int n = 0;
         XML xml;
 
-        do {
-            rpc.prepare(media, "Browse");
-            rpc.simpleTag("ObjectID", _id);
-            rpc.simpleTag("BrowseFlag", "BrowseDirectChildren"); // BrowseMetadata
-            rpc.simpleTag("Filter", "*");
-            rpc.simpleTag("StartingIndex", n);
-            rpc.simpleTag("RequestedCount", 100);
-            rpc.simpleTag("SortCriteria", "");
+        try {
+            do {
+                rpc.prepare(media, "Browse");
+                rpc.simpleTag("ObjectID", _id);
+                rpc.simpleTag("BrowseFlag", "BrowseDirectChildren"); // BrowseMetadata
+                rpc.simpleTag("Filter", "*");
+                rpc.simpleTag("StartingIndex", n);
+                rpc.simpleTag("RequestedCount", 100);
+                rpc.simpleTag("SortCriteria", "");
 
-            xml = rpc.invoke();
-            try {
-                xml.open("u:BrowseResponse");
-                value.init(xml.read("Result"));
+                xml = rpc.invoke();
+                try {
+                    xml.open("u:BrowseResponse");
+                    value.init(xml.read("Result"));
 
-                // Eww, toString()? really? surely there's
-                // a non-allocating Int parser somewhere
-                // in the bloat that is java standard libraries?
-                count = Integer.parseInt(xml.read("NumberReturned").toString());
-                total = Integer.parseInt(xml.read("TotalMatches").toString());
-                updateid = Integer.parseInt(xml.read("UpdateID").toString());
+                    // Eww, toString()? really? surely there's
+                    // a non-allocating Int parser somewhere
+                    // in the bloat that is java standard libraries?
+                    count = Integer.parseInt(xml.read("NumberReturned").toString());
+                    total = Integer.parseInt(xml.read("TotalMatches").toString());
+                    updateid = Integer.parseInt(xml.read("UpdateID").toString());
 
-                /* descend in to the contained results */
-                value.unescape();
-                xml.init(value);
-                n = processBrowseResults(xml, n, _id, cb);
-            } catch (Oops e) {
-                LOGGER.error("Error while browsing", e);
-                break;
-            }
-        } while (n < total);
-        cb.updateDone(_id);
+                    /* descend in to the contained results */
+                    value.unescape();
+                    xml.init(value);
+                    n = processBrowseResults(xml, n, _id, cb);
+                } catch (Oops e) {
+                    LOGGER.error("Error while browsing", e);
+                    break;
+                }
+            } while (n < total);
+        } finally {
+            cb.updateDone(_id);
+        }
     }
 
     /* content service calls */

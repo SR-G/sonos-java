@@ -52,8 +52,6 @@ public class PanelZones extends Panel {
 
         zonesList.setContainerDataSource(SonosState.getInstance().getZonesData());
         zonesList.setVisibleColumns(new String[] { "Name" });
-        zonesList.setSelectable(true);
-        zonesList.setImmediate(true);
         zonesList.addListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(final ValueChangeEvent event) {

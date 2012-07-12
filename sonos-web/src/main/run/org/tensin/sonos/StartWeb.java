@@ -24,7 +24,7 @@ public class StartWeb {
      *             the sonos exception
      */
     public static void main(final String[] args) throws SonosException {
-        // activateMocks();
+        activateMocks();
 
         WebCommander.main(new String[] {});
     }

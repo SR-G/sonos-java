@@ -73,34 +73,6 @@ public class SonosWebApplication extends Application implements ClickListener, V
         LOGGER.info("Starting sonos web application");
         initLayout();
         initPanels();
-        // initBackgroundTestThread();
-    }
-
-    /**
-     * Inits the background test thread.
-     */
-    private void initBackgroundTestThread() {
-        new Thread() {
-
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                super.run();
-                while (true) {
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    synchronized (SonosState.getInstance().getZonesData()) {
-                        Object id = SonosState.getInstance().getZonesData().addItem();
-                        SonosState.getInstance().getZonesData().getContainerProperty(id, "Name").setValue("ZZZZZZZZZZZ");
-                    }
-                }
-            }
-
-        }.start();
     }
 
     /**

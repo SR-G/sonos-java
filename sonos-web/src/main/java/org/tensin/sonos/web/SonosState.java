@@ -45,6 +45,10 @@ public class SonosState {
      * @return the playlist data
      */
     public IndexedContainer getPlaylistData() {
+        if (playlistData == null) {
+            playlistData = new IndexedContainer();
+            playlistData.addContainerProperty("Title", String.class, "");
+        }
         return playlistData;
     }
 
