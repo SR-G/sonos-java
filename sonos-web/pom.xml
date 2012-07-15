@@ -185,6 +185,12 @@
 			<groupId>org.vaadin</groupId>
 			<artifactId>dontpush-addon-ozonelayer</artifactId>
 			<version>0.4.8</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.atmosphere</groupId>
+					<artifactId>atmosphere-compat-jetty</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

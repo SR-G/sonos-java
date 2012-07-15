@@ -80,7 +80,8 @@ public class CommandFactory {
             foundCommands.add(new CommandAdd());
             foundCommands.add(new CommandDiscover());
             foundCommands.add(new CommandGetInfo());
-            foundCommands.add(new CommandList());
+            foundCommands.add(new CommandGetArtists());
+            foundCommands.add(new CommandBrowse());
             foundCommands.add(new CommandMove());
             foundCommands.add(new CommandMuteOff());
             foundCommands.add(new CommandMuteOn());

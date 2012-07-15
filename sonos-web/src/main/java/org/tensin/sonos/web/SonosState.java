@@ -1,12 +1,16 @@
 package org.tensin.sonos.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tensin.sonos.ISonos;
 import org.tensin.sonos.commands.IZoneCommand;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
 import org.tensin.sonos.commands.ZoneCommandExecutor;
+import org.tensin.sonos.control.ZonePlayer;
+import org.tensin.sonos.model.MusicLibrary;
 
 import com.vaadin.data.util.IndexedContainer;
 
@@ -30,6 +34,8 @@ public class SonosState {
         return INSTANCE;
     }
 
+    private final Map<String, MusicLibrary> libraries = new HashMap<String, MusicLibrary>();
+
     /** The selected zone. */
     private String selectedZone;
 
@@ -38,6 +44,10 @@ public class SonosState {
 
     /** The playlist data. */
     private IndexedContainer playlistData;
+
+    public MusicLibrary getMusicLibrary(final String zoneName) {
+        return libraries.get(zoneName);
+    }
 
     /**
      * Gets the playlist data.
@@ -57,7 +67,7 @@ public class SonosState {
      * 
      * @return the selected sonos
      */
-    private ISonos getSelectedSonos() {
+    public ZonePlayer getSelectedSonos() {
         final ZoneCommandExecutor executor = ZoneCommandDispatcher.getInstance().getZoneCommandExecutor(getSelectedZoneName());
         if (executor == null) {
             LOGGER.error("Can't find executor [" + getSelectedZoneName() + "] (not yed found on the network ?)");
@@ -87,6 +97,19 @@ public class SonosState {
             zonesData.addContainerProperty("Name", String.class, "");
         }
         return zonesData;
+    }
+
+    /**
+     * Load music library.
+     * 
+     * @param zone
+     *            the zone
+     * @param name
+     *            the name
+     */
+    public void loadMusicLibrary(final ZonePlayer zone, final String name) {
+        MusicLibrary library = new MusicLibrary(zone, "A:ARTIST");
+        libraries.put(name, library);
     }
 
     /**

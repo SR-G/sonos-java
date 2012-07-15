@@ -7,7 +7,7 @@ import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.tensin.sonos.commander.SonosCommander;
+import org.tensin.sonos.commander.CLIController;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
 import org.tensin.sonos.commands.ZoneCommandExecutor;
 import org.tensin.sonos.helpers.SystemHelper;
@@ -30,7 +30,7 @@ public class CLITestCase {
         SystemHelper systemHelper = new SystemHelper();
         SystemHelper spy = spy(systemHelper);
         doNothing().when(spy).exit(0);
-        SonosCommander.setSystemHelper(spy);
+        CLIController.setSystemHelper(spy);
 
         SonosFactory.setiSonosClass(SonosMock.class);
         DiscoverFactory.setiDiscoverClass(DiscoverMock.class);
@@ -52,7 +52,7 @@ public class CLITestCase {
      */
     @Test
     public void testDiscover() throws SonosException {
-        SonosCommander.main(new String[] { "--command", "discover" });
+        CLIController.main(new String[] { "--command", "discover" });
     }
 
     /**
@@ -63,7 +63,7 @@ public class CLITestCase {
      */
     @Test
     public void testDummyCommand() throws SonosException {
-        SonosCommander.main(new String[] { "zzz" });
+        CLIController.main(new String[] { "zzz" });
     }
 
     /**
@@ -80,7 +80,7 @@ public class CLITestCase {
      */
     @Test
     public void testList() throws SonosException {
-        SonosCommander.main(new String[] { "--command", "list", "A:", "--zone", "salon" });
+        CLIController.main(new String[] { "--command", "list", "A:", "--zone", "salon" });
     }
 
     /**
@@ -91,7 +91,7 @@ public class CLITestCase {
      */
     @Test
     public void testMute() throws SonosException {
-        SonosCommander.main(new String[] { "--command", "mute", "--zone", "salon" });
+        CLIController.main(new String[] { "--command", "mute", "--zone", "salon" });
 
         ZoneCommandExecutor executor = ZoneCommandDispatcher.getInstance().getZoneCommandExecutor("SALON");
         Assert.assertTrue(executor != null);
@@ -110,7 +110,7 @@ public class CLITestCase {
      */
     @Test
     public void testNext() throws SonosException {
-        SonosCommander.main(new String[] { "--command", "next", "--zone", "chambre" });
+        CLIController.main(new String[] { "--command", "next", "--zone", "chambre" });
     }
 
     /**
@@ -121,7 +121,7 @@ public class CLITestCase {
      */
     @Test
     public void testPause() throws SonosException {
-        SonosCommander.main(new String[] { "--command", "pause", "--zone", "ALL" });
+        CLIController.main(new String[] { "--command", "pause", "--zone", "ALL" });
     }
 
     /**
@@ -132,7 +132,7 @@ public class CLITestCase {
      */
     @Test
     public void testPlay() throws SonosException {
-        SonosCommander.main(new String[] { "--command", "play", "--zone", "salon" });
+        CLIController.main(new String[] { "--command", "play", "--zone", "salon" });
     }
 
     /**
@@ -144,7 +144,7 @@ public class CLITestCase {
     @Test
     public void testUnknownCommand() throws SonosException {
         try {
-            SonosCommander.main(new String[] { "--zzz" });
+            CLIController.main(new String[] { "--zzz" });
         } catch (ParameterException e) {
             e.printStackTrace();
         }
@@ -158,7 +158,7 @@ public class CLITestCase {
      */
     @Test
     public void testUnknownOption() throws SonosException {
-        SonosCommander.main(new String[] { "--command", "dis" });
+        CLIController.main(new String[] { "--command", "dis" });
     }
 
     /**
@@ -169,7 +169,7 @@ public class CLITestCase {
      */
     @Test
     public void testUnknownZone() throws SonosException {
-        SonosCommander.main(new String[] { "--command", "mute", "--zone", "zzzzzzzzzz" });
+        CLIController.main(new String[] { "--command", "mute", "--zone", "zzzzzzzzzz" });
     }
 
     /**
@@ -180,7 +180,7 @@ public class CLITestCase {
      */
     @Test
     public void testUnmute() throws SonosException {
-        SonosCommander.main(new String[] { "--command", "unmute", "--zone", "salon" });
+        CLIController.main(new String[] { "--command", "unmute", "--zone", "salon" });
     }
 
     /**
@@ -191,7 +191,7 @@ public class CLITestCase {
      */
     @Test
     public void testUsage() throws SonosException {
-        SonosCommander.main(new String[] { "--usage" });
+        CLIController.main(new String[] { "--usage" });
     }
 
     /**
@@ -202,7 +202,7 @@ public class CLITestCase {
      */
     @Test
     public void testVolume() throws SonosException {
-        SonosCommander.main(new String[] { "--command", "volume", "--zone", "chambre" });
+        CLIController.main(new String[] { "--command", "volume", "--zone", "chambre" });
     }
 
     /**
@@ -213,7 +213,7 @@ public class CLITestCase {
      */
     @Test
     public void testVolumeDown() throws SonosException {
-        SonosCommander.main(new String[] { "--command", "down", "--zone", "chambre" });
+        CLIController.main(new String[] { "--command", "down", "--zone", "chambre" });
     }
 
     /**
@@ -224,7 +224,7 @@ public class CLITestCase {
      */
     @Test
     public void testVolumeSet() throws SonosException {
-        SonosCommander.main(new String[] { "--command", "volume", "25", "--zone", "chambre" });
+        CLIController.main(new String[] { "--command", "volume", "25", "--zone", "chambre" });
     }
 
     /**
@@ -235,7 +235,7 @@ public class CLITestCase {
      */
     @Test
     public void testVolumeUp() throws SonosException {
-        SonosCommander.main(new String[] { "--command", "up", "--zone", "chambre" });
+        CLIController.main(new String[] { "--command", "up", "--zone", "chambre" });
     }
 
 }

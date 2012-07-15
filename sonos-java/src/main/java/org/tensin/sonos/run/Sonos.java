@@ -11,7 +11,7 @@ import org.tensin.sonos.helpers.SystemHelper;
 public class Sonos {
 
     /** The Constant BEERDUINO_MAIN_CLASS. */
-    private static final String SONOS_MAIN_CLASS = org.tensin.sonos.commander.SonosCommander.class.getName();
+    private static final String SONOS_MAIN_CLASS = org.tensin.sonos.commander.CLIController.class.getName();
 
     /** The Constant BEERDUINO_BOOT_JAR. */
     private static final String SONOS_BOOT_JAR = "sonos-java-.*\\.jar";

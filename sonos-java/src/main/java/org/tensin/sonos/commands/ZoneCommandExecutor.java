@@ -8,7 +8,7 @@ import org.tensin.sonos.SonosException;
 import org.tensin.sonos.commander.CommandExecution;
 import org.tensin.sonos.commander.CommandFuture;
 import org.tensin.sonos.commander.ICommandFuture;
-import org.tensin.sonos.commander.SonosCommander;
+import org.tensin.sonos.commander.CLIController;
 import org.tensin.sonos.control.ZonePlayer;
 
 /**
@@ -17,7 +17,7 @@ import org.tensin.sonos.control.ZonePlayer;
 public class ZoneCommandExecutor extends Thread {
 
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(SonosCommander.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CLIController.class);
 
     /** The sonos zone locker. */
     private final Object sonosZoneLocker = new Object();

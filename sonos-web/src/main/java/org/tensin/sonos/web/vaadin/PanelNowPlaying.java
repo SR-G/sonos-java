@@ -1,9 +1,11 @@
 package org.tensin.sonos.web.vaadin;
 
-import org.tensin.sonos.SonosConstants;
-import org.tensin.sonos.commands.CommandList;
-import org.tensin.sonos.upnp.ISonosBrowseListener;
-import org.tensin.sonos.upnp.SonosItem;
+import java.util.Collection;
+
+import org.tensin.sonos.control.BrowseHandle;
+import org.tensin.sonos.control.EntryCallback;
+import org.tensin.sonos.model.Entry;
+import org.tensin.sonos.model.PositionInfo;
 import org.tensin.sonos.web.SonosState;
 
 import com.vaadin.terminal.ExternalResource;
@@ -27,37 +29,32 @@ public class PanelNowPlaying extends Panel {
      * 
      * @see SonosPlaylistEvent
      */
-    private final class SonosNowPlayingListener implements ISonosBrowseListener {
+    private final class SonosNowPlayingCallback implements EntryCallback {
 
-        /**
-         * {@inheritDoc}
-         * 
-         * @see org.tensin.sonos.upnp.ISonosBrowseListener#updateDone(java.lang.String)
-         */
         @Override
-        public void updateDone(final String parent) {
-            // playList.setContainerDataSource(playlistData);
-            // playList.setPageLength(playlistData.size());
+        public void addEntries(final BrowseHandle handle, final Collection<Entry> entries) {
+            for (final Entry entry : entries) {
+                // String url = "http://" + item.host + ":" + SonosConstants.SONOS_DEFAULT_RPC_PORT;
+                // if (!item.albumArtURI.toString().startsWith("/")) {
+                // url += "/";
+                // }
+                // url += item.albumArtURI.toString();
+                //
+                final String url = entry.getAlbumArtUri();
+                System.out.println(">>>>>>>>>" + url);
+
+                Resource resource = new ExternalResource(url);
+                image.setSource(resource);
+                // SonosState.getInstance().get
+            }
         }
 
-        /**
-         * {@inheritDoc}
-         * 
-         * @see org.tensin.sonos.upnp.ISonosBrowseListener#updateItem(java.lang.String, int, org.tensin.sonos.upnp.SonosItem)
-         */
         @Override
-        public void updateItem(final String parent, final int index, final SonosItem item) {
-            String url = "http://" + item.host + ":" + SonosConstants.SONOS_DEFAULT_RPC_PORT;
-            if (!item.albumArtURI.toString().startsWith("/")) {
-                url += "/";
-            }
-            url += item.albumArtURI.toString();
+        public void retrievalComplete(final BrowseHandle handle, final boolean completedSuccessfully) {
+        }
 
-            System.out.println(url);
-
-            Resource resource = new ExternalResource(url);
-            image.setSource(resource);
-            // SonosState.getInstance().get
+        @Override
+        public void updateCount(final BrowseHandle handle, final int count) {
         }
     }
 
@@ -65,7 +62,7 @@ public class PanelNowPlaying extends Panel {
     private static final long serialVersionUID = -8755064618320070798L;
 
     /** The now playing listener. */
-    private final SonosNowPlayingListener nowPlayingListener = new SonosNowPlayingListener();
+    private final SonosNowPlayingCallback nowPlayingCallback = new SonosNowPlayingCallback();
 
     /** The image. */
     private Embedded image;
@@ -86,11 +83,23 @@ public class PanelNowPlaying extends Panel {
         // SonosState.getInstance().setPlaylistData(null);
         // playlistListener.setPlaylistData(SonosState.getInstance().getPlaylistData());
 
-        CommandList command = new CommandList();
-        command.setListener(nowPlayingListener);
-        command.setArgs("AI:");
+        // CommandBrowse command = new CommandBrowse();
+        // command.setCallback(nowPlayingCallback);
+        // command.setArgs("AI:");
+        // SonosState.getInstance().sendCommand(command);
 
-        SonosState.getInstance().sendCommand(command);
+        PositionInfo mediaInfo;
+        mediaInfo = SonosState.getInstance().getSelectedSonos().getMediaRendererDevice().getAvTransportService().getPositionInfo();
+        String url = "http://" + SonosState.getInstance().getSelectedSonos().getIP().getHostName() + ":"
+                + SonosState.getInstance().getSelectedSonos().getPort();
+        final String albumArtURI = mediaInfo.getTrackMetaData().getAlbumArtUri();
+        if (!albumArtURI.startsWith("/")) {
+            url += "/";
+        }
+        url += albumArtURI;
+
+        Resource resource = new ExternalResource(url);
+        image.setSource(resource);
     }
 
     /**

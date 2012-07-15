@@ -1,6 +1,6 @@
 package org.tensin.sonos;
 
-import org.tensin.sonos.commander.SonosCommander;
+import org.tensin.sonos.commander.CLIController;
 
 /**
  * The Class CmdDiscover.
@@ -16,6 +16,6 @@ public class CmdDiscover {
      *             the sonos exception
      */
     public static void main(final String[] args) throws SonosException {
-        SonosCommander.main(new String[] { "--command", "discover" });
+        CLIController.main(new String[] { "--command", "discover" });
     }
 }

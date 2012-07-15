@@ -1,6 +1,6 @@
 package org.tensin.sonos;
 
-import org.tensin.sonos.commander.JavaCommander;
+import org.tensin.sonos.commander.JavaController;
 
 /**
  * The Class CmdPlaySalon.
@@ -16,6 +16,6 @@ public class JavaCmdPlaySalon {
      *             the sonos exception
      */
     public static void main(final String[] args) throws SonosException {
-        new JavaCommander().execute("salon", "play");
+        new JavaController().execute("salon", "play");
     }
 }

@@ -4,7 +4,6 @@
   <classpathentry kind="output" path="bin"/>
   <classpathentry kind="var" path="M2_REPO/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1.jar" sourcepath="M2_REPO/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-jbossweb/0.8.6/atmosphere-compat-jbossweb-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-jbossweb/0.8.6/atmosphere-compat-jbossweb-0.8.6-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-jetty/0.8.6/atmosphere-compat-jetty-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-jetty/0.8.6/atmosphere-compat-jetty-0.8.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-tomcat/0.8.6/atmosphere-compat-tomcat-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-tomcat/0.8.6/atmosphere-compat-tomcat-0.8.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-tomcat7/0.8.6/atmosphere-compat-tomcat7-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-tomcat7/0.8.6/atmosphere-compat-tomcat7-0.8.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-weblogic/0.8.6/atmosphere-compat-weblogic-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-weblogic/0.8.6/atmosphere-compat-weblogic-0.8.6-sources.jar"/>
@@ -22,6 +21,7 @@
   <classpathentry kind="var" path="M2_REPO/com/google/gwt/gwt-dev/2.3.0/gwt-dev-2.3.0.jar" sourcepath="M2_REPO/com/google/gwt/gwt-dev/2.3.0/gwt-dev-2.3.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0.jar" sourcepath="M2_REPO/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0.jar" sourcepath="M2_REPO/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/jakarta-regexp/jakarta-regexp/1.4/jakarta-regexp-1.4.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/eclipse/jetty/orbit/javax.servlet/2.5.0.v201103041518/javax.servlet-2.5.0.v201103041518.jar" sourcepath="M2_REPO/org/eclipse/jetty/orbit/javax.servlet/2.5.0.v201103041518/javax.servlet-2.5.0.v201103041518-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/jcl-over-slf4j/1.6.6/jcl-over-slf4j-1.6.6.jar" sourcepath="M2_REPO/org/slf4j/jcl-over-slf4j/1.6.6/jcl-over-slf4j-1.6.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/beust/jcommander/1.27/jcommander-1.27.jar" sourcepath="M2_REPO/com/beust/jcommander/1.27/jcommander-1.27-sources.jar"/>
@@ -43,6 +43,11 @@
   <classpathentry kind="var" path="M2_REPO/org/slf4j/log4j-over-slf4j/1.6.6/log4j-over-slf4j-1.6.6.jar" sourcepath="M2_REPO/org/slf4j/log4j-over-slf4j/1.6.6/log4j-over-slf4j-1.6.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/ch/qos/logback/logback-classic/1.0.6/logback-classic-1.0.6.jar" sourcepath="M2_REPO/ch/qos/logback/logback-classic/1.0.6/logback-classic-1.0.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/ch/qos/logback/logback-core/1.0.6/logback-core-1.0.6.jar" sourcepath="M2_REPO/ch/qos/logback/logback-core/1.0.6/logback-core-1.0.6-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-analyzers/3.6.0/lucene-analyzers-3.6.0.jar" sourcepath="M2_REPO/org/apache/lucene/lucene-analyzers/3.6.0/lucene-analyzers-3.6.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-core/3.6.0/lucene-core-3.6.0.jar" sourcepath="M2_REPO/org/apache/lucene/lucene-core/3.6.0/lucene-core-3.6.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-highlighter/3.6.0/lucene-highlighter-3.6.0.jar" sourcepath="M2_REPO/org/apache/lucene/lucene-highlighter/3.6.0/lucene-highlighter-3.6.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-memory/3.6.0/lucene-memory-3.6.0.jar" sourcepath="M2_REPO/org/apache/lucene/lucene-memory/3.6.0/lucene-memory-3.6.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-queries/3.6.0/lucene-queries-3.6.0.jar" sourcepath="M2_REPO/org/apache/lucene/lucene-queries/3.6.0/lucene-queries-3.6.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/simpleframework/simple-xml/2.6.4/simple-xml-2.6.4.jar" sourcepath="M2_REPO/org/simpleframework/simple-xml/2.6.4/simple-xml-2.6.4-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.6/slf4j-api-1.6.6.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.6.6/slf4j-api-1.6.6-sources.jar"/>
   <classpathentry kind="src" path="/sonos-java"/>

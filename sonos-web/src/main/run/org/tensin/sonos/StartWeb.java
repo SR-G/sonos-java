@@ -1,6 +1,6 @@
 package org.tensin.sonos;
 
-import org.tensin.sonos.commander.WebCommander;
+import org.tensin.sonos.commander.WebController;
 
 /**
  * The Class StartWeb.
@@ -26,6 +26,6 @@ public class StartWeb {
     public static void main(final String[] args) throws SonosException {
         // activateMocks();
 
-        WebCommander.main(new String[] {});
+        WebController.main(new String[] {});
     }
 }

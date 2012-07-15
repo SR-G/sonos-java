@@ -11,7 +11,7 @@ import org.tensin.sonos.helpers.SystemHelper;
 public class SonosWeb {
 
     /** The Constant SONOS_MAIN_CLASS. */
-    private static final String SONOS_MAIN_CLASS = org.tensin.sonos.commander.WebCommander.class.getName();
+    private static final String SONOS_MAIN_CLASS = org.tensin.sonos.commander.WebController.class.getName();
 
     /** The Constant SONOS_BOOT_JAR. */
     private static final String SONOS_BOOT_JAR = "sonos-java-.*\\.jar";

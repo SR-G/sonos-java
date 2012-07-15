@@ -9,6 +9,7 @@
   <classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar" sourcepath="M2_REPO/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/guava/guava/13.0-rc1/guava-13.0-rc1.jar" sourcepath="M2_REPO/com/google/guava/guava/13.0-rc1/guava-13.0-rc1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar" sourcepath="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/jakarta-regexp/jakarta-regexp/1.4/jakarta-regexp-1.4.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/jcl-over-slf4j/1.6.6/jcl-over-slf4j-1.6.6.jar" sourcepath="M2_REPO/org/slf4j/jcl-over-slf4j/1.6.6/jcl-over-slf4j-1.6.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/beust/jcommander/1.27/jcommander-1.27.jar" sourcepath="M2_REPO/com/beust/jcommander/1.27/jcommander-1.27-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/jdom/jdom/2.0.2/jdom-2.0.2.jar" sourcepath="M2_REPO/org/jdom/jdom/2.0.2/jdom-2.0.2-sources.jar"/>
@@ -18,6 +19,11 @@
   <classpathentry kind="var" path="M2_REPO/org/slf4j/log4j-over-slf4j/1.6.6/log4j-over-slf4j-1.6.6.jar" sourcepath="M2_REPO/org/slf4j/log4j-over-slf4j/1.6.6/log4j-over-slf4j-1.6.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/ch/qos/logback/logback-classic/1.0.6/logback-classic-1.0.6.jar" sourcepath="M2_REPO/ch/qos/logback/logback-classic/1.0.6/logback-classic-1.0.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/ch/qos/logback/logback-core/1.0.6/logback-core-1.0.6.jar" sourcepath="M2_REPO/ch/qos/logback/logback-core/1.0.6/logback-core-1.0.6-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-analyzers/3.6.0/lucene-analyzers-3.6.0.jar" sourcepath="M2_REPO/org/apache/lucene/lucene-analyzers/3.6.0/lucene-analyzers-3.6.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-core/3.6.0/lucene-core-3.6.0.jar" sourcepath="M2_REPO/org/apache/lucene/lucene-core/3.6.0/lucene-core-3.6.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-highlighter/3.6.0/lucene-highlighter-3.6.0.jar" sourcepath="M2_REPO/org/apache/lucene/lucene-highlighter/3.6.0/lucene-highlighter-3.6.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-memory/3.6.0/lucene-memory-3.6.0.jar" sourcepath="M2_REPO/org/apache/lucene/lucene-memory/3.6.0/lucene-memory-3.6.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-queries/3.6.0/lucene-queries-3.6.0.jar" sourcepath="M2_REPO/org/apache/lucene/lucene-queries/3.6.0/lucene-queries-3.6.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/mockito/mockito-core/1.9.5-rc1/mockito-core-1.9.5-rc1.jar" sourcepath="M2_REPO/org/mockito/mockito-core/1.9.5-rc1/mockito-core-1.9.5-rc1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/objenesis/objenesis/1.0/objenesis-1.0.jar" sourcepath="M2_REPO/org/objenesis/objenesis/1.0/objenesis-1.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/simpleframework/simple-xml/2.6.4/simple-xml-2.6.4.jar" sourcepath="M2_REPO/org/simpleframework/simple-xml/2.6.4/simple-xml-2.6.4-sources.jar"/>

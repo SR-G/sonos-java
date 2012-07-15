@@ -179,7 +179,7 @@ public class ZoneCommandDispatcher {
      */
     public void stopExecutors() throws SonosException {
         synchronized (executors) {
-            for (Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
+            for (final Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
                 ZoneCommandExecutor executor = entry.getValue();
                 executor.halt();
                 executor.addCommand(new CommandPoisonPill());

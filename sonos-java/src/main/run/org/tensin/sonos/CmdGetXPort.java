@@ -1,6 +1,6 @@
 package org.tensin.sonos;
 
-import org.tensin.sonos.commander.SonosCommander;
+import org.tensin.sonos.commander.CLIController;
 
 /**
  * The Class CmdGetXPort.
@@ -16,6 +16,6 @@ public class CmdGetXPort {
      *             the sonos exception
      */
     public static void main(final String[] args) throws SonosException {
-        SonosCommander.main(new String[] { "--command", "getxport", "--zone", "salon" });
+        CLIController.main(new String[] { "--command", "getxport", "--zone", "salon" });
     }
 }
