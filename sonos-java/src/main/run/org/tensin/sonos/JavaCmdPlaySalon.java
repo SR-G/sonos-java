@@ -16,6 +16,6 @@ public class JavaCmdPlaySalon {
      *             the sonos exception
      */
     public static void main(final String[] args) throws SonosException {
-        new JavaController().execute("salon", "play");
+        JavaController.createController().execute("salon", "play");
     }
 }

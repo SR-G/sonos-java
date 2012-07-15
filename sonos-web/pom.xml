@@ -63,11 +63,9 @@
 				<configuration>
 					<!-- if you don't specify any modules, the plugin will find them -->
 					<!-- <modules> <module>${package}.gwt.MyWidgetSet</module> </modules> -->
-					<!--  
+					<!-- <webappDirectory>${project.build.directory}/${project.build.finalName}/VAADIN/widgetsets</webappDirectory> -->
 					<webappDirectory>${project.build.directory}/${project.build.finalName}/VAADIN/widgetsets</webappDirectory>
-					-->
-					<webappDirectory>${project.build.directory}/${project.build.finalName}/VAADIN/widgetsets</webappDirectory>
-					
+
 					<!-- On Mac running Snow Leopard, add "-d32" -->
 					<!-- This causes error messages (but build works) in phase "package": 
 						two processes would use the same debug port -->
@@ -106,28 +104,24 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			
+
 			<plugin>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-maven-plugin</artifactId>
-            <version>1.0.1</version>
-            <executions>
-                <execution>
-                    <configuration>
-                        <!-- if you don't specify any modules, the plugin will find them -->
-                        <!--
-                        <modules>
-                            <module>${package}.gwt.MyWidgetSet</module>
-                        </modules>
-                        -->
-                    </configuration>
-                    <goals>
-                        <goal>update-widgetset</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-			
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-maven-plugin</artifactId>
+				<version>1.0.1</version>
+				<executions>
+					<execution>
+						<configuration>
+							<!-- if you don't specify any modules, the plugin will find them -->
+							<!-- <modules> <module>${package}.gwt.MyWidgetSet</module> </modules> -->
+						</configuration>
+						<goals>
+							<goal>update-widgetset</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 
 	</build>
@@ -158,8 +152,8 @@
 			<artifactId>jetty-servlet</artifactId>
 		</dependency>
 		<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
@@ -169,17 +163,6 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 		</dependency>
-		<!-- <dependency> <groupId>itsnat</groupId> <artifactId>itsnat</artifactId> 
-			<version>1.2</version> <scope>system</scope> <systemPath>${basedir}/libext/itsnat-1.2.jar</systemPath> 
-			</dependency> <dependency> <groupId>xerces</groupId> <artifactId>xercesImpl</artifactId> 
-			<version>2.10.0</version> </dependency> <dependency> <groupId>net.sourceforge.nekohtml</groupId> 
-			<artifactId>nekohtml</artifactId> <version>1.9.15</version> </dependency> 
-			<dependency> <groupId>org.apache.xmlgraphics</groupId> <artifactId>batik-dom</artifactId> 
-			<version>1.7</version> </dependency> <dependency> <groupId>org.apache.xmlgraphics</groupId> 
-			<artifactId>batik-xml</artifactId> <version>1.7</version> </dependency> <dependency> 
-			<groupId>org.apache.xmlgraphics</groupId> <artifactId>batik-util</artifactId> 
-			<version>1.7</version> </dependency> <dependency> <groupId>xalan</groupId> 
-			<artifactId>serializer</artifactId> <version>2.7.1</version> </dependency> -->
 
 		<dependency>
 			<groupId>org.vaadin</groupId>
@@ -216,11 +199,9 @@
 			<version>2.3.0</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>javax.servlet</groupId> -->
-		<!-- <artifactId>servlet-api</artifactId> -->
-		<!-- <version>2.5</version> -->
-		<!-- <scope>compile</scope> -->
-		<!-- </dependency> -->
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-servlet</artifactId>
+		</dependency>
 	</dependencies>
 </project>

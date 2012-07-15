@@ -2,7 +2,9 @@
   <classpathentry kind="src" path="src/main/java"/>
   <classpathentry kind="src" path="src/main/run"/>
   <classpathentry kind="output" path="bin"/>
+  <classpathentry kind="var" path="M2_REPO/javax/inject/javax.inject/1/javax.inject-1.jar" sourcepath="M2_REPO/javax/inject/javax.inject/1/javax.inject-1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1.jar" sourcepath="M2_REPO/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0.jar" sourcepath="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-jbossweb/0.8.6/atmosphere-compat-jbossweb-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-jbossweb/0.8.6/atmosphere-compat-jbossweb-0.8.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-tomcat/0.8.6/atmosphere-compat-tomcat-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-tomcat/0.8.6/atmosphere-compat-tomcat-0.8.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-tomcat7/0.8.6/atmosphere-compat-tomcat7-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-tomcat7/0.8.6/atmosphere-compat-tomcat7-0.8.6-sources.jar"/>
@@ -18,6 +20,8 @@
   <classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar" sourcepath="M2_REPO/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/vaadin/dontpush-addon-ozonelayer/0.4.8/dontpush-addon-ozonelayer-0.4.8.jar" sourcepath="M2_REPO/org/vaadin/dontpush-addon-ozonelayer/0.4.8/dontpush-addon-ozonelayer-0.4.8-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/guava/guava/13.0-rc1/guava-13.0-rc1.jar" sourcepath="M2_REPO/com/google/guava/guava/13.0-rc1/guava-13.0-rc1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/google/inject/guice/3.0/guice-3.0.jar" sourcepath="M2_REPO/com/google/inject/guice/3.0/guice-3.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/google/inject/extensions/guice-servlet/3.0/guice-servlet-3.0.jar" sourcepath="M2_REPO/com/google/inject/extensions/guice-servlet/3.0/guice-servlet-3.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/gwt/gwt-dev/2.3.0/gwt-dev-2.3.0.jar" sourcepath="M2_REPO/com/google/gwt/gwt-dev/2.3.0/gwt-dev-2.3.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0.jar" sourcepath="M2_REPO/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0.jar" sourcepath="M2_REPO/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0-sources.jar"/>

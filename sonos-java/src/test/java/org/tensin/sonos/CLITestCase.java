@@ -11,14 +11,18 @@ import org.tensin.sonos.commander.CLIController;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
 import org.tensin.sonos.commands.ZoneCommandExecutor;
 import org.tensin.sonos.helpers.SystemHelper;
-import org.tensin.sonos.upnp.DiscoverFactory;
 
 import com.beust.jcommander.ParameterException;
+import com.google.inject.Inject;
 
 /**
  * The Class CLITestCase.
  */
 public class CLITestCase {
+
+    /** The zone command dispatcher. */
+    @Inject
+    private ZoneCommandDispatcher zoneCommandDispatcher;
 
     /**
      * Sets the up.
@@ -32,8 +36,8 @@ public class CLITestCase {
         doNothing().when(spy).exit(0);
         CLIController.setSystemHelper(spy);
 
-        SonosFactory.setiSonosClass(SonosMock.class);
-        DiscoverFactory.setiDiscoverClass(DiscoverMock.class);
+        // SonosFactory.setiSonosClass(SonosMock.class);
+        // DiscoverFactory.setiDiscoverClass(DiscoverMock.class);
     }
 
     /**
@@ -41,7 +45,7 @@ public class CLITestCase {
      */
     @After
     public void tearDown() throws SonosException {
-        ZoneCommandDispatcher.getInstance().resetInstance();
+        zoneCommandDispatcher.resetInstance();
     }
 
     /**
@@ -93,11 +97,11 @@ public class CLITestCase {
     public void testMute() throws SonosException {
         CLIController.main(new String[] { "--command", "mute", "--zone", "salon" });
 
-        ZoneCommandExecutor executor = ZoneCommandDispatcher.getInstance().getZoneCommandExecutor("SALON");
+        ZoneCommandExecutor executor = zoneCommandDispatcher.getZoneCommandExecutor("SALON");
         Assert.assertTrue(executor != null);
         Assert.assertEquals(1, executor.getExecutedCommandsCount());
 
-        executor = ZoneCommandDispatcher.getInstance().getZoneCommandExecutor("CHAMBRE");
+        executor = zoneCommandDispatcher.getZoneCommandExecutor("CHAMBRE");
         Assert.assertTrue(executor != null);
         Assert.assertEquals(0, executor.getExecutedCommandsCount());
     }

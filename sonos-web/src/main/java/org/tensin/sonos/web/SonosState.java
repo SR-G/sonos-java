@@ -12,28 +12,22 @@ import org.tensin.sonos.commands.ZoneCommandExecutor;
 import org.tensin.sonos.control.ZonePlayer;
 import org.tensin.sonos.model.MusicLibrary;
 
+import com.google.inject.Singleton;
 import com.vaadin.data.util.IndexedContainer;
 
 /**
  * The Class SonosState.
  */
-public class SonosState {
+@Singleton
+public class SonosState implements ISonosState {
+
+    /** The zone command dispatcher. */
+    private final ZoneCommandDispatcher zoneCommandDispatcher = new ZoneCommandDispatcher();
 
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(SonosState.class);
 
-    /** The Constant INSTANCE. */
-    private static final SonosState INSTANCE = new SonosState();
-
-    /**
-     * Gets the single instance of SonosState.
-     * 
-     * @return single instance of SonosState
-     */
-    public static SonosState getInstance() {
-        return INSTANCE;
-    }
-
+    /** The libraries. */
     private final Map<String, MusicLibrary> libraries = new HashMap<String, MusicLibrary>();
 
     /** The selected zone. */
@@ -45,15 +39,34 @@ public class SonosState {
     /** The playlist data. */
     private IndexedContainer playlistData;
 
+    /** The instance. */
+    private static ISonosState INSTANCE = new SonosState();
+
+    /**
+     * Gets the single instance of SonosState.
+     * 
+     * @return single instance of SonosState
+     */
+    public static ISonosState getInstance() {
+        return INSTANCE;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.web.ISonosState#getMusicLibrary(java.lang.String)
+     */
+    @Override
     public MusicLibrary getMusicLibrary(final String zoneName) {
         return libraries.get(zoneName);
     }
 
     /**
-     * Gets the playlist data.
+     * {@inheritDoc}
      * 
-     * @return the playlist data
+     * @see org.tensin.sonos.web.ISonosState#getPlaylistData()
      */
+    @Override
     public IndexedContainer getPlaylistData() {
         if (playlistData == null) {
             playlistData = new IndexedContainer();
@@ -63,12 +76,13 @@ public class SonosState {
     }
 
     /**
-     * Gets the selected sonos.
+     * {@inheritDoc}
      * 
-     * @return the selected sonos
+     * @see org.tensin.sonos.web.ISonosState#getSelectedSonos()
      */
+    @Override
     public ZonePlayer getSelectedSonos() {
-        final ZoneCommandExecutor executor = ZoneCommandDispatcher.getInstance().getZoneCommandExecutor(getSelectedZoneName());
+        final ZoneCommandExecutor executor = zoneCommandDispatcher.getZoneCommandExecutor(getSelectedZoneName());
         if (executor == null) {
             LOGGER.error("Can't find executor [" + getSelectedZoneName() + "] (not yed found on the network ?)");
             return null;
@@ -78,19 +92,26 @@ public class SonosState {
     }
 
     /**
-     * Gets the selected zone.
+     * {@inheritDoc}
      * 
-     * @return the selected zone
+     * @see org.tensin.sonos.web.ISonosState#getSelectedZoneName()
      */
+    @Override
     public String getSelectedZoneName() {
         return selectedZone;
     }
 
+    @Override
+    public ZoneCommandDispatcher getZoneCommandDispatcher() {
+        return zoneCommandDispatcher;
+    }
+
     /**
-     * Gets the zones data.
+     * {@inheritDoc}
      * 
-     * @return the zones data
+     * @see org.tensin.sonos.web.ISonosState#getZonesData()
      */
+    @Override
     public IndexedContainer getZonesData() {
         if (zonesData == null) {
             zonesData = new IndexedContainer();
@@ -100,29 +121,27 @@ public class SonosState {
     }
 
     /**
-     * Load music library.
+     * {@inheritDoc}
      * 
-     * @param zone
-     *            the zone
-     * @param name
-     *            the name
+     * @see org.tensin.sonos.web.ISonosState#loadMusicLibrary(org.tensin.sonos.control.ZonePlayer, java.lang.String)
      */
+    @Override
     public void loadMusicLibrary(final ZonePlayer zone, final String name) {
         MusicLibrary library = new MusicLibrary(zone, "A:ARTIST");
         libraries.put(name, library);
     }
 
     /**
-     * Send command.
+     * {@inheritDoc}
      * 
-     * @param command
-     *            the command
+     * @see org.tensin.sonos.web.ISonosState#sendCommand(org.tensin.sonos.commands.IZoneCommand)
      */
+    @Override
     public void sendCommand(final IZoneCommand command) {
         if (StringUtils.isEmpty(getSelectedZoneName())) {
             LOGGER.error("Selected zone name not set");
         } else {
-            final ZoneCommandExecutor executor = ZoneCommandDispatcher.getInstance().getZoneCommandExecutor(getSelectedZoneName());
+            final ZoneCommandExecutor executor = zoneCommandDispatcher.getZoneCommandExecutor(getSelectedZoneName());
             if (executor == null) {
                 LOGGER.error("Can't find executor [" + getSelectedZoneName() + "] (not yed found on the network ?)");
             } else {
@@ -132,31 +151,31 @@ public class SonosState {
     }
 
     /**
-     * Sets the playlist data.
+     * {@inheritDoc}
      * 
-     * @param playlistData
-     *            the new playlist data
+     * @see org.tensin.sonos.web.ISonosState#setPlaylistData(com.vaadin.data.util.IndexedContainer)
      */
+    @Override
     public void setPlaylistData(final IndexedContainer playlistData) {
         this.playlistData = playlistData;
     }
 
     /**
-     * Sets the selected zone.
+     * {@inheritDoc}
      * 
-     * @param selectedZone
-     *            the new selected zone
+     * @see org.tensin.sonos.web.ISonosState#setSelectedZone(java.lang.String)
      */
+    @Override
     public void setSelectedZone(final String selectedZone) {
         this.selectedZone = selectedZone;
     }
 
     /**
-     * Sets the zones data.
+     * {@inheritDoc}
      * 
-     * @param zonesData
-     *            the new zones data
+     * @see org.tensin.sonos.web.ISonosState#setZonesData(com.vaadin.data.util.IndexedContainer)
      */
+    @Override
     public void setZonesData(final IndexedContainer zonesData) {
         this.zonesData = zonesData;
     }

@@ -10,30 +10,18 @@ import org.slf4j.LoggerFactory;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.control.ZonePlayer;
 
+import com.google.inject.Singleton;
+
 /**
  * The Class ZoneCommandDispatcher. Send the right command to the right zone executor, and keeps a map linking zone name to the corresponding executor.
  * ZoneCommandExecutor are threaded and have a queue containing every command to process. The thread only wakes up when a new command is available.
  * ZoneCommandExecutor can only works if the Sonos box has been found by discovery on the network : this event has to be fired by the registerZoneAsAvailable method.
  */
-public class ZoneCommandDispatcher {
+@Singleton
+public class ZoneCommandDispatcher implements IZoneCommandDispatcher {
 
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(ZoneCommandDispatcher.class);
-
-    /** The INSTANCE. */
-    private static ZoneCommandDispatcher INSTANCE;
-
-    /**
-     * Gets the single instance of ZoneCommandDispatcher.
-     * 
-     * @return single instance of ZoneCommandDispatcher
-     */
-    public static ZoneCommandDispatcher getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ZoneCommandDispatcher();
-        }
-        return INSTANCE;
-    }
 
     /** The no command executed. */
     private boolean noCommandExecuted = true;
@@ -42,13 +30,11 @@ public class ZoneCommandDispatcher {
     private final Map<String, ZoneCommandExecutor> executors = new HashMap<String, ZoneCommandExecutor>();
 
     /**
-     * Dispatch command.
+     * {@inheritDoc}
      * 
-     * @param command
-     *            the command
-     * @param zoneName
-     *            the zone name
+     * @see org.tensin.sonos.commands.IZoneCommandDispatcher#dispatchCommand(org.tensin.sonos.commands.IZoneCommand, java.lang.String)
      */
+    @Override
     public void dispatchCommand(final IZoneCommand command, final String zoneName) {
         LOGGER.debug("Dispatching [" + command.getName() + "]");
         final ZoneCommandExecutor executor = registerZoneExecutor(zoneName);
@@ -57,21 +43,21 @@ public class ZoneCommandDispatcher {
     }
 
     /**
-     * Gets the executors.
+     * {@inheritDoc}
      * 
-     * @return the executors
+     * @see org.tensin.sonos.commands.IZoneCommandDispatcher#getExecutors()
      */
+    @Override
     public Map<String, ZoneCommandExecutor> getExecutors() {
         return executors;
     }
 
     /**
-     * Gets the zone command executor.
+     * {@inheritDoc}
      * 
-     * @param zoneName
-     *            the zone name
-     * @return the zone command executor
+     * @see org.tensin.sonos.commands.IZoneCommandDispatcher#getZoneCommandExecutor(java.lang.String)
      */
+    @Override
     public ZoneCommandExecutor getZoneCommandExecutor(final String zoneName) {
         if (executors.containsKey(zoneName.toUpperCase())) {
             return executors.get(zoneName.toUpperCase());
@@ -80,17 +66,21 @@ public class ZoneCommandDispatcher {
     }
 
     /**
-     * Gets the zones names.
+     * {@inheritDoc}
      * 
-     * @return the zones names
+     * @see org.tensin.sonos.commands.IZoneCommandDispatcher#getZonesNames()
      */
+    @Override
     public Collection<String> getZonesNames() {
         return executors.keySet();
     }
 
     /**
-     * Log summary.
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.commands.IZoneCommandDispatcher#logSummary()
      */
+    @Override
     public void logSummary() {
         StringBuilder sb = new StringBuilder();
         StringBuilder summary = new StringBuilder();
@@ -124,25 +114,22 @@ public class ZoneCommandDispatcher {
     }
 
     /**
-     * Register zone as available.
+     * {@inheritDoc}
      * 
-     * @param sonos
-     *            the sonos
-     * @param zoneName
-     *            the zone name
+     * @see org.tensin.sonos.commands.IZoneCommandDispatcher#registerZoneAsAvailable(org.tensin.sonos.control.ZonePlayer, java.lang.String)
      */
+    @Override
     public void registerZoneAsAvailable(final ZonePlayer sonos, final String zoneName) {
         ZoneCommandExecutor executor = registerZoneExecutor(zoneName);
         executor.registerZoneAsAvailable(sonos);
     }
 
     /**
-     * Register zone executor.
+     * {@inheritDoc}
      * 
-     * @param zoneName
-     *            the zone name
-     * @return the zone command executor
+     * @see org.tensin.sonos.commands.IZoneCommandDispatcher#registerZoneExecutor(java.lang.String)
      */
+    @Override
     public ZoneCommandExecutor registerZoneExecutor(final String zoneName) {
         final String zoneNameUppercase = zoneName.toUpperCase();
         ZoneCommandExecutor executor;
@@ -159,11 +146,11 @@ public class ZoneCommandDispatcher {
     }
 
     /**
-     * Reset instance.
+     * {@inheritDoc}
      * 
-     * @throws SonosException
-     *             the sonos exception
+     * @see org.tensin.sonos.commands.IZoneCommandDispatcher#resetInstance()
      */
+    @Override
     public void resetInstance() throws SonosException {
         stopExecutors();
         synchronized (executors) {
@@ -172,11 +159,11 @@ public class ZoneCommandDispatcher {
     }
 
     /**
-     * Stop.
+     * {@inheritDoc}
      * 
-     * @throws SonosException
-     *             the sonos exception
+     * @see org.tensin.sonos.commands.IZoneCommandDispatcher#stopExecutors()
      */
+    @Override
     public void stopExecutors() throws SonosException {
         synchronized (executors) {
             for (final Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
@@ -188,15 +175,11 @@ public class ZoneCommandDispatcher {
     }
 
     /**
-     * Wait end execution.
+     * {@inheritDoc}
      * 
-     * @param delay
-     *            the delay
-     * @param checkEmptyQueues
-     *            the check empty queues
-     * @throws SonosException
-     *             the sonos exception
+     * @see org.tensin.sonos.commands.IZoneCommandDispatcher#waitEndExecution(int, boolean)
      */
+    @Override
     public void waitEndExecution(final int delay, final boolean checkEmptyQueues) throws SonosException {
         final long start = System.currentTimeMillis();
         long current;

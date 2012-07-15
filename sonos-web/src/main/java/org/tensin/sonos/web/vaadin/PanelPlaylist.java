@@ -9,19 +9,17 @@ import org.tensin.sonos.commands.CommandTrack;
 import org.tensin.sonos.control.BrowseHandle;
 import org.tensin.sonos.control.EntryCallback;
 import org.tensin.sonos.model.Entry;
-import org.tensin.sonos.web.SonosState;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
 /**
  * The Class PanelPlaylist.
  */
-public class PanelPlaylist extends Panel {
+public class PanelPlaylist extends AbstractVaadinPanel {
 
     /** The callback. */
     private final class SonosBrowseCallback implements EntryCallback {
@@ -113,14 +111,14 @@ public class PanelPlaylist extends Panel {
      */
     public void fireEventZoneChanged() {
         playList.setContainerDataSource(null);
-        SonosState.getInstance().setPlaylistData(null);
-        callback.setPlaylistData(SonosState.getInstance().getPlaylistData());
+        sonosState.setPlaylistData(null);
+        callback.setPlaylistData(sonosState.getPlaylistData());
 
         CommandBrowse command = new CommandBrowse();
         command.setCallback(callback);
         command.setArgs("Q:0");
 
-        SonosState.getInstance().sendCommand(command);
+        sonosState.sendCommand(command);
     }
 
     /**
@@ -140,18 +138,18 @@ public class PanelPlaylist extends Panel {
             public void valueChange(final ValueChangeEvent event) {
                 Object id = playList.getValue();
                 if (id != null) {
-                    synchronized (SonosState.getInstance().getPlaylistData()) {
-                        Item s = SonosState.getInstance().getPlaylistData().getItem(id);
+                    synchronized (sonosState.getPlaylistData()) {
+                        Item s = sonosState.getPlaylistData().getItem(id);
                         String titleName = s.toString();
                         LOGGER.info("Track selected [" + id + "], title [" + titleName + "]");
 
                         final CommandTrack command = new CommandTrack();
                         command.setArgs(String.valueOf(id));
-                        SonosState.getInstance().sendCommand(command);
+                        sonosState.sendCommand(command);
 
                         panelNowPlaying.fireEventZoneChanged();
 
-                        // SonosState.getInstance().setSelectedZone(zoneName);
+                        // sonosState.setSelectedZone(zoneName);
 
                         // ICommand command = CommandFactory.createCommand("PLAY");
                         // ZoneCommandDispatcher.getInstance().dispatchCommand((IZoneCommand) command, s.toString());

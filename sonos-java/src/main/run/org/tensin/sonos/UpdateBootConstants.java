@@ -37,11 +37,11 @@ public class UpdateBootConstants {
 
         final Collection<IAdapterInput> inputs = new ArrayList<IAdapterInput>();
         inputs.add(AdapterMavenDependencyList.buildAdapter("target/maven-dependencies.txt")); // has to be created through mvn dependency:list -PdependenciesList
-        inputs.add(AdapterBootConstants.buildAdapter("src/main/java/org/tensin/sonos/boot/BootConstants.java", "LIBS"));
+        inputs.add(AdapterBootConstants.buildAdapter("src/main/java/org/tensin/sonos/boot/CLIBootConstants.java", "LIBS"));
 
         final Collection<IAdapterOutput> outputs = new ArrayList<IAdapterOutput>();
         outputs.add(AdapterDump.buildAdapter());
-        outputs.add(AdapterBootConstants.buildAdapter("src/main/java/org/tensin/sonos/boot/BootConstants.java", "LIBS", true));
+        outputs.add(AdapterBootConstants.buildAdapter("src/main/java/org/tensin/sonos/boot/CLIBootConstants.java", "LIBS", true));
 
         final Collection<JarContainer> jars = converter.process(inputs, outputs);
         LOGGER.info("Summary :\n" + converter.dumpDifferences(jars));

@@ -4,15 +4,13 @@ import java.io.Serializable;
 
 import org.tensin.sonos.model.Entry;
 import org.tensin.sonos.model.MusicLibrary;
-import org.tensin.sonos.web.SonosState;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 
-public class PanelCommands extends Panel {
+public class PanelCommands extends AbstractVaadinPanel {
 
     class SearchFilter implements Serializable {
 
@@ -64,8 +62,8 @@ public class PanelCommands extends Panel {
 
     private void performSearch() {
         String searchTerm = (String) searchField.getValue();
-        String zoneName = SonosState.getInstance().getSelectedZoneName();
-        MusicLibrary library = SonosState.getInstance().getMusicLibrary(zoneName);
+        String zoneName = sonosState.getSelectedZoneName();
+        MusicLibrary library = sonosState.getMusicLibrary(zoneName);
         for (int i = 0; i < library.getSize(); i++) {
             Entry e = library.getEntryAt(i);
 

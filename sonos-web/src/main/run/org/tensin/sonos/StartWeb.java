@@ -11,8 +11,6 @@ public class StartWeb {
      * Activate mocks.
      */
     private static final void activateMocks() {
-        org.tensin.sonos.SonosFactory.setiSonosClass(org.tensin.sonos.SonosMock.class);
-        org.tensin.sonos.upnp.DiscoverFactory.setiDiscoverClass(org.tensin.sonos.DiscoverMock.class);
     }
 
     /**
@@ -25,7 +23,6 @@ public class StartWeb {
      */
     public static void main(final String[] args) throws SonosException {
         // activateMocks();
-
         WebController.main(new String[] {});
     }
 }

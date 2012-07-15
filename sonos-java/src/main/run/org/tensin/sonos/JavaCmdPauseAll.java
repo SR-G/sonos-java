@@ -16,6 +16,6 @@ public class JavaCmdPauseAll {
      *             the sonos exception
      */
     public static void main(final String[] args) throws SonosException {
-        new JavaController().execute("pause");
+        JavaController.createController().execute("pause");
     }
 }

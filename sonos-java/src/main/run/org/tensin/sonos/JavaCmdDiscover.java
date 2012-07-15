@@ -16,6 +16,6 @@ public class JavaCmdDiscover {
      *             the sonos exception
      */
     public static void main(final String[] args) throws SonosException {
-        new JavaController().execute("discover");
+        JavaController.createController().execute("discover");
     }
 }

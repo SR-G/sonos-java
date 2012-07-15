@@ -1,59 +1,23 @@
 package org.tensin.sonos.commands;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tensin.sonos.ISonos;
 import org.tensin.sonos.SonosConstants;
 import org.tensin.sonos.SonosException;
-import org.tensin.sonos.SonosFactory;
-import org.tensin.sonos.upnp.DiscoverFactory;
-import org.tensin.sonos.upnp.IDiscover;
-import org.tensin.sonos.upnp.ISonosZonesDiscoverListener;
+
+import com.google.inject.Inject;
 
 /**
  * The Class CommandDiscover.
  */
 public class CommandDiscover implements IStandardCommand {
 
-    /**
-     * The listener interface for receiving zonesDiscovered events. The class
-     * that is interested in processing a zonesDiscovered event implements this
-     * interface, and the object created with that class is registered with a
-     * component using the component's <code>addZonesDiscoveredListener<code> method. When
-     * the zonesDiscovered event occurs, that object's appropriate
-     * method is invoked.
-     * 
-     * @see ZonesDiscoveredEvent
-     */
-    private final class ConsoleSonosZonesDiscoveredListener implements ISonosZonesDiscoverListener {
-
-        /**
-         * {@inheritDoc}
-         * 
-         * @see org.tensin.sonos.upnp.ISonosZonesDiscoverListener#found(java.lang.String)
-         */
-        @Override
-        public void found(final String host) {
-            try {
-                final ISonos sonos = SonosFactory.build(host);
-                sonos.refreshZoneAttributes();
-                final String name = sonos.getZoneName();
-                if (StringUtils.isNotEmpty(name)) {
-                    LOGGER.info("Zone [" + name + "] discovered, IP [" + host + "]");
-                    count++;
-                }
-            } catch (SonosException e) {
-                LOGGER.error("Internal error while working on new found host [" + host + "]", e);
-            }
-        }
-    }
-
-    /** The count. */
-    private int count = 0;
-
-    /** The discover control port. May be changed if needed. */
-    private int discoverControlPort = SonosConstants.DEFAULT_SSDP_CONTROL_PORT;
+    /** The zone command dispatcher. */
+    @Inject
+    private IZoneCommandDispatcher zoneCommandDispatcher;
 
     /** Logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandDiscover.class);
@@ -65,13 +29,10 @@ public class CommandDiscover implements IStandardCommand {
      */
     @Override
     public void execute() throws SonosException {
-        final IDiscover d = DiscoverFactory.build(new ConsoleSonosZonesDiscoveredListener(), discoverControlPort);
-        try {
-            d.launch();
-            Thread.sleep(SonosConstants.MAX_DISCOVER_TIME_IN_MILLISECONDS);
-        } catch (InterruptedException x) {
-        } finally {
-            d.done();
+        final Map<String, ZoneCommandExecutor> executors = zoneCommandDispatcher.getExecutors();
+        int count = executors.size();
+        for (Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
+            LOGGER.info(" - Zone [" + entry.getKey() + "]");
         }
         LOGGER.info(count + " Sonos zones found on Network in " + SonosConstants.MAX_DISCOVER_TIME_IN_MILLISECONDS + "ms.");
     }
@@ -104,16 +65,6 @@ public class CommandDiscover implements IStandardCommand {
     @Override
     public boolean needArgs() {
         return false;
-    }
-
-    /**
-     * Sets the discover control port.
-     * 
-     * @param discoverControlPort
-     *            the new discover control port
-     */
-    public void setDiscoverControlPort(final int discoverControlPort) {
-        this.discoverControlPort = discoverControlPort;
     }
 
 }

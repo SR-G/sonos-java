@@ -2,18 +2,16 @@ package org.tensin.sonos.web.vaadin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tensin.sonos.web.SonosState;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
 /**
  * The Class PanelZones.
  */
-public class PanelZones extends Panel {
+public class PanelZones extends AbstractVaadinPanel {
 
     /** Logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(PanelZones.class);
@@ -50,18 +48,18 @@ public class PanelZones extends Panel {
         boolean[] ordering = { true };
         zonesList.sort(properties, ordering);
 
-        zonesList.setContainerDataSource(SonosState.getInstance().getZonesData());
+        zonesList.setContainerDataSource(sonosState.getZonesData());
         zonesList.setVisibleColumns(new String[] { "Name" });
         zonesList.addListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(final ValueChangeEvent event) {
                 Object id = zonesList.getValue();
                 if (id != null) {
-                    synchronized (SonosState.getInstance().getZonesData()) {
-                        Item s = SonosState.getInstance().getZonesData().getItem(id);
+                    synchronized (sonosState.getZonesData()) {
+                        Item s = sonosState.getZonesData().getItem(id);
                         String zoneName = s.toString();
                         LOGGER.info("Zone selected [" + id + "], zone [" + zoneName + "]");
-                        SonosState.getInstance().setSelectedZone(zoneName);
+                        sonosState.setSelectedZone(zoneName);
 
                         panelPlaylist.fireEventZoneChanged();
                         panelNowPlaying.fireEventZoneChanged();
