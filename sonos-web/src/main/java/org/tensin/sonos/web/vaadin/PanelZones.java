@@ -38,7 +38,7 @@ public class PanelZones extends Panel {
      * @param panelPlaylist
      *            the panel playlist
      */
-    public void init(final PanelPlaylist panelPlaylist) {
+    public void init(final PanelPlaylist panelPlaylist, final PanelNowPlaying panelNowPlaying) {
         zonesList.setWidth("100%");
         zonesList.setPageLength(0);
         zonesList.setHeight("80%");
@@ -64,6 +64,7 @@ public class PanelZones extends Panel {
                         SonosState.getInstance().setSelectedZone(zoneName);
 
                         panelPlaylist.fireEventZoneChanged();
+                        panelNowPlaying.fireEventZoneChanged();
 
                         // ICommand command = CommandFactory.createCommand("PLAY");
                         // ZoneCommandDispatcher.getInstance().dispatchCommand((IZoneCommand) command, s.toString());

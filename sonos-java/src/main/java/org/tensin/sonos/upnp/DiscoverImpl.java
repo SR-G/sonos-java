@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tensin.sonos.SonosConstants;
 import org.tensin.sonos.SonosException;
 
 /**
@@ -305,7 +306,8 @@ public class DiscoverImpl extends Thread implements IDiscover {
         setName("SONOS-THREAD-DISCOVER");
         active = true;
         callback = cb;
-        patternLocation = Pattern.compile("^LOCATION:\\s*http://(.*):1400/xml/device_description.xml$", Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
+        patternLocation = Pattern.compile("^LOCATION:\\s*http://(.*):" + SonosConstants.SONOS_DEFAULT_RPC_PORT + "/xml/device_description.xml$",
+                Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
         start();
     }
 

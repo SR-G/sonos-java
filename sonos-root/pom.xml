@@ -7,9 +7,7 @@
 		<sourceEncoding>UTF-8</sourceEncoding>
 		<version.jetty>7.6.4.v20120524</version.jetty>
 		<version.guice>3.0</version.guice>
-<!--
-		<version.guava>12.0.1</version.guava>
--->
+		<!-- <version.guava>12.0.1</version.guava> -->
 		<version.guava>13.0-rc1</version.guava>
 	</properties>
 
@@ -207,18 +205,23 @@
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>1.6.6</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
 				<artifactId>jcl-over-slf4j</artifactId>
 				<version>1.6.6</version>
 			</dependency>
 			<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>1.2.17</version>
+				<groupId>org.slf4j</groupId>
+				<artifactId>log4j-over-slf4j</artifactId>
+				<version>1.6.6</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jul-to-slf4j</artifactId>
+				<version>1.6.6</version>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>1.0.6</version>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
@@ -240,7 +243,7 @@
 				<version>${version.guice}</version>
 			</dependency>
 			<dependency>
-      				<groupId>com.google.guava</groupId>
+				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>${version.guava}</version>
 			</dependency>
@@ -289,7 +292,16 @@
 				<artifactId>javax.servlet-api</artifactId>
 				<version>3.0.1</version>
 			</dependency>
-
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>2.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.teleal.cling</groupId>
+				<artifactId>cling-core</artifactId>
+				<version>1.0.5</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>

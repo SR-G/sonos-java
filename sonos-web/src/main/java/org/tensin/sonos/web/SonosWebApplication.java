@@ -103,14 +103,15 @@ public class SonosWebApplication extends Application implements ClickListener, V
      * Inits the panels.
      */
     private void initPanels() {
-        PanelNowPlaying panelNowPlaying = new PanelNowPlaying();
-        PanelZones panelZones = new PanelZones();
-        PanelControls panelControls = new PanelControls();
-        PanelPlaylist panelPlaylist = new PanelPlaylist();
-        PanelCommands panelCommands = new PanelCommands();
+        final PanelNowPlaying panelNowPlaying = new PanelNowPlaying();
+        final PanelZones panelZones = new PanelZones();
+        final PanelControls panelControls = new PanelControls();
+        final PanelPlaylist panelPlaylist = new PanelPlaylist();
+        final PanelCommands panelCommands = new PanelCommands();
 
-        panelZones.init(panelPlaylist);
+        panelZones.init(panelPlaylist, panelNowPlaying);
         panelPlaylist.init();
+        panelNowPlaying.init();
 
         mainLayout.addComponent(panelNowPlaying, 0, 0, 0, 2);
         mainLayout.addComponent(panelZones, 1, 0, 1, 0);

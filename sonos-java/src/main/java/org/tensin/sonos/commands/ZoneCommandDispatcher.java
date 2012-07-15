@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.tensin.sonos.ISonos;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tensin.sonos.SonosException;
+import org.tensin.sonos.control.ZonePlayer;
 
 /**
  * The Class ZoneCommandDispatcher. Send the right command to the right zone executor, and keeps a map linking zone name to the corresponding executor.
@@ -18,7 +18,7 @@ import org.tensin.sonos.SonosException;
 public class ZoneCommandDispatcher {
 
     /** The Constant LOGGER. */
-    private static final Log LOGGER = LogFactory.getLog(ZoneCommandDispatcher.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ZoneCommandDispatcher.class);
 
     /** The INSTANCE. */
     private static ZoneCommandDispatcher INSTANCE;
@@ -131,7 +131,7 @@ public class ZoneCommandDispatcher {
      * @param zoneName
      *            the zone name
      */
-    public void registerZoneAsAvailable(final ISonos sonos, final String zoneName) {
+    public void registerZoneAsAvailable(final ZonePlayer sonos, final String zoneName) {
         ZoneCommandExecutor executor = registerZoneExecutor(zoneName);
         executor.registerZoneAsAvailable(sonos);
     }

@@ -16,6 +16,6 @@ public class CmdPlaySalon {
      *             the sonos exception
      */
     public static void main(final String[] args) throws SonosException {
-        SonosCommander.main(new String[] { "--command", "play", "--zone", "salon" });
+        SonosCommander.main(new String[] { "--command", "pause", "--zone", "salon" });
     }
 }

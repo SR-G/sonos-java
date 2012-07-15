@@ -1,8 +1,8 @@
 package org.tensin.sonos.web;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tensin.sonos.ISonos;
 import org.tensin.sonos.commands.IZoneCommand;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
@@ -16,7 +16,7 @@ import com.vaadin.data.util.IndexedContainer;
 public class SonosState {
 
     /** The Constant LOGGER. */
-    private static final Log LOGGER = LogFactory.getLog(SonosState.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SonosState.class);
 
     /** The Constant INSTANCE. */
     private static final SonosState INSTANCE = new SonosState();

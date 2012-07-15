@@ -1,7 +1,7 @@
 package org.tensin.sonos.commands;
 
-import org.tensin.sonos.ISonos;
 import org.tensin.sonos.SonosException;
+import org.tensin.sonos.control.ZonePlayer;
 
 /**
  * The Class CommandCrossfadeOn.
@@ -14,8 +14,8 @@ public class CommandCrossfadeOn extends AbstractCommand implements IZoneCommand 
      * @see org.tensin.sonos.commands.IZoneCommand#execute(org.tensin.sonos.ISonos)
      */
     @Override
-    public void execute(final ISonos sonos) throws SonosException {
-        sonos.setCrossfade(false);
+    public void execute(final ZonePlayer sonos) throws SonosException {
+        sonos.getMediaRendererDevice().getRenderingControlService().setCrossFade(false);
     }
 
     /**

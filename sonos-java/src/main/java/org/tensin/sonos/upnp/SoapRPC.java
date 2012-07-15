@@ -10,8 +10,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CoderResult;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class SoapRPC.
@@ -41,7 +41,7 @@ public class SoapRPC {
     }
 
     /** The Constant LOGGER. */
-    private static final Log LOGGER = LogFactory.getLog(SoapRPC.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SoapRPC.class);
 
     /** The cs. */
     static Charset cs = Charset.forName("UTF-8");

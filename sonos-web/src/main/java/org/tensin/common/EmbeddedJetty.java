@@ -16,10 +16,7 @@ import java.util.Collection;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -30,6 +27,8 @@ import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.webapp.WebInfConfiguration;
 import org.eclipse.jetty.webapp.WebXmlConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tensin.sonos.SonosException;
 
 /**
@@ -114,14 +113,14 @@ public class EmbeddedJetty {
                     accept.close();
                     socket.close();
                 } catch (IOException e) {
-                    LOGGER.error(e);
+                    LOGGER.error("Error while closing server", e);
                 }
             }
         }
     }
 
     /** Logger. */
-    private static final Log LOGGER = LogFactory.getLog(EmbeddedJetty.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmbeddedJetty.class);
 
     /** LOCALHOST. */
     public static final String DEFAULT_LOCALHOST = "127.0.0.1";
@@ -286,11 +285,12 @@ public class EmbeddedJetty {
      *            void
      */
     public void setLoggerLevel(final String module, final Level level) {
-        String moduleRenamed = module.replaceAll("/", ".");
-        Logger logger = Logger.getLogger(moduleRenamed);
-        if (logger != null) {
-            logger.setLevel(level);
-        }
+        final String moduleRenamed = module.replaceAll("/", ".");
+        // TODO
+        // final Logger logger = Logger.getLogger(moduleRenamed);
+        // if (logger != null) {
+        // logger.setLevel(level);
+        // }
     }
 
     /**

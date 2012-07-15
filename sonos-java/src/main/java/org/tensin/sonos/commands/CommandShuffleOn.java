@@ -1,7 +1,8 @@
 package org.tensin.sonos.commands;
 
-import org.tensin.sonos.ISonos;
 import org.tensin.sonos.SonosException;
+import org.tensin.sonos.control.ZonePlayer;
+import org.tensin.sonos.model.PlayMode;
 
 /**
  * The Class CommandShuffleOn.
@@ -14,8 +15,8 @@ public class CommandShuffleOn extends AbstractCommand implements IZoneCommand {
      * @see org.tensin.sonos.commands.IZoneCommand#execute(org.tensin.sonos.ISonos)
      */
     @Override
-    public void execute(final ISonos sonos) throws SonosException {
-        sonos.playmode(true, false);
+    public void execute(final ZonePlayer sonos) throws SonosException {
+        sonos.getMediaRendererDevice().getAvTransportService().setPlayMode(PlayMode.NORMAL);
     }
 
     /**

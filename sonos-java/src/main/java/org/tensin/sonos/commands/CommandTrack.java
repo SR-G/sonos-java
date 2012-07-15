@@ -1,7 +1,9 @@
 package org.tensin.sonos.commands;
 
-import org.tensin.sonos.ISonos;
 import org.tensin.sonos.SonosException;
+import org.tensin.sonos.control.ZonePlayer;
+import org.tensin.sonos.model.SeekMode;
+import org.tensin.sonos.model.SeekTarget;
 
 /**
  * The Class CommandTrack.
@@ -14,9 +16,10 @@ public class CommandTrack extends AbstractCommand implements IZoneCommand {
      * @see org.tensin.sonos.commands.IZoneCommand#execute(org.tensin.sonos.ISonos)
      */
     @Override
-    public void execute(final ISonos sonos) throws SonosException {
+    public void execute(final ZonePlayer sonos) throws SonosException {
         if (hasArgs()) {
-            sonos.seekTrack(Integer.parseInt(getArgs().get(0)));
+            final SeekTarget target = new SeekTarget(SeekMode.TRACK_NR, getArgs().get(0));
+            sonos.getMediaRendererDevice().getAvTransportService().seek(target);
         }
     }
 

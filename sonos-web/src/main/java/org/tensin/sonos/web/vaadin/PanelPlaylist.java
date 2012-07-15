@@ -1,10 +1,16 @@
 package org.tensin.sonos.web.vaadin;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tensin.sonos.commands.CommandList;
+import org.tensin.sonos.commands.CommandTrack;
 import org.tensin.sonos.upnp.ISonosBrowseListener;
 import org.tensin.sonos.upnp.SonosItem;
 import org.tensin.sonos.web.SonosState;
 
+import com.vaadin.data.Item;
+import com.vaadin.data.Property;
+import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
@@ -78,6 +84,9 @@ public class PanelPlaylist extends Panel {
 
     }
 
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(PanelPlaylist.class);
+
     /** The playlist listener. */
     private final SonosPlaylistListener playlistListener = new SonosPlaylistListener();
 
@@ -87,13 +96,14 @@ public class PanelPlaylist extends Panel {
     /** The play list. */
     private final Table playList = new Table();
 
+    private PanelNowPlaying panelNowPlaying;
+
     /**
      * Instantiates a new panel playlist.
      */
     public PanelPlaylist() {
         super("Playlist");
         setSizeFull();
-        init();
     }
 
     /**
@@ -114,6 +124,8 @@ public class PanelPlaylist extends Panel {
 
     /**
      * Inits the.
+     * 
+     * @param panelNowPlaying
      */
     public void init() {
         playList.setWidth("100%");
@@ -121,7 +133,35 @@ public class PanelPlaylist extends Panel {
         playList.setImmediate(true);
         playList.setSelectable(true);
         playList.setPageLength(0);
+
+        playList.addListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(final ValueChangeEvent event) {
+                Object id = playList.getValue();
+                if (id != null) {
+                    synchronized (SonosState.getInstance().getPlaylistData()) {
+                        Item s = SonosState.getInstance().getPlaylistData().getItem(id);
+                        String titleName = s.toString();
+                        LOGGER.info("Track selected [" + id + "], title [" + titleName + "]");
+
+                        final CommandTrack command = new CommandTrack();
+                        command.setArgs(String.valueOf(id));
+                        SonosState.getInstance().sendCommand(command);
+
+                        panelNowPlaying.fireEventZoneChanged();
+
+                        // SonosState.getInstance().setSelectedZone(zoneName);
+
+                        // ICommand command = CommandFactory.createCommand("PLAY");
+                        // ZoneCommandDispatcher.getInstance().dispatchCommand((IZoneCommand) command, s.toString());
+                    }
+                }
+
+                // contactEditor.setItemDataSource(id == null ? null : zonesList.getItem(id));
+                // contactRemovalButton.setVisible(id != null);
+            }
+        });
+
         addComponent(playList);
     }
-
 }

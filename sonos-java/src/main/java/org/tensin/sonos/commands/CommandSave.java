@@ -1,7 +1,7 @@
 package org.tensin.sonos.commands;
 
-import org.tensin.sonos.ISonos;
 import org.tensin.sonos.SonosException;
+import org.tensin.sonos.control.ZonePlayer;
 
 /**
  * The Class CommandSave.
@@ -14,9 +14,9 @@ public class CommandSave extends AbstractCommand implements IZoneCommand {
      * @see org.tensin.sonos.commands.IZoneCommand#execute(org.tensin.sonos.ISonos)
      */
     @Override
-    public void execute(final ISonos sonos) throws SonosException {
+    public void execute(final ZonePlayer sonos) throws SonosException {
         if (hasArgs()) {
-            sonos.save(getArgs().get(0), "SQ:3");
+            sonos.getMediaRendererDevice().getAvTransportService().saveQueue(getArgs().get(0), getArgs().get(1));
         }
     }
 

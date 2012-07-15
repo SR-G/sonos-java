@@ -1,7 +1,7 @@
 package org.tensin.sonos.commands;
 
-import org.tensin.sonos.ISonos;
 import org.tensin.sonos.SonosException;
+import org.tensin.sonos.control.ZonePlayer;
 
 /**
  * The Class CommandPoisonPill.
@@ -14,7 +14,7 @@ public class CommandPoisonPill implements IZoneCommand {
      * @see org.tensin.sonos.commands.IZoneCommand#execute(org.tensin.sonos.ISonos)
      */
     @Override
-    public void execute(final ISonos sonos) throws SonosException {
+    public void execute(final ZonePlayer sonos) throws SonosException {
         // Nothing to do, won't be executed
     }
 

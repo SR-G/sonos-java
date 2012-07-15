@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
  * The Class CollectionHelper.
  */
 public class CollectionHelper {
-	
+
     /**
      * Method. Convert a string separated by comma to a list
      * 
@@ -22,8 +22,8 @@ public class CollectionHelper {
         Collection<String> result = new ArrayList<String>();
         if (StringUtils.isNotEmpty(value)) {
             String[] tempArray = value.split("[ ,;:]+");
-            for (int i = 0; i < tempArray.length; i++) {
-                result.add(tempArray[i].trim());
+            for (String element : tempArray) {
+                result.add(element.trim());
             }
         }
         return result;
@@ -31,8 +31,9 @@ public class CollectionHelper {
 
     /**
      * Dump du contenu d'une liste.
-     *
-     * @param l La liste à dumper
+     * 
+     * @param l
+     *            La liste à dumper
      * @return La représentation textuelle
      */
     public static String singleDump(final Collection<?> l) {
@@ -56,5 +57,29 @@ public class CollectionHelper {
         return (sb.toString());
     }
 
-
+    /**
+     * Single dump.
+     *
+     * @param l the l
+     * @return the string
+     */
+    public static String singleDump(final Object[] l) {
+        StringBuilder sb = new StringBuilder();
+        if (l == null) {
+            sb.append("[]");
+        } else if (l.length == 0) {
+            sb.append("[]");
+        } else {
+            int cnt = 0;
+            sb.append("[");
+            for (final Object o : l) {
+                if (cnt++ > 0) {
+                    sb.append(", ");
+                }
+                sb.append(o.toString());
+            }
+            sb.append("]");
+        }
+        return (sb.toString());
+    }
 }

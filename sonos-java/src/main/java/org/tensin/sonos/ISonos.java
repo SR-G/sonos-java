@@ -26,6 +26,12 @@ public interface ISonos {
      */
     public abstract void browse(final String _id, final ISonosBrowseListener cb);
 
+    /**
+     * Browse metadata.
+     *
+     * @param _id the _id
+     * @param cb the cb
+     */
     public abstract void browseMetadata(final String _id, final ISonosBrowseListener cb);
 
     /**

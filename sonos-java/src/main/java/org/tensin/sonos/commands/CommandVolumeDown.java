@@ -1,7 +1,7 @@
 package org.tensin.sonos.commands;
 
-import org.tensin.sonos.ISonos;
 import org.tensin.sonos.SonosException;
+import org.tensin.sonos.control.ZonePlayer;
 
 /**
  * The Class CommandVolumeDown.
@@ -14,13 +14,13 @@ public class CommandVolumeDown extends AbstractCommand implements IZoneCommand {
      * @see org.tensin.sonos.commands.IZoneCommand#execute(org.tensin.sonos.ISonos)
      */
     @Override
-    public void execute(final ISonos sonos) throws SonosException {
-        int previousVolume = sonos.volume();
+    public void execute(final ZonePlayer sonos) throws SonosException {
+        int previousVolume = sonos.getMediaRendererDevice().getRenderingControlService().getVolume();
         previousVolume = previousVolume - 5;
         if (previousVolume < 0) {
             previousVolume = 0;
         }
-        sonos.volume(previousVolume);
+        sonos.getMediaRendererDevice().getRenderingControlService().setVolume(previousVolume);
     }
 
     /**

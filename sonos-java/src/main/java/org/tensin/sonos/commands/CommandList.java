@@ -1,9 +1,9 @@
 package org.tensin.sonos.commands;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.tensin.sonos.ISonos;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tensin.sonos.SonosException;
+import org.tensin.sonos.control.ZonePlayer;
 import org.tensin.sonos.upnp.ISonosBrowseListener;
 import org.tensin.sonos.upnp.SonosItem;
 
@@ -26,7 +26,7 @@ public class CommandList extends AbstractCommand implements IZoneCommand {
     private static final class ConsoleSonosBrowseListener implements ISonosBrowseListener {
 
         /** The Constant LOGGER. */
-        private static final Log LOGGER = LogFactory.getLog(ConsoleSonosBrowseListener.class);
+        private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleSonosBrowseListener.class);
 
         /**
          * {@inheritDoc}
@@ -67,9 +67,9 @@ public class CommandList extends AbstractCommand implements IZoneCommand {
      * @see org.tensin.sonos.commands.IZoneCommand#execute(org.tensin.sonos.ISonos)
      */
     @Override
-    public void execute(final ISonos sonos) throws SonosException {
+    public void execute(final ZonePlayer sonos) throws SonosException {
         if (hasArgs()) {
-            sonos.browse(getArgs().get(0), listener);
+            // sonos.browse(getArgs().get(0), listener);
         }
     }
 

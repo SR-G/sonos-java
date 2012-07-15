@@ -4,6 +4,7 @@
   <classpathentry kind="output" path="bin"/>
   <classpathentry kind="var" path="M2_REPO/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1.jar" sourcepath="M2_REPO/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-jbossweb/0.8.6/atmosphere-compat-jbossweb-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-jbossweb/0.8.6/atmosphere-compat-jbossweb-0.8.6-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-jetty/0.8.6/atmosphere-compat-jetty-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-jetty/0.8.6/atmosphere-compat-jetty-0.8.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-tomcat/0.8.6/atmosphere-compat-tomcat-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-tomcat/0.8.6/atmosphere-compat-tomcat-0.8.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-tomcat7/0.8.6/atmosphere-compat-tomcat7-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-tomcat7/0.8.6/atmosphere-compat-tomcat7-0.8.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-compat-weblogic/0.8.6/atmosphere-compat-weblogic-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-compat-weblogic/0.8.6/atmosphere-compat-weblogic-0.8.6-sources.jar"/>
@@ -12,10 +13,12 @@
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-gwt-poll/0.8.6/atmosphere-gwt-poll-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-gwt-poll/0.8.6/atmosphere-gwt-poll-0.8.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-gwt-server/0.8.6/atmosphere-gwt-server-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-gwt-server/0.8.6/atmosphere-gwt-server-0.8.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/atmosphere/atmosphere-runtime/0.8.6/atmosphere-runtime-0.8.6.jar" sourcepath="M2_REPO/org/atmosphere/atmosphere-runtime/0.8.6/atmosphere-runtime-0.8.6-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/teleal/cling/cling-core/1.0.5/cling-core-1.0.5.jar" sourcepath="M2_REPO/org/teleal/cling/cling-core/1.0.5/cling-core-1.0.5-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar" sourcepath="M2_REPO/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-io/commons-io/2.4/commons-io-2.4.jar" sourcepath="M2_REPO/commons-io/commons-io/2.4/commons-io-2.4-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar" sourcepath="M2_REPO/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/vaadin/dontpush-addon-ozonelayer/0.4.8/dontpush-addon-ozonelayer-0.4.8.jar" sourcepath="M2_REPO/org/vaadin/dontpush-addon-ozonelayer/0.4.8/dontpush-addon-ozonelayer-0.4.8-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/google/guava/guava/13.0-rc1/guava-13.0-rc1.jar" sourcepath="M2_REPO/com/google/guava/guava/13.0-rc1/guava-13.0-rc1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/gwt/gwt-dev/2.3.0/gwt-dev-2.3.0.jar" sourcepath="M2_REPO/com/google/gwt/gwt-dev/2.3.0/gwt-dev-2.3.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0.jar" sourcepath="M2_REPO/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0.jar" sourcepath="M2_REPO/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0-sources.jar"/>
@@ -35,11 +38,16 @@
   <classpathentry kind="var" path="M2_REPO/org/eclipse/jetty/jetty-webapp/7.6.4.v20120524/jetty-webapp-7.6.4.v20120524.jar" sourcepath="M2_REPO/org/eclipse/jetty/jetty-webapp/7.6.4.v20120524/jetty-webapp-7.6.4.v20120524-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/eclipse/jetty/jetty-websocket/7.6.4.v20120524/jetty-websocket-7.6.4.v20120524.jar" sourcepath="M2_REPO/org/eclipse/jetty/jetty-websocket/7.6.4.v20120524/jetty-websocket-7.6.4.v20120524-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/eclipse/jetty/jetty-xml/7.6.4.v20120524/jetty-xml-7.6.4.v20120524.jar" sourcepath="M2_REPO/org/eclipse/jetty/jetty-xml/7.6.4.v20120524/jetty-xml-7.6.4.v20120524-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.17/log4j-1.2.17.jar" sourcepath="M2_REPO/log4j/log4j/1.2.17/log4j-1.2.17-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/joda-time/joda-time/2.1/joda-time-2.1.jar" sourcepath="M2_REPO/joda-time/joda-time/2.1/joda-time-2.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/jul-to-slf4j/1.6.6/jul-to-slf4j-1.6.6.jar" sourcepath="M2_REPO/org/slf4j/jul-to-slf4j/1.6.6/jul-to-slf4j-1.6.6-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/log4j-over-slf4j/1.6.6/log4j-over-slf4j-1.6.6.jar" sourcepath="M2_REPO/org/slf4j/log4j-over-slf4j/1.6.6/log4j-over-slf4j-1.6.6-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/ch/qos/logback/logback-classic/1.0.6/logback-classic-1.0.6.jar" sourcepath="M2_REPO/ch/qos/logback/logback-classic/1.0.6/logback-classic-1.0.6-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/ch/qos/logback/logback-core/1.0.6/logback-core-1.0.6.jar" sourcepath="M2_REPO/ch/qos/logback/logback-core/1.0.6/logback-core-1.0.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/simpleframework/simple-xml/2.6.4/simple-xml-2.6.4.jar" sourcepath="M2_REPO/org/simpleframework/simple-xml/2.6.4/simple-xml-2.6.4-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.6/slf4j-api-1.6.6.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.6.6/slf4j-api-1.6.6-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.6.6/slf4j-log4j12-1.6.6.jar" sourcepath="M2_REPO/org/slf4j/slf4j-log4j12/1.6.6/slf4j-log4j12-1.6.6-sources.jar"/>
   <classpathentry kind="src" path="/sonos-java"/>
+  <classpathentry kind="var" path="M2_REPO/org/teleal/teleal-common/1.0.13/teleal-common-1.0.13.jar"/>
+  <classpathentry kind="lib" path="/home/applications/java/jdk1.6.0_32/lib/tools.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/vaadin/vaadin/6.8.0/vaadin-6.8.0.jar" sourcepath="M2_REPO/com/vaadin/vaadin/6.8.0/vaadin-6.8.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/xpp3/xpp3/1.1.3.3/xpp3-1.1.3.3.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>

@@ -1,7 +1,8 @@
 package org.tensin.sonos.commands;
 
-import org.tensin.sonos.ISonos;
 import org.tensin.sonos.SonosException;
+import org.tensin.sonos.control.ZonePlayer;
+import org.tensin.sonos.model.PlayMode;
 
 /**
  * The Class CommandPlay.
@@ -9,7 +10,7 @@ import org.tensin.sonos.SonosException;
 public class CommandPlay extends AbstractCommand implements IZoneCommand {
 
     /** The Constant NB_REPETITIONS. */
-    private static final int NB_REPETITIONS = 2;
+    private static final int NB_REPETITIONS = 1;
 
     /**
      * {@inheritDoc}
@@ -17,11 +18,11 @@ public class CommandPlay extends AbstractCommand implements IZoneCommand {
      * @see org.tensin.sonos.commands.IZoneCommand#execute(org.tensin.sonos.ISonos)
      */
     @Override
-    public void execute(final ISonos sonos) throws SonosException {
-        sonos.setMute(false);
-        sonos.playmode(false, false);
+    public void execute(final ZonePlayer sonos) throws SonosException {
+        sonos.getMediaRendererDevice().getRenderingControlService().setMute(false);
+        sonos.getMediaRendererDevice().getAvTransportService().setPlayMode(PlayMode.NORMAL);
         for (int i = 0; i < NB_REPETITIONS; i++) {
-            sonos.play();
+            sonos.getMediaRendererDevice().getAvTransportService().play();
         }
     }
 

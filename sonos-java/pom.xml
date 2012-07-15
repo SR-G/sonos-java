@@ -52,9 +52,9 @@
 							src/build/distrib.xml
 						</descriptor>
 					</descriptors>
-<!-- 					<outputDirectory> -->
-<!-- 						target/zip-ressources -->
-<!-- 					</outputDirectory> -->
+					<!-- <outputDirectory> -->
+					<!-- target/zip-ressources -->
+					<!-- </outputDirectory> -->
 					<attach>false</attach>
 					<!-- <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot> -->
 				</configuration>
@@ -81,9 +81,9 @@
 	</build>
 
 	<dependencies>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
 		</dependency>
 
 		<dependency>
@@ -108,15 +108,19 @@
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -134,5 +138,14 @@
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.teleal.cling</groupId>
+			<artifactId>cling-core</artifactId>
+		</dependency>
+
 	</dependencies>
 </project>

@@ -279,14 +279,9 @@ public class SonosImpl implements ISonos {
     void init(final String host) {
         name = new XMLSequence();
         value = new XMLSequence();
-        item = new SonosItem();
-        item.title = new XMLSequence();
-        item.artist = new XMLSequence();
-        item.album = new XMLSequence();
-        item.idURI = new XMLSequence();
-        item.playURI = new XMLSequence();
+        item = new SonosItem(host);
 
-        rpc = new SoapRPC(host, 1400);
+        rpc = new SoapRPC(host, SonosConstants.SONOS_DEFAULT_RPC_PORT);
 
         xport = new SoapRPC.Endpoint("AVTransport:1", "/MediaRenderer/AVTransport/Control");
         media = new SoapRPC.Endpoint("ContentDirectory:1", "/MediaServer/ContentDirectory/Control");
@@ -432,6 +427,7 @@ public class SonosImpl implements ISonos {
                 thing = "container";
             }
             while (result.tryRead(name, value)) {
+                System.out.println(">> " + name + " = " + value);
                 if (name.eq("dc:title")) {
                     item.title.init(value.unescape());
                     continue;
@@ -440,8 +436,16 @@ public class SonosImpl implements ISonos {
                     item.artist.init(value.unescape());
                     continue;
                 }
+                if (name.eq("upnp:originalTrackNumber")) {
+                    item.trackNumber.init(value.unescape());
+                    continue;
+                }
                 if (name.eq("upnp:album")) {
                     item.album.init(value.unescape());
+                    continue;
+                }
+                if (name.eq("upnp:albumArtURI")) {
+                    item.albumArtURI.init(value.unescape());
                     continue;
                 }
                 if (name.eq("res")) {

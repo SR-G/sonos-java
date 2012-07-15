@@ -2,14 +2,14 @@ package org.tensin.sonos.commands;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.tensin.sonos.ISonos;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.commander.CommandExecution;
 import org.tensin.sonos.commander.CommandFuture;
 import org.tensin.sonos.commander.ICommandFuture;
 import org.tensin.sonos.commander.SonosCommander;
+import org.tensin.sonos.control.ZonePlayer;
 
 /**
  * The Class CommandExecutor.
@@ -17,13 +17,13 @@ import org.tensin.sonos.commander.SonosCommander;
 public class ZoneCommandExecutor extends Thread {
 
     /** The Constant LOGGER. */
-    private static final Log LOGGER = LogFactory.getLog(SonosCommander.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SonosCommander.class);
 
     /** The sonos zone locker. */
     private final Object sonosZoneLocker = new Object();
 
     /** The sonos zone. */
-    private ISonos sonosZone;
+    private ZonePlayer sonosZone;
 
     /** The zone name. */
     private final String zoneName;
@@ -111,7 +111,7 @@ public class ZoneCommandExecutor extends Thread {
      * 
      * @return the sonos zone
      */
-    public ISonos getSonosZone() {
+    public ZonePlayer getSonosZone() {
         return sonosZone;
     }
 
@@ -159,7 +159,7 @@ public class ZoneCommandExecutor extends Thread {
      * @param sonos
      *            the sonos
      */
-    public void registerZoneAsAvailable(final ISonos sonos) {
+    public void registerZoneAsAvailable(final ZonePlayer sonos) {
         synchronized (sonosZoneLocker) {
             sonosZone = sonos;
             sonosZoneLocker.notifyAll();
@@ -180,7 +180,7 @@ public class ZoneCommandExecutor extends Thread {
                 }
             }
         } catch (InterruptedException e) {
-            LOGGER.error(e);
+            LOGGER.error("Interrupted", e);
         }
         while (active) {
             try {
@@ -202,7 +202,7 @@ public class ZoneCommandExecutor extends Thread {
                     }
                 }
             } catch (InterruptedException e) {
-                LOGGER.error(e);
+                LOGGER.error("Interrupted", e);
             }
         }
     }

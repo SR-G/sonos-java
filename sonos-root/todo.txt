@@ -1,2 +1,8 @@
-http://gitorious.org/andronos/scott2-andronos/blobs/90bac1d946602ab6eb85c7560ff931ed5126bde8/src/dk/contix/android/sonos/ZonePlayer.java
+ANDRONOS
+	http://gitorious.org/andronos/scott2-andronos/blobs/90bac1d946602ab6eb85c7560ff931ed5126bde8/src/dk/contix/android/sonos/ZonePlayer.java
+
+UPNP
+	WEUPNP 	http://code.google.com/p/weupnp/downloads/list
+	CLING	http://4thline.org/projects/cling/core/manual/cling-core-manual.html
+	PortMapper 	http://upnp-portmapper.sourceforge.net/
 

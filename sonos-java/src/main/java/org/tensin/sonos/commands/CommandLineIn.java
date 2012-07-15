@@ -1,7 +1,7 @@
 package org.tensin.sonos.commands;
 
-import org.tensin.sonos.ISonos;
 import org.tensin.sonos.SonosException;
+import org.tensin.sonos.control.ZonePlayer;
 
 /**
  * The Class CommandLineIn.
@@ -14,11 +14,12 @@ public class CommandLineIn extends AbstractCommand implements IZoneCommand {
      * @see org.tensin.sonos.commands.IZoneCommand#execute(org.tensin.sonos.ISonos)
      */
     @Override
-    public void execute(final ISonos sonos) throws SonosException {
+    public void execute(final ZonePlayer sonos) throws SonosException {
         if (hasArgs()) {
-            sonos.linein(getArgs().get(0));
-            sonos.play();
-            sonos.setMute(false);
+            // getArgs().get(0)
+            // sonos.getAudioInService().startTransmissionToGroup(sonos.);
+            sonos.getMediaRendererDevice().getRenderingControlService().setMute(false);
+            sonos.getMediaRendererDevice().getAvTransportService().play();
         }
     }
 

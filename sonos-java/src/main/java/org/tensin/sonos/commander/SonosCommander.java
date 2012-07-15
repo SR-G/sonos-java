@@ -7,8 +7,9 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.tensin.sonos.LogInitializer;
 import org.tensin.sonos.SonosConstants;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.commands.CommandFactory;
@@ -30,7 +31,7 @@ import com.beust.jcommander.ParameterException;
 public class SonosCommander extends AbstractCommander {
 
     /** The Constant LOGGER. */
-    private static final Log LOGGER = LogFactory.getLog(SonosCommander.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SonosCommander.class);
 
     /**
      * Gets the system helper.
@@ -257,7 +258,7 @@ public class SonosCommander extends AbstractCommander {
     @SuppressWarnings("unchecked")
     private void start(final String[] args) throws SonosException {
         try {
-            initLog();
+            LogInitializer.initLog();
             buildJCommanderFromCommandLine(args);
             final JavaCommander javaCommander = new JavaCommander();
             javaCommander.setCommandStackStandard(getCommandStackStandard());

@@ -5,6 +5,8 @@ package org.tensin.sonos.upnp;
  */
 public class SonosItem {
 
+    public String host;
+
     /** The title. */
     public XMLSequence title;
 
@@ -13,6 +15,12 @@ public class SonosItem {
 
     /** The artist. */
     public XMLSequence artist;
+
+    /** The track number. */
+    public XMLSequence trackNumber;
+
+    /** The play uri. */
+    public XMLSequence albumArtURI;
 
     /** The play uri. */
     public XMLSequence playURI; /* to enqueue */
@@ -29,6 +37,22 @@ public class SonosItem {
     /** The Constant PLAYLIST. */
     public static final int PLAYLIST = 2;
 
+    public SonosItem() {
+        title = new XMLSequence();
+        artist = new XMLSequence();
+        album = new XMLSequence();
+        idURI = new XMLSequence();
+        playURI = new XMLSequence();
+        trackNumber = new XMLSequence();
+        albumArtURI = new XMLSequence();
+        ;
+    }
+
+    public SonosItem(final String host) {
+        this();
+        this.host = host;
+    }
+
     /**
      * Reset.
      */
@@ -38,6 +62,8 @@ public class SonosItem {
         artist.adjust(0, 0);
         playURI.adjust(0, 0);
         idURI.adjust(0, 0);
+        trackNumber.adjust(0, 0);
+        albumArtURI.adjust(0, 0);
         flags = 0;
     }
 }

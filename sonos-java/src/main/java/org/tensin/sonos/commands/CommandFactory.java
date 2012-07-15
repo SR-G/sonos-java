@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tensin.sonos.SonosException;
 
 /**
@@ -14,7 +14,7 @@ import org.tensin.sonos.SonosException;
 public class CommandFactory {
 
     /** The Constant LOGGER. */
-    private static final Log LOGGER = LogFactory.getLog(CommandFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommandFactory.class);
 
     /** The found commands. */
     private static Collection<ICommand> foundCommands;
@@ -79,9 +79,10 @@ public class CommandFactory {
             foundCommands = new ArrayList<ICommand>();
             foundCommands.add(new CommandAdd());
             foundCommands.add(new CommandDiscover());
-            foundCommands.add(new CommandGetXPort());
+            foundCommands.add(new CommandGetInfo());
             foundCommands.add(new CommandList());
             foundCommands.add(new CommandMove());
+            foundCommands.add(new CommandMuteOff());
             foundCommands.add(new CommandMuteOn());
             foundCommands.add(new CommandNext());
             foundCommands.add(new CommandPause());
@@ -90,12 +91,10 @@ public class CommandFactory {
             foundCommands.add(new CommandRemove());
             foundCommands.add(new CommandRemoveAll());
             foundCommands.add(new CommandSave());
-            foundCommands.add(new CommandSetXPort());
+            foundCommands.add(new CommandShuffleOff());
             foundCommands.add(new CommandShuffleOn());
             foundCommands.add(new CommandStop());
             foundCommands.add(new CommandTrack());
-            foundCommands.add(new CommandMuteOff());
-            foundCommands.add(new CommandShuffleOff());
             foundCommands.add(new CommandVolume());
             foundCommands.add(new CommandVolumeDown());
             foundCommands.add(new CommandVolumeUp());

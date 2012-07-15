@@ -17,6 +17,15 @@ public final class SonosConstants {
     /** The Constant SSDP_CONTROL_PORT. May be changed if needed. */
     public static final int DEFAULT_SSDP_CONTROL_PORT = 8009;
 
+    /** The Constant SONOS_DEFAULT_RPC_PORT. */
+    public static final int SONOS_DEFAULT_RPC_PORT = 1400;
+
+    /** The Constant NEWLINE. */
+    public static final String NEWLINE = "\n";
+
+    /** The Constant AV_TRANSPORT. */
+    public static final String AV_TRANSPORT = "AVTransport";
+
     /**
      * Instantiates a new sonos constants.
      */

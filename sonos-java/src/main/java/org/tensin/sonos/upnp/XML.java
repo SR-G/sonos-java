@@ -160,7 +160,7 @@ public class XML {
             if (len < 0) {
                 break;
             }
-            LOGGER.debug("ANAME: [" + new String(tmp.data, off, len) + "]");
+            // LOGGER.debug("ANAME: [" + new String(tmp.data, off, len) + "]");
             int voff = tmp.value();
             if (voff < 0) {
                 break;
@@ -170,7 +170,7 @@ public class XML {
                 break;
             }
             vend--;
-            LOGGER.debug("ATEXT: [" + new String(tmp.data, voff, vend - voff) + "]");
+            // LOGGER.debug("ATEXT: [" + new String(tmp.data, voff, vend - voff) + "]");
 
             if (nlen != len) {
                 continue;
@@ -283,10 +283,10 @@ public class XML {
         att_len = nxt - att;
 
         if (opn) {
-            LOGGER.debug("TAG [" + new String(seq.data, tag_off, tag_len) + "]");
-            LOGGER.debug("ATR [" + new String(seq.data, att_off, att_len) + "]");
+            // LOGGER.debug("TAG [" + new String(seq.data, tag_off, tag_len) + "]");
+            // LOGGER.debug("ATR [" + new String(seq.data, att_off, att_len) + "]");
         } else {
-            LOGGER.debug("tag [" + new String(seq.data, tag_off, tag_len) + "]");
+            // LOGGER.debug("tag [" + new String(seq.data, tag_off, tag_len) + "]");
         }
     }
 
@@ -381,7 +381,7 @@ public class XML {
         open(name);
         tmp.adjust(start, tag_off - 2);
         close(name);
-        LOGGER.debug("VAL [" + tmp + "]");
+        // LOGGER.debug("VAL [" + tmp + "]");
         return tmp;
     }
 

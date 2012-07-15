@@ -49,6 +49,12 @@ public abstract class AbstractCommand {
         this.args = args;
     }
 
+    /**
+     * Sets the args.
+     * 
+     * @param singleArg
+     *            the new args
+     */
     public void setArgs(final String singleArg) {
         args = new ArrayList<String>();
         args.add(singleArg);

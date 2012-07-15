@@ -1,9 +1,9 @@
 package org.tensin.sonos.commands;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.tensin.sonos.ISonos;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tensin.sonos.SonosException;
+import org.tensin.sonos.control.ZonePlayer;
 import org.tensin.sonos.upnp.ISonosVolumeListener;
 
 /**
@@ -37,7 +37,7 @@ public class CommandVolume extends AbstractCommand implements IZoneCommand {
     }
 
     /** The Constant LOGGER. */
-    private static final Log LOGGER = LogFactory.getLog(CommandVolume.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommandVolume.class);
 
     /** The listener. */
     private ISonosVolumeListener listener = new ConsoleSonosVolumeListener();
@@ -48,14 +48,14 @@ public class CommandVolume extends AbstractCommand implements IZoneCommand {
      * @see org.tensin.sonos.commands.IZoneCommand#execute(org.tensin.sonos.ISonos)
      */
     @Override
-    public void execute(final ISonos sonos) throws SonosException {
+    public void execute(final ZonePlayer sonos) throws SonosException {
         if (!hasArgs()) {
-            int n = sonos.volume();
+            int n = sonos.getMediaRendererDevice().getRenderingControlService().getVolume();
             if (listener != null) {
-                listener.volumeDone(sonos.getZoneName(), n);
+                listener.volumeDone(sonos.getId(), n);
             }
         } else {
-            sonos.volume(Integer.parseInt(getArgs().get(0)));
+            sonos.getMediaRendererDevice().getRenderingControlService().setVolume(Integer.parseInt(getArgs().get(0)));
         }
     }
 

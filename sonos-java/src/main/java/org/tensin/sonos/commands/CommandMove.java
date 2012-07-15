@@ -1,7 +1,7 @@
 package org.tensin.sonos.commands;
 
-import org.tensin.sonos.ISonos;
 import org.tensin.sonos.SonosException;
+import org.tensin.sonos.control.ZonePlayer;
 
 /**
  * The Class CommandMove.
@@ -14,9 +14,10 @@ public class CommandMove extends AbstractCommand implements IZoneCommand {
      * @see org.tensin.sonos.commands.IZoneCommand#execute(org.tensin.sonos.ISonos)
      */
     @Override
-    public void execute(final ISonos sonos) throws SonosException {
+    public void execute(final ZonePlayer sonos) throws SonosException {
         if (hasArgs()) {
-            sonos.move(Integer.parseInt(getArgs().get(0)), Integer.parseInt(getArgs().get(1)));
+            sonos.getMediaRendererDevice().getAvTransportService()
+                    .reorderTracksInQueue(Integer.parseInt(getArgs().get(0)), 1, Integer.parseInt(getArgs().get(1)));
         }
     }
 
