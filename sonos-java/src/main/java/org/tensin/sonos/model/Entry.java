@@ -59,6 +59,9 @@ public class Entry implements Serializable, Comparable<Entry> {
     /** The album art uri. */
     private final String albumArtUri;
 
+    /** The album art uri. */
+    private final String albumArtist;
+
     /** The creator. */
     private final String creator;
 
@@ -84,10 +87,21 @@ public class Entry implements Serializable, Comparable<Entry> {
      *            the upnp class
      * @param res
      *            the res
+     * @param originalTrackNumber
+     *            the original track number
      */
     public Entry(final String id, final String title, final String parentId, final String album, final String albumArtUri, final String creator,
-            final String upnpClass, final String res) {
-        this(id, title, parentId, album, albumArtUri, creator, upnpClass, res, -1);
+            final String upnpClass, final String res, final int originalTrackNumber, final String albumArtist) {
+        this.id = id;
+        this.title = title;
+        this.parentId = parentId;
+        this.album = album;
+        this.albumArtist = albumArtist;
+        this.albumArtUri = albumArtUri;
+        this.creator = creator;
+        this.upnpClass = upnpClass;
+        this.res = res;
+        this.originalTrackNumber = originalTrackNumber;
     }
 
     /**
@@ -109,22 +123,17 @@ public class Entry implements Serializable, Comparable<Entry> {
      *            the upnp class
      * @param res
      *            the res
-     * @param originalTrackNumber
-     *            the original track number
      */
     public Entry(final String id, final String title, final String parentId, final String album, final String albumArtUri, final String creator,
-            final String upnpClass, final String res, final int originalTrackNumber) {
-        this.id = id;
-        this.title = title;
-        this.parentId = parentId;
-        this.album = album;
-        this.albumArtUri = albumArtUri;
-        this.creator = creator;
-        this.upnpClass = upnpClass;
-        this.res = res;
-        this.originalTrackNumber = originalTrackNumber;
+            final String upnpClass, final String res, final String albumArtist) {
+        this(id, title, parentId, album, albumArtUri, creator, upnpClass, res, -1, albumArtist);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     @Override
     public int compareTo(final Entry o) {
         return new CompareToBuilder().append(getTitle(), o.getTitle()).append(getAlbum(), o.getAlbum()).append(getCreator(), o.getCreator())
@@ -138,6 +147,15 @@ public class Entry implements Serializable, Comparable<Entry> {
      */
     public String getAlbum() {
         return album;
+    }
+
+    /**
+     * Gets the album artist.
+     * 
+     * @return the album artist
+     */
+    public String getAlbumArtist() {
+        return albumArtist;
     }
 
     /**

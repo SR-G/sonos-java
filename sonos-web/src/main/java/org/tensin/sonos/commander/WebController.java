@@ -126,10 +126,10 @@ public class WebController extends AbstractController implements ISonosControlle
                 if (zone != null) {
                     final String name = zone.getDevicePropertiesService().getZoneAttributes().getName();
                     zoneCommandDispatcher.registerZoneAsAvailable(zone, name);
-                    sonosState.loadMusicLibrary(zone, name);
                     synchronized (sonosState.getZonesData()) {
                         Object id = sonosState.getZonesData().addItem();
                         sonosState.getZonesData().getContainerProperty(id, "Name").setValue(name);
+                        sonosState.loadMusicLibrary(zone, name);
                     }
                 }
             }

@@ -747,7 +747,7 @@ public class AVTransportService extends AbstractService { // implements ServiceE
      *            @ * Signals that an I/O exception has occurred.
      */
     public void setAvTransportUriToQueue(final String zoneId) {
-        setAvTransportUri(new Entry("", "", "", "", "", "", "", "x-rincon-queue:" + zoneId + "#0"));
+        setAvTransportUri(new Entry("", "", "", "", "", "", "", "x-rincon-queue:" + zoneId + "#0", ""));
     }
 
     /**

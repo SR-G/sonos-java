@@ -15,7 +15,6 @@ package org.tensin.sonos.xml;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tensin.sonos.model.Entry;
@@ -27,26 +26,26 @@ import org.xml.sax.helpers.DefaultHandler;
  * The Class EntryHandler.
  */
 public class EntryHandler extends DefaultHandler {
-    
+
     /**
      * The Enum Element.
      */
     private enum Element {
-        
+
         /** The title. */
-        TITLE, 
- /** The class. */
- CLASS, 
- /** The album. */
- ALBUM, 
- /** The album art uri. */
- ALBUM_ART_URI, 
- /** The creator. */
- CREATOR, 
- /** The res. */
- RES, 
- /** The track number. */
- TRACK_NUMBER
+        TITLE,
+        /** The class. */
+        CLASS,
+        /** The album. */
+        ALBUM, ALBUM_ARTIST,
+        /** The album art uri. */
+        ALBUM_ART_URI,
+        /** The creator. */
+        CREATOR,
+        /** The res. */
+        RES,
+        /** The track number. */
+        TRACK_NUMBER
     }
 
     /** The Constant LOGGER. */
@@ -59,31 +58,34 @@ public class EntryHandler extends DefaultHandler {
 
     /** The id. */
     private String id;
-    
+
     /** The parent id. */
     private String parentId;
-    
+
     /** The upnp class. */
     private StringBuilder upnpClass = new StringBuilder();
-    
+
     /** The res. */
     private StringBuilder res = new StringBuilder();
-    
+
     /** The title. */
     private StringBuilder title = new StringBuilder();
-    
+
     /** The album. */
     private StringBuilder album = new StringBuilder();
-    
+
+    /** The album. */
+    private StringBuilder albumArtist = new StringBuilder();
+
     /** The album art uri. */
     private StringBuilder albumArtUri = new StringBuilder();
-    
+
     /** The creator. */
     private StringBuilder creator = new StringBuilder();
-    
+
     /** The track number. */
     private StringBuilder trackNumber = new StringBuilder();
-    
+
     /** The element. */
     private Element element = null;
 
@@ -97,7 +99,9 @@ public class EntryHandler extends DefaultHandler {
         // shouldn't be used outside of this package.
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.xml.sax.helpers.DefaultHandler#characters(char[], int, int)
      */
     @Override
@@ -118,6 +122,9 @@ public class EntryHandler extends DefaultHandler {
         case ALBUM:
             album.append(ch, start, length);
             break;
+        case ALBUM_ARTIST:
+            albumArtist.append(ch, start, length);
+            break;
         case ALBUM_ART_URI:
             albumArtUri.append(ch, start, length);
             break;
@@ -131,7 +138,9 @@ public class EntryHandler extends DefaultHandler {
         }
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.xml.sax.helpers.DefaultHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
@@ -146,7 +155,7 @@ public class EntryHandler extends DefaultHandler {
             }
 
             artists.add(new Entry(id, title.toString(), parentId, album.toString(), albumArtUri.toString(), creator.toString(), upnpClass.toString(), res
-                    .toString(), trackNumberVal));
+                    .toString(), trackNumberVal, albumArtist.toString()));
             title = new StringBuilder();
             upnpClass = new StringBuilder();
             res = new StringBuilder();
@@ -154,19 +163,22 @@ public class EntryHandler extends DefaultHandler {
             albumArtUri = new StringBuilder();
             creator = new StringBuilder();
             trackNumber = new StringBuilder();
+            albumArtist = new StringBuilder();
         }
     }
 
     /**
      * Gets the artists.
-     *
+     * 
      * @return the artists
      */
     public List<Entry> getArtists() {
         return artists;
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     * 
      * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
      */
     @Override
@@ -184,6 +196,8 @@ public class EntryHandler extends DefaultHandler {
             element = Element.CREATOR;
         } else if (qName.equals("upnp:album")) {
             element = Element.ALBUM;
+        } else if (qName.equals("upnp:albumArtist")) {
+            element = Element.ALBUM_ARTIST;
         } else if (qName.equals("upnp:albumArtURI")) {
             element = Element.ALBUM_ART_URI;
         } else if (qName.equals("upnp:originalTrackNumber")) {

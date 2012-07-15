@@ -127,7 +127,7 @@ public class SonosState implements ISonosState {
      */
     @Override
     public void loadMusicLibrary(final ZonePlayer zone, final String name) {
-        MusicLibrary library = new MusicLibrary(zone, "A:ARTIST");
+        MusicLibrary library = new MusicLibrary(zone, "A:");
         libraries.put(name, library);
     }
 

@@ -1,5 +1,6 @@
 package org.tensin.sonos;
 
+import org.junit.Test;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.UpnpServiceImpl;
 import org.teleal.cling.model.message.header.STAllHeader;
@@ -9,9 +10,21 @@ import org.teleal.cling.model.meta.RemoteService;
 import org.teleal.cling.registry.Registry;
 import org.teleal.cling.registry.RegistryListener;
 
-public class ClingTestCase implements Runnable {
+/**
+ * The Class ClingTestCase.
+ */
+public class ClingTestCase {
 
-    public static <S> void main(final String[] args) throws Exception {
+    /**
+     * Test discovery.
+     * 
+     * @param args
+     *            the args
+     * @throws Exception
+     *             the exception
+     */
+    @Test
+    public void testDiscovery() throws Exception {
 
         // UPnP discovery is asynchronous, we need a callback
         RegistryListener listener = new RegistryListener() {
@@ -74,18 +87,12 @@ public class ClingTestCase implements Runnable {
         upnpService.getControlPoint().search(new STAllHeader());
 
         // Let's wait 10 seconds for them to respond
-        // System.out.println("Waiting 10 seconds before shutting down...");
-        // Thread.sleep(10000);
+        System.out.println("Waiting 10 seconds before shutting down...");
+        Thread.sleep(10000);
 
         // Release all resources and advertise BYEBYE to other UPnP devices
-        // System.out.println("Stopping Cling...");
-        // upnpService.shutdown();
-    }
-
-    @Override
-    public void run() {
-        // TODO Auto-generated method stub
-
+        System.out.println("Stopping Cling...");
+        upnpService.shutdown();
     }
 
 }

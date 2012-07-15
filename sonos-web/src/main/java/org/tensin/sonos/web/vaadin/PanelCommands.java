@@ -1,23 +1,46 @@
 package org.tensin.sonos.web.vaadin;
 
 import java.io.Serializable;
+import java.util.Collection;
 
-import org.tensin.sonos.model.Entry;
-import org.tensin.sonos.model.MusicLibrary;
+import org.apache.lucene.document.Document;
+import org.tensin.sonos.SonosException;
+import org.tensin.sonos.SonosIndexer;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 
+/**
+ * The Class PanelCommands.
+ */
 public class PanelCommands extends AbstractVaadinPanel {
 
+    /**
+     * The Class SearchFilter.
+     */
     class SearchFilter implements Serializable {
 
+        /** The term. */
         private final String term;
+
+        /** The property id. */
         private final Object propertyId;
+
+        /** The search name. */
         private final String searchName;
 
+        /**
+         * Instantiates a new search filter.
+         * 
+         * @param propertyId
+         *            the property id
+         * @param searchTerm
+         *            the search term
+         * @param name
+         *            the name
+         */
         public SearchFilter(final Object propertyId, final String searchTerm, final String name) {
             this.propertyId = propertyId;
             term = searchTerm;
@@ -27,17 +50,24 @@ public class PanelCommands extends AbstractVaadinPanel {
         // + getters
     }
 
-    /** serialVersionUID */
+    /** serialVersionUID. */
     private static final long serialVersionUID = -8755064618320070798L;
 
+    /** The search field. */
     TextField searchField;
 
+    /**
+     * Instantiates a new panel commands.
+     */
     public PanelCommands() {
         super("Commands");
         setSizeFull();
 
     }
 
+    /**
+     * Inits the.
+     */
     public void init() {
 
         // private NativeSelect fieldToSearch;
@@ -51,7 +81,11 @@ public class PanelCommands extends AbstractVaadinPanel {
         searchButton.addListener(new Button.ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
-                performSearch();
+                try {
+                    performSearch();
+                } catch (SonosException e) {
+                    e.printStackTrace();
+                }
             }
 
         });
@@ -60,17 +94,26 @@ public class PanelCommands extends AbstractVaadinPanel {
         addComponent(searchButton);
     }
 
-    private void performSearch() {
-        String searchTerm = (String) searchField.getValue();
-        String zoneName = sonosState.getSelectedZoneName();
-        MusicLibrary library = sonosState.getMusicLibrary(zoneName);
-        for (int i = 0; i < library.getSize(); i++) {
-            Entry e = library.getEntryAt(i);
+    /**
+     * Perform search.
+     * 
+     * @throws SonosException
+     *             the sonos exception
+     */
+    private void performSearch() throws SonosException {
+        String queryString = (String) searchField.getValue();
 
-            if (e.getTitle().matches(searchTerm) || e.getCreator().matches(searchTerm)) {
-                System.out.println(e.getTitle());
-            }
-        }
+        Collection<Document> results = SonosIndexer.search(queryString);
+
+        // String zoneName = sonosState.getSelectedZoneName();
+        // MusicLibrary library = sonosState.getMusicLibrary(zoneName);
+        // for (int i = 0; i < library.getSize(); i++) {
+        // Entry e = library.getEntryAt(i);
+        //
+        // if (e.getTitle().matches(searchTerm) || e.getCreator().matches(searchTerm)) {
+        // System.out.println(e.getTitle());
+        // }
+        // }
         // SearchFilter searchFilter = new SearchFilter(fieldToSearch.getValue(), searchTerm, (String) searchName.getValue());
         // app.search(searchFilter);
     }

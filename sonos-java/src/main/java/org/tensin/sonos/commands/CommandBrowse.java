@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tensin.sonos.SonosConstants;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.control.BrowseHandle;
 import org.tensin.sonos.control.EntryCallback;
@@ -32,7 +33,7 @@ public class CommandBrowse extends AbstractCommand implements IZoneCommand {
         @Override
         public void addEntries(final BrowseHandle handle, final Collection<Entry> entries) {
             for (final Entry entry : entries) {
-                sb.append(" - ").append(entry.getTitle());
+                sb.append(" - ").append(entry.getTitle()).append(SonosConstants.NEWLINE);
             }
         }
 
@@ -44,6 +45,9 @@ public class CommandBrowse extends AbstractCommand implements IZoneCommand {
         @Override
         public void retrievalComplete(final BrowseHandle handle, final boolean completedSuccessfully) {
             LOGGER.info(sb.toString());
+            synchronized (handle) {
+                handle.notify();
+            }
         }
 
         /**
@@ -65,6 +69,14 @@ public class CommandBrowse extends AbstractCommand implements IZoneCommand {
     @Override
     public void execute(final ZonePlayer sonos) throws SonosException {
         final BrowseHandle handle = sonos.getMediaServerDevice().getContentDirectoryService().getAllEntriesAsync(callback, getArgs().get(0));
+        try {
+            synchronized (handle) {
+                handle.wait();
+            }
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**

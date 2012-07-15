@@ -18,6 +18,8 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tensin.sonos.SonosException;
+import org.tensin.sonos.SonosIndexer;
 import org.tensin.sonos.control.BrowseHandle;
 import org.tensin.sonos.control.EntryCallback;
 import org.tensin.sonos.control.ZonePlayer;
@@ -44,6 +46,14 @@ public class MusicLibrary implements MusicLibraryModel {
         @Override
         public void addEntries(final BrowseHandle handle, final Collection<Entry> entries) {
             MusicLibrary.this.addEntries(entries);
+            LOGGER.info("Indexing [" + entries.size() + "] entries");
+            for (Entry e : entries) {
+                try {
+                    SonosIndexer.index(e);
+                } catch (SonosException e1) {
+                    e1.printStackTrace();
+                }
+            }
         }
 
         /**
