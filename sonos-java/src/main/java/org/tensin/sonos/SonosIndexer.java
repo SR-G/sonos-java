@@ -3,6 +3,8 @@ package org.tensin.sonos;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -21,12 +23,63 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.LockObtainFailedException;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tensin.sonos.model.Entry;
 
 /**
  * The Class SonosIndexer.
  */
-public class SonosIndexer {
+public class SonosIndexer implements ISonosIndexer {
+
+    /**
+     * The Class indexingThread.
+     */
+    private class IndexingThread implements Runnable {
+
+        /** The active. */
+        private final boolean active = true;
+
+        /**
+         * {@inheritDoc}
+         * 
+         * @see java.lang.Runnable#run()
+         */
+        @Override
+        public void run() {
+            IndexWriter indexWriter = null;
+            try {
+                indexWriter = getIndexWriter();
+            } catch (SonosException e) {
+                LOGGER.error("Error while getting index writer", e);
+            }
+            Entry entry = null;
+            while (active) {
+                try {
+                    entry = queue.take();
+                    final Document doc = new Document();
+                    doc.add(new Field("album", entry.getAlbum(), Field.Store.YES, Field.Index.ANALYZED));
+                    doc.add(new Field("artist", entry.getCreator(), Field.Store.YES, Field.Index.ANALYZED));
+                    doc.add(new Field("title", entry.getTitle(), Field.Store.YES, Field.Index.ANALYZED));
+                    doc.add(new Field("albumartist", entry.getAlbumArtist(), Field.Store.YES, Field.Index.ANALYZED));
+                    doc.add(new Field("id", entry.getId(), Field.Store.YES, Field.Index.ANALYZED));
+                    doc.add(new Field("upnpclass", entry.getUpnpClass(), Field.Store.YES, Field.Index.ANALYZED));
+                    // doc.add(new Field("zones", entry.getUpnpClass(), Field.Store.YES, Field.Index.ANALYZED));
+                    indexWriter.addDocument(doc);
+                    indexWriter.commit();
+                } catch (CorruptIndexException e) {
+                    LOGGER.error("Error while processing entry [" + entry.toString() + "]", e);
+                } catch (LockObtainFailedException e) {
+                    LOGGER.error("Error while processing entry [" + entry.toString() + "]", e);
+                } catch (IOException e) {
+                    LOGGER.error("Error while processing entry [" + entry.toString() + "]", e);
+                } catch (InterruptedException e) {
+                    LOGGER.error("Interrupted while processing entry", e);
+                }
+            }
+        }
+
+    }
 
     /** The Constant index. */
     private static final Directory index = new RAMDirectory();
@@ -40,6 +93,34 @@ public class SonosIndexer {
     /** The w. */
     private static IndexWriter w = null;
 
+    /** The queue. */
+    private static BlockingQueue<Entry> queue = new LinkedBlockingQueue<Entry>();
+
+    /** The Constant LOGGER. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(SonosIndexer.class);
+
+    /** The indexing thread. */
+    private IndexingThread indexingThread;
+
+    /** The instance. */
+    private static SonosIndexer INSTANCE = new SonosIndexer();
+
+    /**
+     * Gets the single instance of SonosIndexer.
+     * 
+     * @return single instance of SonosIndexer
+     */
+    public static ISonosIndexer getInstance() {
+        return INSTANCE;
+    }
+
+    /**
+     * Instantiates a new sonos indexer.
+     */
+    public SonosIndexer() {
+
+    }
+
     /**
      * Gets the index writer.
      * 
@@ -47,7 +128,7 @@ public class SonosIndexer {
      * @throws SonosException
      *             the sonos exception
      */
-    private static IndexWriter getIndexWriter() throws SonosException {
+    private IndexWriter getIndexWriter() throws SonosException {
         if (w == null) {
             try {
                 w = new IndexWriter(index, config);
@@ -63,42 +144,32 @@ public class SonosIndexer {
     }
 
     /**
-     * Index.
+     * {@inheritDoc}
      * 
-     * @param entry
-     *            the entry
-     * @throws SonosException
-     *             the sonos exception
+     * @see org.tensin.sonos.ISonosIndexer#index(org.tensin.sonos.model.Entry)
      */
-    public static void index(final Entry entry) throws SonosException {
-        try {
-            final IndexWriter indexWriter = getIndexWriter();
-            final Document doc = new Document();
-            doc.add(new Field("album", entry.getAlbum(), Field.Store.YES, Field.Index.ANALYZED));
-            doc.add(new Field("artist", entry.getCreator(), Field.Store.YES, Field.Index.ANALYZED));
-            doc.add(new Field("title", entry.getTitle(), Field.Store.YES, Field.Index.ANALYZED));
-            indexWriter.addDocument(doc);
-            indexWriter.commit();
-        } catch (CorruptIndexException e) {
-            throw new SonosException(e);
-        } catch (LockObtainFailedException e) {
-            throw new SonosException(e);
-        } catch (IOException e) {
-            throw new SonosException(e);
-        } finally {
-        }
+    @Override
+    public void index(final Entry entry) throws SonosException {
+        queue.offer(entry);
     }
 
     /**
-     * Search.
+     * {@inheritDoc}
      * 
-     * @param queryString
-     *            the query string
-     * @return the collection
-     * @throws SonosException
-     *             the sonos exception
+     * @see org.tensin.sonos.ISonosIndexer#init()
      */
-    public static Collection<Document> search(final String queryString) throws SonosException {
+    @Override
+    public void init() {
+        new Thread(indexingThread).start();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.ISonosIndexer#search(java.lang.String)
+     */
+    @Override
+    public Collection<Document> search(final String queryString) throws SonosException {
         final Collection<Document> results = new ArrayList<Document>();
         try {
             Query q = new QueryParser(Version.LUCENE_36, "title", analyzer).parse(queryString);
@@ -128,6 +199,16 @@ public class SonosIndexer {
         }
 
         return results;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.tensin.sonos.ISonosIndexer#shutdown()
+     */
+    @Override
+    public void shutdown() {
 
     }
 }

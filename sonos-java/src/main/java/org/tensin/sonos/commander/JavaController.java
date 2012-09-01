@@ -41,7 +41,7 @@ public class JavaController extends AbstractController implements ISonosControll
      * 
      * @return the i sonos controller
      */
-    public static ISonosController createController() {
+    public static JavaController createController() {
         final Injector injector = Guice.createInjector(new GuiceSonosModuleJava());
         GuiceSonosInjector.setInstance(injector);
 
@@ -53,7 +53,7 @@ public class JavaController extends AbstractController implements ISonosControll
     private final Executor controllerExecutor = Executors.newSingleThreadExecutor(new ThreadFactory() {
         @Override
         public Thread newThread(final Runnable r) {
-            Thread t = new Thread(r, "SonosControllerThread");
+            final Thread t = new Thread(r, "SonosControllerThread");
             t.setDaemon(true);
             return t;
         }
@@ -202,7 +202,7 @@ public class JavaController extends AbstractController implements ISonosControll
      * Instantiates a new java controller.
      */
     @Inject
-    protected JavaController() {
+    public JavaController() {
         super();
     }
 

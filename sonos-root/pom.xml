@@ -306,6 +306,12 @@
 				<groupId>org.teleal.cling</groupId>
 				<artifactId>cling-core</artifactId>
 				<version>1.0.5</version>
+				<exclusions>
+					<exclusion>
+<groupId>com.sun</groupId>
+<artifactId>tools</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<dependency>

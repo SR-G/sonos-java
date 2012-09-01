@@ -7,5 +7,5 @@
 <!-- 	<set-property name="user.agent" value="safari,gecko1_8"/> -->
 
 
-    <inherits name="org.tensin.sonos.web.gwt.SonosWebWidgetset" />
+    
 </module>

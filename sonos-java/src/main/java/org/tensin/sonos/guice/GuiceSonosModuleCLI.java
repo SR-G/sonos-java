@@ -1,5 +1,7 @@
 package org.tensin.sonos.guice;
 
+import org.tensin.sonos.ISonosIndexer;
+import org.tensin.sonos.SonosIndexer;
 import org.tensin.sonos.commander.CLIController;
 import org.tensin.sonos.commander.ISonosController;
 import org.tensin.sonos.commands.IZoneCommandDispatcher;
@@ -32,6 +34,10 @@ public class GuiceSonosModuleCLI extends AbstractModule {
 
         bind(IZoneCommandDispatcher.class).to(ZoneCommandDispatcher.class);
         bind(ISonosController.class).to(CLIController.class);
+
+        final ISonosIndexer sonosIndexer = new SonosIndexer();
+        sonosIndexer.init();
+        bind(ISonosIndexer.class).toInstance(sonosIndexer);
 
         // === Instance bindings : guice will inject the provided instance everywhere an @Inject annotation is found for that class
         // if (configuration != null) {

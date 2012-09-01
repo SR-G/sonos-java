@@ -18,11 +18,14 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tensin.sonos.ISonosIndexer;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.SonosIndexer;
 import org.tensin.sonos.control.BrowseHandle;
 import org.tensin.sonos.control.EntryCallback;
 import org.tensin.sonos.control.ZonePlayer;
+
+import com.google.inject.Inject;
 
 /**
  * A table model for a list of entries. eg queue.
@@ -47,11 +50,11 @@ public class MusicLibrary implements MusicLibraryModel {
         public void addEntries(final BrowseHandle handle, final Collection<Entry> entries) {
             MusicLibrary.this.addEntries(entries);
             LOGGER.info("Indexing [" + entries.size() + "] entries");
-            for (Entry e : entries) {
+            for (final Entry entry : entries) {
                 try {
-                    SonosIndexer.index(e);
-                } catch (SonosException e1) {
-                    e1.printStackTrace();
+                    sonosIndexer.index(entry);
+                } catch (SonosException ex) {
+                    LOGGER.error("Can't index element", ex);
                 }
             }
         }
@@ -80,8 +83,11 @@ public class MusicLibrary implements MusicLibraryModel {
 
     }
 
+    /** The sonos indexer. */
+    @Inject
+    private ISonosIndexer sonosIndexer = SonosIndexer.getInstance();
+
     /** The Constant LOGGER. */
-    @SuppressWarnings("unused")
     private static final Logger LOGGER = LoggerFactory.getLogger(MusicLibrary.class);
 
     /** The entries. */
@@ -129,8 +135,8 @@ public class MusicLibrary implements MusicLibraryModel {
      * 
      * @param zone
      *            the zone
-     * @param entry
-     *            the entry
+     * @param type
+     *            the type
      */
     public MusicLibrary(final ZonePlayer zone, final String type) {
         browser = loadEntries(zone, type);
@@ -207,6 +213,15 @@ public class MusicLibrary implements MusicLibraryModel {
     }
 
     /**
+     * Gets the sonos indexer.
+     * 
+     * @return the sonos indexer
+     */
+    public ISonosIndexer getSonosIndexer() {
+        return sonosIndexer;
+    }
+
+    /**
      * {@inheritDoc}
      * 
      * @see org.tensin.sonos.model.MusicLibraryModel#hasEntryFor(int)
@@ -266,6 +281,16 @@ public class MusicLibrary implements MusicLibraryModel {
     protected void setReportedSize(final int count) {
         reportedSize = count;
         fireSizeChanged();
+    }
+
+    /**
+     * Sets the sonos indexer.
+     * 
+     * @param sonosIndexer
+     *            the new sonos indexer
+     */
+    public void setSonosIndexer(final ISonosIndexer sonosIndexer) {
+        this.sonosIndexer = sonosIndexer;
     }
 
 }

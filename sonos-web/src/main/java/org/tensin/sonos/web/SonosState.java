@@ -42,6 +42,8 @@ public class SonosState implements ISonosState {
     /** The instance. */
     private static ISonosState INSTANCE = new SonosState();
 
+    private static boolean indexed;
+
     /**
      * Gets the single instance of SonosState.
      * 
@@ -127,8 +129,11 @@ public class SonosState implements ISonosState {
      */
     @Override
     public void loadMusicLibrary(final ZonePlayer zone, final String name) {
-        MusicLibrary library = new MusicLibrary(zone, "A:");
-        libraries.put(name, library);
+        if (!indexed) {
+            MusicLibrary library = new MusicLibrary(zone, "A:TRACKS");
+            libraries.put(name, library);
+            indexed = true;
+        }
     }
 
     /**

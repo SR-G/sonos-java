@@ -196,7 +196,7 @@ public class EntryHandler extends DefaultHandler {
             element = Element.CREATOR;
         } else if (qName.equals("upnp:album")) {
             element = Element.ALBUM;
-        } else if (qName.equals("upnp:albumArtist")) {
+        } else if (qName.equals("r:albumArtist")) {
             element = Element.ALBUM_ARTIST;
         } else if (qName.equals("upnp:albumArtURI")) {
             element = Element.ALBUM_ART_URI;
@@ -209,7 +209,7 @@ public class EntryHandler extends DefaultHandler {
             }
 
             if (!ignore.contains(localName)) {
-                LOGGER.warn("did not recognise element named " + localName);
+                LOGGER.warn("did not recognise element named [" + localName + "], qname [" + qName + "]");
             }
             element = null;
         }

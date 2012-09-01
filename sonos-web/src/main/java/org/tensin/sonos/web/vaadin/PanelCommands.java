@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import org.apache.lucene.document.Document;
+import org.tensin.sonos.ISonosIndexer;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.SonosIndexer;
 
+import com.google.inject.Inject;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.FormLayout;
@@ -56,6 +58,10 @@ public class PanelCommands extends AbstractVaadinPanel {
     /** The search field. */
     TextField searchField;
 
+    /** The sonos indexer. */
+    @Inject
+    private final ISonosIndexer sonosIndexer = SonosIndexer.getInstance();
+
     /**
      * Instantiates a new panel commands.
      */
@@ -103,7 +109,7 @@ public class PanelCommands extends AbstractVaadinPanel {
     private void performSearch() throws SonosException {
         String queryString = (String) searchField.getValue();
 
-        Collection<Document> results = SonosIndexer.search(queryString);
+        Collection<Document> results = sonosIndexer.search(queryString);
 
         // String zoneName = sonosState.getSelectedZoneName();
         // MusicLibrary library = sonosState.getMusicLibrary(zoneName);
