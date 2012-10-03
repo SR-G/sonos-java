@@ -3,14 +3,6 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<properties>
-		<sourceEncoding>UTF-8</sourceEncoding>
-		<version.jetty>7.6.4.v20120524</version.jetty>
-		<version.guice>3.0</version.guice>
-		<version.guava>13.0</version.guava>
-		<version.lucene>3.6.1</version.lucene>
-	</properties>
-
 	<groupId>org.tensin.sonos</groupId>
 	<artifactId>sonos-root</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
@@ -18,6 +10,20 @@
 	<description>SONOS : Module root</description>
 	<name>sonos-root</name>
 	<packaging>pom</packaging>
+
+	<properties>
+		<sourceEncoding>UTF-8</sourceEncoding>
+		
+		<version.jetty>7.6.4.v20120524</version.jetty>
+		<version.slf4j>1.7.1</version.slf4j>
+		<version.logback>1.0.7</version.logback>
+		<version.junit>4.10</version.junit>
+		<version.guice>3.0</version.guice>
+		<version.guava>13.0.1</version.guava>
+		<version.simplexml>2.6.6</version.simplexml>
+		<version.jcommander>1.27</version.jcommander>
+		<version.lucene>3.6.1</version.lucene>
+	</properties>
 
 	<build>
 		<plugins>
@@ -163,6 +169,16 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>3.2.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.1</version>
+			</dependency>
+			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
 				<version>2.4</version>
@@ -174,19 +190,9 @@
 			</dependency>
 
 			<dependency>
-				<groupId>commons-collections</groupId>
-				<artifactId>commons-collections</artifactId>
-				<version>3.2.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>3.1</version>
-			</dependency>
-			<dependency>
 				<groupId>org.simpleframework</groupId>
 				<artifactId>simple-xml</artifactId>
-				<version>2.6.6</version>
+				<version>${version.simplexml}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>stax</groupId>
@@ -201,32 +207,32 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.6.6</version>
+				<version>${version.slf4j}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>jcl-over-slf4j</artifactId>
-				<version>1.6.6</version>
+				<version>${version.slf4j}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>log4j-over-slf4j</artifactId>
-				<version>1.6.6</version>
+				<version>${version.slf4j}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>jul-to-slf4j</artifactId>
-				<version>1.6.6</version>
+				<version>${version.slf4j}</version>
 			</dependency>
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
-				<version>1.0.7</version>
+				<version>${version.logback}</version>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.10</version>
+				<version>${version.junit}</version>
 				<scope>test</scope>
 				<optional>true</optional>
 			</dependency>
@@ -238,16 +244,6 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>com.google.inject</groupId>
-				<artifactId>guice</artifactId>
-				<version>${version.guice}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.inject.extensions</groupId>
-				<artifactId>guice-servlet</artifactId>
-				<version>${version.guice}</version>
-			</dependency>
-			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>${version.guava}</version>
@@ -255,7 +251,7 @@
 			<dependency>
 				<groupId>com.beust</groupId>
 				<artifactId>jcommander</artifactId>
-				<version>1.27</version>
+				<version>${version.jcommander}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jdom</groupId>
@@ -308,12 +304,11 @@
 				<version>1.0.5</version>
 				<exclusions>
 					<exclusion>
-<groupId>com.sun</groupId>
-<artifactId>tools</artifactId>
+						<groupId>com.sun</groupId>
+						<artifactId>tools</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
-
 			<dependency>
 				<groupId>org.apache.lucene</groupId>
 				<artifactId>lucene-core</artifactId>

@@ -32,16 +32,13 @@ import org.tensin.sonos.model.ZoneGroupState;
 import org.tensin.sonos.model.ZoneGroupStateModel;
 import org.tensin.sonos.model.ZonePlayerModel;
 
-import com.google.inject.Inject;
-
 /**
  * The Class AbstractCommander.
  */
 public abstract class AbstractController implements ZoneGroupTopologyListener {
 
     /** The zone command dispatcher. */
-    @Inject
-    private ZoneCommandDispatcher zoneCommandDispatcher;
+    private final ZoneCommandDispatcher zoneCommandDispatcher = ZoneCommandDispatcher.getInstance();
 
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractController.class);
@@ -107,8 +104,7 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
             }
 
             if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("Adding zone: " + dev.getType().getDisplayString() + " " + dev.getDetails().getModelDetails().getModelDescription() + " "
-                        + dev.getDetails().getModelDetails().getModelName() + " " + dev.getDetails().getModelDetails().getModelNumber());
+                LOGGER.info("Adding zone: " + dev.getType().getDisplayString() + " " + dev.getDetails().getModelDetails().getModelDescription() + " " + dev.getDetails().getModelDetails().getModelName() + " " + dev.getDetails().getModelDetails().getModelNumber());
             }
             try {
                 final ZonePlayer zone = new ZonePlayer(upnpService, dev);
@@ -116,9 +112,8 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
                 zone.getZoneGroupTopologyService().addZoneGroupTopologyListener(this);
                 zoneGroupTopologyChanged(zone.getZoneGroupTopologyService().getGroupState());
                 return zone;
-            } catch (Exception e) {
-                LOGGER.error("Couldn't add zone" + dev.getType().getDisplayString() + " " + dev.getDetails().getModelDetails().getModelDescription() + " "
-                        + dev.getDetails().getModelDetails().getModelName() + " " + dev.getDetails().getModelDetails().getModelNumber(), e);
+            } catch (final Exception e) {
+                LOGGER.error("Couldn't add zone" + dev.getType().getDisplayString() + " " + dev.getDetails().getModelDetails().getModelDescription() + " " + dev.getDetails().getModelDetails().getModelName() + " " + dev.getDetails().getModelDetails().getModelNumber(), e);
             }
 
             return null;
@@ -158,7 +153,7 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
      */
     public void dispose() {
         synchronized (zonePlayers) {
-            for (ZonePlayer zp : zonePlayers.getAllZones()) {
+            for (final ZonePlayer zp : zonePlayers.getAllZones()) {
                 zp.dispose();
             }
         }
@@ -339,8 +334,8 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
      *            the stale threshold
      */
     public void purgeStaleDevices(final long staleThreshold) {
-        long now = System.currentTimeMillis();
-        for (Entry<String, Long> zone : zonePlayerDiscoveries.entrySet()) {
+        final long now = System.currentTimeMillis();
+        for (final Entry<String, Long> zone : zonePlayerDiscoveries.entrySet()) {
             if ((now - zone.getValue()) > staleThreshold) {
                 removeZonePlayer(zone.getKey());
             }
@@ -355,7 +350,7 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
      */
     public void removeZonePlayer(final String udn) {
         synchronized (zonePlayers) {
-            ZonePlayer zp = zonePlayers.getById(udn);
+            final ZonePlayer zp = zonePlayers.getById(udn);
             if (zp != null) {
                 LOGGER.info("Removing ZonePlayer " + udn + " " + zp.getRootDevice().getDetails().getModelDetails().getModelDescription());
                 zonePlayers.remove(zp);

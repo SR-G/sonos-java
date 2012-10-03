@@ -12,21 +12,15 @@ import org.tensin.sonos.SonosJetty;
 import org.tensin.sonos.SonosWebConstants;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
 import org.tensin.sonos.control.ZonePlayer;
-import org.tensin.sonos.guice.GuiceSonosInjector;
 import org.tensin.sonos.helpers.RemoteDeviceHelper;
 import org.tensin.sonos.web.ISonosState;
 import org.tensin.sonos.web.SonosState;
 
 import com.beust.jcommander.Parameter;
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Singleton;
 
 /**
  * The Class WebCommander.
  */
-@Singleton
 public class WebController extends AbstractController implements ISonosController {
 
     /**
@@ -34,10 +28,8 @@ public class WebController extends AbstractController implements ISonosControlle
      * 
      * @return the i sonos controller
      */
-    public static ISonosController createController() {
-        final Injector injector = Guice.createInjector(new GuiceSonosModuleWEB());
-        GuiceSonosInjector.setInstance(injector);
-        return injector.getInstance(ISonosController.class);
+    public static WebController createController() {
+        return new WebController();
     }
 
     /** The sonos state. */
@@ -58,7 +50,7 @@ public class WebController extends AbstractController implements ISonosControlle
      *             the sonos exception
      */
     public static void main(final String[] args) throws SonosException {
-        final WebController webCommander = (WebController) createController();
+        final WebController webCommander = createController();
         webCommander.start(args);
     }
 
@@ -127,7 +119,7 @@ public class WebController extends AbstractController implements ISonosControlle
                     final String name = zone.getDevicePropertiesService().getZoneAttributes().getName();
                     zoneCommandDispatcher.registerZoneAsAvailable(zone, name);
                     synchronized (sonosState.getZonesData()) {
-                        Object id = sonosState.getZonesData().addItem();
+                        final Object id = sonosState.getZonesData().addItem();
                         sonosState.getZonesData().getContainerProperty(id, "Name").setValue(name);
                         sonosState.loadMusicLibrary(zone, name);
                     }
@@ -182,7 +174,6 @@ public class WebController extends AbstractController implements ISonosControlle
     /**
      * Instantiates a new web controller.
      */
-    @Inject
     protected WebController() {
         super();
     }

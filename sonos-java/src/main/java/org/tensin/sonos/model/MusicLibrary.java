@@ -25,8 +25,6 @@ import org.tensin.sonos.control.BrowseHandle;
 import org.tensin.sonos.control.EntryCallback;
 import org.tensin.sonos.control.ZonePlayer;
 
-import com.google.inject.Inject;
-
 /**
  * A table model for a list of entries. eg queue.
  * 
@@ -53,7 +51,7 @@ public class MusicLibrary implements MusicLibraryModel {
             for (final Entry entry : entries) {
                 try {
                     sonosIndexer.index(entry);
-                } catch (SonosException ex) {
+                } catch (final SonosException ex) {
                     LOGGER.error("Can't index element", ex);
                 }
             }
@@ -84,7 +82,6 @@ public class MusicLibrary implements MusicLibraryModel {
     }
 
     /** The sonos indexer. */
-    @Inject
     private ISonosIndexer sonosIndexer = SonosIndexer.getInstance();
 
     /** The Constant LOGGER. */
@@ -149,7 +146,7 @@ public class MusicLibrary implements MusicLibraryModel {
      *            the new entries
      */
     protected void addEntries(final Collection<Entry> newEntries) {
-        int oldSize = entries.size();
+        final int oldSize = entries.size();
         entries.addAll(newEntries);
         fireEntriesAdded(oldSize, entries.size() - 1);
     }
@@ -182,7 +179,7 @@ public class MusicLibrary implements MusicLibraryModel {
      *            the end
      */
     protected void fireEntriesAdded(final int start, final int end) {
-        for (MusicLibraryListener listener : listeners) {
+        for (final MusicLibraryListener listener : listeners) {
             listener.entriesAdded(start, end);
         }
     }
@@ -191,7 +188,7 @@ public class MusicLibrary implements MusicLibraryModel {
      * Fire size changed.
      */
     protected void fireSizeChanged() {
-        for (MusicLibraryListener listener : listeners) {
+        for (final MusicLibraryListener listener : listeners) {
             listener.sizeChanged();
         }
     }

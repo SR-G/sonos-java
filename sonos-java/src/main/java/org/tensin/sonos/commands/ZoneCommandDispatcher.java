@@ -10,14 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.control.ZonePlayer;
 
-import com.google.inject.Singleton;
-
 /**
  * The Class ZoneCommandDispatcher. Send the right command to the right zone executor, and keeps a map linking zone name to the corresponding executor.
  * ZoneCommandExecutor are threaded and have a queue containing every command to process. The thread only wakes up when a new command is available.
  * ZoneCommandExecutor can only works if the Sonos box has been found by discovery on the network : this event has to be fired by the registerZoneAsAvailable method.
  */
-@Singleton
 public class ZoneCommandDispatcher implements IZoneCommandDispatcher {
 
     /** The Constant LOGGER. */
@@ -28,6 +25,18 @@ public class ZoneCommandDispatcher implements IZoneCommandDispatcher {
 
     /** The Constant executors. */
     private final Map<String, ZoneCommandExecutor> executors = new HashMap<String, ZoneCommandExecutor>();
+
+    /** The Constant INSTANCE. */
+    private static final ZoneCommandDispatcher INSTANCE = new ZoneCommandDispatcher();
+
+    /**
+     * Gets the single instance of ZoneCommandDispatcher.
+     * 
+     * @return single instance of ZoneCommandDispatcher
+     */
+    public static ZoneCommandDispatcher getInstance() {
+        return INSTANCE;
+    }
 
     /**
      * {@inheritDoc}
@@ -82,8 +91,8 @@ public class ZoneCommandDispatcher implements IZoneCommandDispatcher {
      */
     @Override
     public void logSummary() {
-        StringBuilder sb = new StringBuilder();
-        StringBuilder summary = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
+        final StringBuilder summary = new StringBuilder();
 
         int problems = 0, reports = 0;
         for (final Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
@@ -120,7 +129,7 @@ public class ZoneCommandDispatcher implements IZoneCommandDispatcher {
      */
     @Override
     public void registerZoneAsAvailable(final ZonePlayer sonos, final String zoneName) {
-        ZoneCommandExecutor executor = registerZoneExecutor(zoneName);
+        final ZoneCommandExecutor executor = registerZoneExecutor(zoneName);
         executor.registerZoneAsAvailable(sonos);
     }
 
@@ -167,7 +176,7 @@ public class ZoneCommandDispatcher implements IZoneCommandDispatcher {
     public void stopExecutors() throws SonosException {
         synchronized (executors) {
             for (final Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
-                ZoneCommandExecutor executor = entry.getValue();
+                final ZoneCommandExecutor executor = entry.getValue();
                 executor.halt();
                 executor.addCommand(new CommandPoisonPill());
             }
@@ -188,7 +197,7 @@ public class ZoneCommandDispatcher implements IZoneCommandDispatcher {
         while (active) {
             try {
                 Thread.sleep(250);
-            } catch (InterruptedException e) {
+            } catch (final InterruptedException e) {
             }
             current = System.currentTimeMillis();
             if (current > (start + delay)) {

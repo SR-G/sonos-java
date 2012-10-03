@@ -13,27 +13,18 @@ import org.teleal.cling.model.meta.LocalDevice;
 import org.teleal.cling.model.meta.RemoteDevice;
 import org.teleal.cling.registry.Registry;
 import org.teleal.cling.registry.RegistryListener;
-import org.tensin.sonos.LogInitializer;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.commands.CommandFactory;
 import org.tensin.sonos.commands.IStandardCommand;
 import org.tensin.sonos.commands.IZoneCommand;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
 import org.tensin.sonos.control.ZonePlayer;
-import org.tensin.sonos.guice.GuiceSonosInjector;
-import org.tensin.sonos.guice.GuiceSonosModuleDaemon;
 import org.tensin.sonos.helpers.CollectionHelper;
 import org.tensin.sonos.helpers.RemoteDeviceHelper;
-
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Singleton;
 
 /**
  * The Class JavaCommander.
  */
-@Singleton
 public class DaemonController extends AbstractController implements ISonosController {
 
     /**
@@ -42,11 +33,7 @@ public class DaemonController extends AbstractController implements ISonosContro
      * @return the i sonos controller
      */
     public static DaemonController createController() {
-        final Injector injector = Guice.createInjector(new GuiceSonosModuleDaemon());
-        GuiceSonosInjector.setInstance(injector);
-
-        final DaemonController controller = (DaemonController) injector.getInstance(ISonosController.class);
-        return controller;
+        return new DaemonController();
     }
 
     /** The controller executor. */
@@ -195,13 +182,11 @@ public class DaemonController extends AbstractController implements ISonosContro
     private static final Logger LOGGER = LoggerFactory.getLogger(DaemonController.class);
 
     /** The zone command dispatcher. */
-    @Inject
-    private ZoneCommandDispatcher zoneCommandDispatcher;
+    private final ZoneCommandDispatcher zoneCommandDispatcher = ZoneCommandDispatcher.getInstance();
 
     /**
      * Instantiates a new java controller.
      */
-    @Inject
     public DaemonController() {
         super();
     }
@@ -255,7 +240,6 @@ public class DaemonController extends AbstractController implements ISonosContro
      *             the sonos exception
      */
     public void start() throws SonosException {
-        LogInitializer.initLog();
         startDiscovery();
     }
 

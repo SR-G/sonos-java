@@ -13,7 +13,6 @@ import org.tensin.sonos.commands.ZoneCommandExecutor;
 import org.tensin.sonos.helpers.SystemHelper;
 
 import com.beust.jcommander.ParameterException;
-import com.google.inject.Inject;
 
 /**
  * The Class CLITestCase.
@@ -21,8 +20,7 @@ import com.google.inject.Inject;
 public class CLITestCase {
 
     /** The zone command dispatcher. */
-    @Inject
-    private ZoneCommandDispatcher zoneCommandDispatcher;
+    private final ZoneCommandDispatcher zoneCommandDispatcher = ZoneCommandDispatcher.getInstance();
 
     /**
      * Sets the up.
@@ -31,8 +29,8 @@ public class CLITestCase {
     public void setUp() {
         // SystemHelper mockedHelper = mock(SystemHelper.class);
         // doNothing().when(mockedHelper);
-        SystemHelper systemHelper = new SystemHelper();
-        SystemHelper spy = spy(systemHelper);
+        final SystemHelper systemHelper = new SystemHelper();
+        final SystemHelper spy = spy(systemHelper);
         doNothing().when(spy).exit(0);
         CLIController.setSystemHelper(spy);
 
@@ -149,7 +147,7 @@ public class CLITestCase {
     public void testUnknownCommand() throws SonosException {
         try {
             CLIController.main(new String[] { "--zzz" });
-        } catch (ParameterException e) {
+        } catch (final ParameterException e) {
             e.printStackTrace();
         }
     }

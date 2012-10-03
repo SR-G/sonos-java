@@ -12,13 +12,11 @@ import org.tensin.sonos.commands.ZoneCommandExecutor;
 import org.tensin.sonos.control.ZonePlayer;
 import org.tensin.sonos.model.MusicLibrary;
 
-import com.google.inject.Singleton;
 import com.vaadin.data.util.IndexedContainer;
 
 /**
  * The Class SonosState.
  */
-@Singleton
 public class SonosState implements ISonosState {
 
     /** The zone command dispatcher. */
@@ -130,7 +128,7 @@ public class SonosState implements ISonosState {
     @Override
     public void loadMusicLibrary(final ZonePlayer zone, final String name) {
         if (!indexed) {
-            MusicLibrary library = new MusicLibrary(zone, "A:TRACKS");
+            final MusicLibrary library = new MusicLibrary(zone, "A:TRACKS");
             libraries.put(name, library);
             indexed = true;
         }
@@ -184,5 +182,4 @@ public class SonosState implements ISonosState {
     public void setZonesData(final IndexedContainer zonesData) {
         this.zonesData = zonesData;
     }
-
 }

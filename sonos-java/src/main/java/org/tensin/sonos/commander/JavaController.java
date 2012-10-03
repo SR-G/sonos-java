@@ -20,20 +20,12 @@ import org.tensin.sonos.commands.IStandardCommand;
 import org.tensin.sonos.commands.IZoneCommand;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
 import org.tensin.sonos.control.ZonePlayer;
-import org.tensin.sonos.guice.GuiceSonosInjector;
-import org.tensin.sonos.guice.GuiceSonosModuleJava;
 import org.tensin.sonos.helpers.CollectionHelper;
 import org.tensin.sonos.helpers.RemoteDeviceHelper;
-
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Singleton;
 
 /**
  * The Class JavaCommander.
  */
-@Singleton
 public class JavaController extends AbstractController implements ISonosController {
 
     /**
@@ -42,11 +34,7 @@ public class JavaController extends AbstractController implements ISonosControll
      * @return the i sonos controller
      */
     public static JavaController createController() {
-        final Injector injector = Guice.createInjector(new GuiceSonosModuleJava());
-        GuiceSonosInjector.setInstance(injector);
-
-        final JavaController controller = (JavaController) injector.getInstance(ISonosController.class);
-        return controller;
+        return new JavaController();
     }
 
     /** The controller executor. */
@@ -195,13 +183,11 @@ public class JavaController extends AbstractController implements ISonosControll
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaController.class);
 
     /** The zone command dispatcher. */
-    @Inject
-    private ZoneCommandDispatcher zoneCommandDispatcher;
+    private final ZoneCommandDispatcher zoneCommandDispatcher = ZoneCommandDispatcher.getInstance();
 
     /**
      * Instantiates a new java controller.
      */
-    @Inject
     public JavaController() {
         super();
     }

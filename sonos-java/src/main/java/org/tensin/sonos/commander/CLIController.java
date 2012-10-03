@@ -16,23 +16,16 @@ import org.tensin.sonos.commands.ICommand;
 import org.tensin.sonos.commands.IStandardCommand;
 import org.tensin.sonos.commands.IZoneCommand;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
-import org.tensin.sonos.guice.GuiceSonosInjector;
-import org.tensin.sonos.guice.GuiceSonosModuleCLI;
 import org.tensin.sonos.helpers.CollectionHelper;
 import org.tensin.sonos.helpers.SystemHelper;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Singleton;
 
 /**
  * The Class SonosCommander.
  */
-@Singleton
 public class CLIController extends JavaController implements ISonosController {
 
     /** The Constant LOGGER. */
@@ -43,12 +36,8 @@ public class CLIController extends JavaController implements ISonosController {
      * 
      * @return the i sonos controller
      */
-    public static ISonosController createController() {
-        final Injector injector = Guice.createInjector(new GuiceSonosModuleCLI());
-        GuiceSonosInjector.setInstance(injector);
-
-        final JavaController controller = (JavaController) injector.getInstance(ISonosController.class);
-        return controller;
+    public static CLIController createController() {
+        return new CLIController();
     }
 
     /**
@@ -69,7 +58,7 @@ public class CLIController extends JavaController implements ISonosController {
      *             the sonos exception
      */
     public static void main(final String args[]) throws SonosException {
-        final CLIController a = (CLIController) createController();
+        final CLIController a = createController();
         a.start(args);
     }
 
@@ -107,13 +96,11 @@ public class CLIController extends JavaController implements ISonosController {
     private static SystemHelper systemHelper = new SystemHelper();
 
     /** The zone command dispatcher. */
-    @Inject
-    private ZoneCommandDispatcher zoneCommandDispatcher;
+    private final ZoneCommandDispatcher zoneCommandDispatcher = ZoneCommandDispatcher.getInstance();
 
     /**
      * Instantiates a new cLI controller.
      */
-    @Inject
     protected CLIController() {
         super();
     }
@@ -131,7 +118,7 @@ public class CLIController extends JavaController implements ISonosController {
         JCommander jCommander = null;
         try {
             jCommander = new JCommander(this, args);
-        } catch (ParameterException e) {
+        } catch (final ParameterException e) {
             LOGGER.error("The given options haven't been recognized : " + CollectionHelper.singleDump(Arrays.asList(args)));
             jCommander = new JCommander(this);
             usage(jCommander);
@@ -142,7 +129,7 @@ public class CLIController extends JavaController implements ISonosController {
         if (debug) {
             LOGGER.info("Debug activated");
         }
-        Collection<String> commandsAvailables = CollectionHelper.convertStringToCollection(command);
+        final Collection<String> commandsAvailables = CollectionHelper.convertStringToCollection(command);
         setCommandStackZone((Collection<IZoneCommand>) CommandFactory.createCommandStack(commandsAvailables, IZoneCommand.class));
         setCommandStackStandard((Collection<IStandardCommand>) CommandFactory.createCommandStack(commandsAvailables, IStandardCommand.class));
         if (!checkAllCommandsHaveBeenMapped(commandsAvailables)) {
@@ -279,7 +266,7 @@ public class CLIController extends JavaController implements ISonosController {
      *            the j commander
      */
     private void usage(final JCommander jCommander) {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         jCommander.usage(sb);
         sb.append("\n");
         sb.append("  Commands :").append("\n");

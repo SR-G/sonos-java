@@ -8,7 +8,6 @@ import org.tensin.sonos.ISonosIndexer;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.SonosIndexer;
 
-import com.google.inject.Inject;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.FormLayout;
@@ -59,7 +58,6 @@ public class PanelCommands extends AbstractVaadinPanel {
     TextField searchField;
 
     /** The sonos indexer. */
-    @Inject
     private final ISonosIndexer sonosIndexer = SonosIndexer.getInstance();
 
     /**
@@ -79,17 +77,17 @@ public class PanelCommands extends AbstractVaadinPanel {
         // private NativeSelect fieldToSearch;
         // private CheckBox saveSearch;
 
-        FormLayout formLayout = new FormLayout();
+        final FormLayout formLayout = new FormLayout();
         setContent(formLayout);
 
         searchField = new TextField("Search term");
-        Button searchButton = new Button("Search");
+        final Button searchButton = new Button("Search");
         searchButton.addListener(new Button.ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
                 try {
                     performSearch();
-                } catch (SonosException e) {
+                } catch (final SonosException e) {
                     e.printStackTrace();
                 }
             }
@@ -107,9 +105,9 @@ public class PanelCommands extends AbstractVaadinPanel {
      *             the sonos exception
      */
     private void performSearch() throws SonosException {
-        String queryString = (String) searchField.getValue();
+        final String queryString = (String) searchField.getValue();
 
-        Collection<Document> results = sonosIndexer.search(queryString);
+        final Collection<Document> results = sonosIndexer.search(queryString);
 
         // String zoneName = sonosState.getSelectedZoneName();
         // MusicLibrary library = sonosState.getMusicLibrary(zoneName);

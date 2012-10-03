@@ -9,10 +9,6 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<properties>
-		<sourceEncoding>UTF-8</sourceEncoding>
-	</properties>
-
 	<groupId>org.tensin.sonos</groupId>
 	<artifactId>sonos-java</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
@@ -166,11 +162,6 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-highlighter</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.inject</groupId>
-			<artifactId>guice</artifactId>
 		</dependency>
 	</dependencies>
 </project>

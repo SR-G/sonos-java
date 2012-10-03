@@ -8,16 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.tensin.sonos.SonosConstants;
 import org.tensin.sonos.SonosException;
 
-import com.google.inject.Inject;
-
 /**
  * The Class CommandDiscover.
  */
 public class CommandDiscover implements IStandardCommand {
 
     /** The zone command dispatcher. */
-    @Inject
-    private IZoneCommandDispatcher zoneCommandDispatcher;
+    private final IZoneCommandDispatcher zoneCommandDispatcher = ZoneCommandDispatcher.getInstance();
 
     /** Logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandDiscover.class);
@@ -30,8 +27,8 @@ public class CommandDiscover implements IStandardCommand {
     @Override
     public void execute() throws SonosException {
         final Map<String, ZoneCommandExecutor> executors = zoneCommandDispatcher.getExecutors();
-        int count = executors.size();
-        for (Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
+        final int count = executors.size();
+        for (final Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
             LOGGER.info(" - Zone [" + entry.getKey() + "]");
         }
         LOGGER.info(count + " Sonos zones found on Network in " + SonosConstants.MAX_DISCOVER_TIME_IN_MILLISECONDS + "ms.");
