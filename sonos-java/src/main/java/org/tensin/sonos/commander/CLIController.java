@@ -136,6 +136,7 @@ public class CLIController extends JavaController implements ISonosController {
             LOGGER.error("The following commands haven't been recognized : " + CollectionHelper.singleDump(commandsAvailables));
             usage(jCommander);
         }
+        extractParameters();
         if ((getCommandStackZone().size() == 0) && (getCommandStackStandard().size() == 0)) {
             usage(jCommander);
         }
@@ -153,6 +154,34 @@ public class CLIController extends JavaController implements ISonosController {
      */
     private boolean checkAllCommandsHaveBeenMapped(final Collection<String> commandsAvailables) {
         return CollectionUtils.isEmpty((commandsAvailables));
+    }
+
+    /**
+     * Extract parameters.
+     */
+    private void extractParameters() {
+        boolean zoneCommandFound = false;
+        for (final String parameter : getParameters()) {
+            if (zoneCommandFound) {
+                if (StringUtils.isEmpty(zone)) {
+                    zone = parameter;
+                }
+                zoneCommandFound = false;
+            } else {
+                for (final ICommand c : CommandFactory.getAvailableCommands(ICommand.class)) {
+                    if (c.getName().equalsIgnoreCase(parameter)) {
+                        if (c instanceof IStandardCommand) {
+                            getCommandStackStandard().add((IStandardCommand) c);
+                        }
+                        if (c instanceof IZoneCommand) {
+                            getCommandStackZone().add((IZoneCommand) c);
+                            zoneCommandFound = true;
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     /**
@@ -245,10 +274,10 @@ public class CLIController extends JavaController implements ISonosController {
     private void start(final String[] args) throws SonosException {
         try {
             LogInitializer.initLog();
-            startDiscovery();
             buildJCommanderFromCommandLine(args);
-            setCommandStackStandard(getCommandStackStandard());
-            setCommandStackZone(getCommandStackZone());
+            startDiscovery();
+            // setCommandStackStandard(getCommandStackStandard());
+            // setCommandStackZone(getCommandStackZone());
             executeStandardCommands(); // sequential executions
             executeZoneCommands(zone, parameters); // should halt until all commands are executed or timeout elapsed
         } finally {
