@@ -14,14 +14,13 @@
 	<properties>
 		<sourceEncoding>UTF-8</sourceEncoding>
 		
-		<version.jetty>7.6.4.v20120524</version.jetty>
-		<version.slf4j>1.7.1</version.slf4j>
+		<version.jetty>8.1.4.v20120524</version.jetty>
+		<version.slf4j>1.7.2</version.slf4j>
 		<version.logback>1.0.7</version.logback>
-		<version.junit>4.10</version.junit>
-		<version.guice>3.0</version.guice>
+		<version.junit>4.11</version.junit>
 		<version.guava>13.0.1</version.guava>
-		<version.simplexml>2.6.6</version.simplexml>
-		<version.jcommander>1.27</version.jcommander>
+		<version.simplexml>2.6.8</version.simplexml>
+		<version.jcommander>1.30</version.jcommander>
 		<version.lucene>3.6.1</version.lucene>
 	</properties>
 
