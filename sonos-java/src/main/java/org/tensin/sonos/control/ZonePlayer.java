@@ -65,7 +65,7 @@ public class ZonePlayer {
     private final AlarmClockService alarm;
 
     /** The audio in. */
-    private final AudioInService audioIn;
+    private final AbstractAudioInService audioIn;
 
     /** The device properties. */
     private final DevicePropertiesService deviceProperties;
@@ -101,7 +101,7 @@ public class ZonePlayer {
         this.dev = dev;
         try {
             ip = InetAddress.getByName(dev.getIdentity().getDescriptorURL().getHost());
-        } catch (UnknownHostException e) {
+        } catch (final UnknownHostException e) {
             // will not happen - should be IP not host
             e.printStackTrace();
         }
@@ -109,12 +109,11 @@ public class ZonePlayer {
         mediaServer = new MediaServerDevice(upnpService, findChildDevice(dev, ZonePlayerConstants.MEDIA_SERVER_DEVICE_TYPE));
         mediaRenderer = new MediaRendererDevice(upnpService, findChildDevice(dev, ZonePlayerConstants.MEDIA_RENDERER_DEVICE_TYPE));
         alarm = new AlarmClockService(upnpService, AbstractService.findService(dev, ZonePlayerConstants.SONOS_SERVICE_ALARM_CLOCK));
-        audioIn = new AudioInService(upnpService, AbstractService.findService(dev, ZonePlayerConstants.SONOS_SERVICE_AUDIO_IN));
+        audioIn = AbstractAudioInService.buildAudioInService(upnpService, dev);
         deviceProperties = new DevicePropertiesService(upnpService, AbstractService.findService(dev, ZonePlayerConstants.SONOS_SERVICE_DEVICE_PROPERTIES));
         systemProperties = new SystemPropertiesService(upnpService, AbstractService.findService(dev, ZonePlayerConstants.SONOS_SERVICE_SYSTEM_PROPERTIES));
         zoneGroupTopology = new ZoneGroupTopologyService(upnpService, AbstractService.findService(dev, ZonePlayerConstants.SONOS_SERVICE_ZONE_GROUP_TOPOLOGY));
-        zoneGroupManagement = new ZoneGroupManagementService(upnpService, AbstractService.findService(dev,
-                ZonePlayerConstants.SONOS_SERVICE_ZONE_GROUP_MANAGEMENT));
+        zoneGroupManagement = new ZoneGroupManagementService(upnpService, AbstractService.findService(dev, ZonePlayerConstants.SONOS_SERVICE_ZONE_GROUP_MANAGEMENT));
     }
 
     /**
@@ -167,8 +166,8 @@ public class ZonePlayer {
      *         @ * Signals that an I/O exception has occurred.
      */
     public int enqueueEntry(final Entry entry) {
-        AVTransportService serv = getMediaRendererDevice().getAvTransportService();
-        int index = serv.addToQueue(entry);
+        final AVTransportService serv = getMediaRendererDevice().getAvTransportService();
+        final int index = serv.addToQueue(entry);
         return index;
     }
 
@@ -183,7 +182,7 @@ public class ZonePlayer {
             return false;
         }
         if (obj instanceof ZonePlayer) {
-            ZonePlayer zp = (ZonePlayer) obj;
+            final ZonePlayer zp = (ZonePlayer) obj;
             return zp.getRootDevice().getIdentity().getUdn().getIdentifierString().equals(getRootDevice().getIdentity().getUdn().getIdentifierString());
         }
         return false;
@@ -203,7 +202,7 @@ public class ZonePlayer {
      * 
      * @return the audio in service for this zone player.
      */
-    public AudioInService getAudioInService() {
+    public AbstractAudioInService getAudioInService() {
         return audioIn;
     }
 
@@ -317,7 +316,7 @@ public class ZonePlayer {
      *            @ * Signals that an I/O exception has occurred.
      */
     public void playQueueEntry(final int index) throws SonosException {
-        AVTransportService serv = getMediaRendererDevice().getAvTransportService();
+        final AVTransportService serv = getMediaRendererDevice().getAvTransportService();
         if (!serv.getMediaInfo().getCurrentURI().startsWith("x-rincon-queue:")) {
             serv.setAvTransportUriToQueue(getId());
         }
