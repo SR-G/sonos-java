@@ -17,6 +17,6 @@ public class CmdPlaySalon {
      */
     public static void main(final String[] args) throws SonosException {
         // CLIController.main(new String[] { "--command", "play", "--zone", "salon" });
-        CLIController.main(new String[] { "play", "chambre" });
+        CLIController.main(new String[] { "stop", "salon" });
     }
 }

@@ -207,8 +207,8 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
                 // ?
             }
             zoneCommandDispatcher.waitEndExecution(SonosConstants.DEFAULT_MAX_TIMEOUT_SONOS_COMMANDER_WHEN_WORKING_ON_ALL_ZONES, !isWorkOnAllZones());
-            // if "ALL" mode, then we don't want to check empty queues (are queues may be filled at a later time, once a new zone will be
-            // discovered (and at this time, the wanted commands will be propagated by the listener)
+            // if "ALL" mode, then we don't want to check empty queues (as queues may be filled at a later time, once a new zone will be
+            // discovered (and at this time, the wanted commands will be propagated by the listener))
         }
     }
 
