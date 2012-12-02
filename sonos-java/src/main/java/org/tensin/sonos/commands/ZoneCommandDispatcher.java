@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.control.ZonePlayer;
+import org.tensin.sonos.helpers.TimeUtilities;
 
 /**
  * The Class ZoneCommandDispatcher. Send the right command to the right zone executor, and keeps a map linking zone name to the corresponding executor.
@@ -195,10 +196,7 @@ public class ZoneCommandDispatcher implements IZoneCommandDispatcher {
         boolean active = true;
         boolean firstPass = true;
         while (active) {
-            try {
-                Thread.sleep(250);
-            } catch (final InterruptedException e) {
-            }
+            TimeUtilities.waitMilliSeconds(250);
             current = System.currentTimeMillis();
             if (current > (start + delay)) {
                 active = false;

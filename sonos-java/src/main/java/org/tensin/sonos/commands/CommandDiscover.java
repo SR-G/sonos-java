@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tensin.sonos.SonosConstants;
 import org.tensin.sonos.SonosException;
+import org.tensin.sonos.helpers.TimeUtilities;
 
 /**
  * The Class CommandDiscover.
@@ -26,6 +27,7 @@ public class CommandDiscover implements IStandardCommand {
      */
     @Override
     public void execute() throws SonosException {
+        TimeUtilities.waitMilliSeconds(SonosConstants.MAX_DISCOVER_TIME_IN_MILLISECONDS);
         final Map<String, ZoneCommandExecutor> executors = zoneCommandDispatcher.getExecutors();
         final int count = executors.size();
         for (final Entry<String, ZoneCommandExecutor> entry : executors.entrySet()) {
@@ -63,5 +65,4 @@ public class CommandDiscover implements IStandardCommand {
     public boolean needArgs() {
         return false;
     }
-
 }
