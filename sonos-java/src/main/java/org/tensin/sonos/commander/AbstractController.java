@@ -417,7 +417,7 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
      * Stop discovery.
      */
     public void shutdown() {
-        LOGGER.info("Shuttding down UPNP services and discovery");
+        LOGGER.info("Shutting down UPNP services and discovery");
         upnpService.shutdown();
         LOGGER.info("Cleaning up internal resources");
         dispose();

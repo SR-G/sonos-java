@@ -29,6 +29,7 @@ public class Sonos {
      *            the arguments
      */
     public static void main(final String args[]) {
+        System.setProperty("java.net.preferIPv4Stack", "true"); // CLINQ library is not compatible with IPv6 stack (which is, by the way, for example the default in recent archlinux distributions)
         final SystemHelper systemHelper = new SystemHelper();
         try {
             final ClasspathBooter cb = new ClasspathBooter(SONOS_BOOT_JAR, "SONOS-Command Line Interface");
