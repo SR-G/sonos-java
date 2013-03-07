@@ -43,6 +43,9 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractController.class);
 
+    /** The Constant DEFAULT_UDP_SEARCH_TIME. */
+    private static final int DEFAULT_UDP_SEARCH_TIME = 120;
+
     /** The zones to work on. */
     private Collection<String> zonesToWorkOn;
 
@@ -69,6 +72,9 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
 
     /** The command stack standard. */
     private Collection<IStandardCommand> commandStackStandard;
+
+    /** The udp search time. */
+    private int udpSearchTime = DEFAULT_UDP_SEARCH_TIME;
 
     /**
      * Creates a new ZonePlayer from the given device and adds it to our list.
@@ -253,6 +259,15 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
     public abstract RegistryListener getListener();
 
     /**
+     * Gets the udp search time.
+     * 
+     * @return the udp search time
+     */
+    public int getUdpSearchTime() {
+        return udpSearchTime;
+    }
+
+    /**
      * Gets the zone group state model.
      * 
      * @return the ZoneGroupStateModel
@@ -394,6 +409,16 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
     }
 
     /**
+     * Sets the udp search time.
+     * 
+     * @param udpSearchTime
+     *            the new udp search time
+     */
+    public void setUdpSearchTime(final int udpSearchTime) {
+        this.udpSearchTime = udpSearchTime;
+    }
+
+    /**
      * Sets the work on all zones.
      * 
      * @param workOnAllZones
@@ -431,7 +456,7 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
 
         // Send a search message to all devices and services, they should respond soon
         final UDAServiceType udaType = new UDAServiceType(SonosConstants.AV_TRANSPORT);
-        upnpService.getControlPoint().search(new UDAServiceTypeHeader(udaType));
+        upnpService.getControlPoint().search(new UDAServiceTypeHeader(udaType), getUdpSearchTime());
     }
 
     /**
