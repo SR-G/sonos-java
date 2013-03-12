@@ -80,3 +80,36 @@ Check the few junit.
 Example :
 
     new JavaCommander().execute("salon", "play");
+
+**How to build**
+
+You need [Maven](maven.apache.org) (2 or 3) as a build tool. Just run from the sonos-root project a maven command like "mvn clean install -Dmaven.test.skip=true" to build the various jars.
+
+Most dependencies are available in the [maven central repository](http://search.maven.org/), excepted the cling one. To have this one, if you don't own a Maven repository on your own (which would allow to deploy the missing jars there), your can just add this maven configuration :
+
+How To Build
+
+To enable the required maven repositories add the following profile to your settings.xml
+
+	<profiles>
+		<profile>
+		  <id>4thline</id>
+		  <repositories>
+			<repository>
+			  <id>4thline.org-repo</id>
+			  <url>http://4thline.org/m2</url>
+			  <snapshots>
+				<enabled>false</enabled>
+			  </snapshots>
+			</repository>
+		  </repositories>
+		</profile>
+	</profiles>
+
+And to activate by default add:
+
+	<activeProfiles>
+		<activeProfile>4thline</activeProfile>
+	</activeProfiles>
+
+More information on mavens settings.xml can be found at http://maven.apache.org/settings.html
