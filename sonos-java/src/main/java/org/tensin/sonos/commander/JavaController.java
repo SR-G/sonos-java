@@ -13,7 +13,7 @@ import org.teleal.cling.model.meta.LocalDevice;
 import org.teleal.cling.model.meta.RemoteDevice;
 import org.teleal.cling.registry.Registry;
 import org.teleal.cling.registry.RegistryListener;
-import org.tensin.sonos.LogInitializer;
+import org.tensin.sonos.boot.LogInitializer;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.commands.CommandFactory;
 import org.tensin.sonos.commands.IStandardCommand;

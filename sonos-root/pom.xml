@@ -147,6 +147,7 @@
 	</build>
 
 	<modules>
+		<module>../sonos-api</module>
 		<module>../sonos-java</module>
 		<module>../sonos-web</module>
 	</modules>

@@ -6,7 +6,6 @@ import org.teleal.cling.model.meta.LocalDevice;
 import org.teleal.cling.model.meta.RemoteDevice;
 import org.teleal.cling.registry.Registry;
 import org.teleal.cling.registry.RegistryListener;
-import org.tensin.sonos.LogInitializer;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.SonosJetty;
 import org.tensin.sonos.SonosWebConstants;
@@ -17,6 +16,7 @@ import org.tensin.sonos.web.ISonosState;
 import org.tensin.sonos.web.SonosState;
 
 import com.beust.jcommander.Parameter;
+import org.tensin.sonos.boot.LogInitializer;
 
 /**
  * The Class WebCommander.
