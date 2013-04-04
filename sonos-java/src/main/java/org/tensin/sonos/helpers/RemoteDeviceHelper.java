@@ -1,6 +1,7 @@
 package org.tensin.sonos.helpers;
 
 import org.teleal.cling.model.meta.Action;
+import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.meta.RemoteDevice;
 import org.teleal.cling.model.meta.Service;
 import org.teleal.cling.model.types.ServiceType;
@@ -19,6 +20,9 @@ public class RemoteDeviceHelper {
      * @return the string
      */
     public static String dumpRemoteDevice(final RemoteDevice device) {
+	return dumpDevice(device);
+    }
+    public static String dumpDevice(final Device device) {
         final StringBuilder sb = new StringBuilder();
         sb.append(device.toString()).append(SonosConstants.NEWLINE);
 
@@ -38,18 +42,24 @@ public class RemoteDeviceHelper {
         sb.append("      Model Number [").append(device.getDetails().getModelDetails().getModelNumber()).append("]").append(SonosConstants.NEWLINE);
         sb.append("      Model URI [").append(device.getDetails().getModelDetails().getModelURI()).append("]").append(SonosConstants.NEWLINE);
 
-        sb.append("  Identity :").append(SonosConstants.NEWLINE);
-        sb.append("    UDN [").append(device.getIdentity().getUdn()).append("]").append(SonosConstants.NEWLINE);
-        sb.append("    Descriptor URL [").append(device.getIdentity().getDescriptorURL()).append("]").append(SonosConstants.NEWLINE);
-        sb.append("    Discovered on local address [").append(device.getIdentity().getDiscoveredOnLocalAddress()).append("]").append(SonosConstants.NEWLINE);
-        sb.append("    Interface MAC addresss [").append(device.getIdentity().getInterfaceMacAddress()).append("]").append(SonosConstants.NEWLINE);
-        sb.append("    Max age (seconds) [").append(device.getIdentity().getMaxAgeSeconds()).append("]").append(SonosConstants.NEWLINE);
-        sb.append("    WoL bytes [").append(device.getIdentity().getWakeOnLANBytes()).append("]").append(SonosConstants.NEWLINE);
-
+	if(device instanceof RemoteDevice){
+	    RemoteDevice rdevice = (RemoteDevice)device;
+	    sb.append("  Identity :").append(SonosConstants.NEWLINE);
+	    sb.append("    UDN [").append(device.getIdentity().getUdn()).append("]").append(SonosConstants.NEWLINE);
+	    sb.append("    Descriptor URL [").append(rdevice.getIdentity().getDescriptorURL()).append("]").append(SonosConstants.NEWLINE);
+	    sb.append("    Discovered on local address [").append(rdevice.getIdentity().getDiscoveredOnLocalAddress()).append("]").append(SonosConstants.NEWLINE);
+	    sb.append("    Interface MAC addresss [").append(rdevice.getIdentity().getInterfaceMacAddress()).append("]").append(SonosConstants.NEWLINE);
+	    sb.append("    Max age (seconds) [").append(rdevice.getIdentity().getMaxAgeSeconds()).append("]").append(SonosConstants.NEWLINE);
+	    sb.append("    WoL bytes [").append(rdevice.getIdentity().getWakeOnLANBytes()).append("]").append(SonosConstants.NEWLINE);
+	}else{
+	    sb.append("  Identity :").append(SonosConstants.NEWLINE);
+	    sb.append("    UDN [").append(device.getIdentity().getUdn()).append("]").append(SonosConstants.NEWLINE);
+	    sb.append("    Max age (seconds) [").append(device.getIdentity().getMaxAgeSeconds()).append("]").append(SonosConstants.NEWLINE);
+	}
         sb.append("  Identity [").append(device.getVersion().toString()).append("]").append(SonosConstants.NEWLINE);
 
         sb.append("  Embedded devices :").append(SonosConstants.NEWLINE);
-        for (final RemoteDevice remoteDevice : device.findEmbeddedDevices()) {
+        for (final Device remoteDevice : device.findEmbeddedDevices()) {
             sb.append("    - ").append(remoteDevice.toString()).append(SonosConstants.NEWLINE);
         }
 
