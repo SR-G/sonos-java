@@ -1,6 +1,5 @@
 package org.tensin.sonos.commander;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,12 +11,9 @@ import java.util.Map.Entry;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.teleal.cling.UpnpService;
-import org.teleal.cling.UpnpServiceImpl;
-import org.teleal.cling.model.message.header.UDAServiceTypeHeader;
-import org.teleal.cling.model.meta.RemoteDevice;
-import org.teleal.cling.model.types.UDAServiceType;
 import org.teleal.cling.registry.RegistryListener;
+import org.tensin.sonos.DeviceScanner;
+import org.tensin.sonos.DeviceScannerListener;
 import org.tensin.sonos.SonosConstants;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.commands.AbstractCommand;
@@ -35,16 +31,13 @@ import org.tensin.sonos.model.ZonePlayerModel;
 /**
  * The Class AbstractCommander.
  */
-public abstract class AbstractController implements ZoneGroupTopologyListener {
+public abstract class AbstractController implements ZoneGroupTopologyListener, DeviceScannerListener {
 
     /** The zone command dispatcher. */
     private final ZoneCommandDispatcher zoneCommandDispatcher = ZoneCommandDispatcher.getInstance();
 
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractController.class);
-
-    /** The Constant DEFAULT_UDP_SEARCH_TIME. */
-    private static final int DEFAULT_UDP_SEARCH_TIME = 120;
 
     /** The zones to work on. */
     private Collection<String> zonesToWorkOn;
@@ -61,20 +54,13 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
     /** The zone players. */
     private final ZonePlayerModel zonePlayers = new ZonePlayerModel();
 
-    /** The zone player discoveries. */
-    private final Map<String, Long> zonePlayerDiscoveries = new HashMap<String, Long>();
-
-    /** The upnp service. */
-    private UpnpService upnpService;
-
     /** The command stack zone. */
     private Collection<IZoneCommand> commandStackZone;
 
     /** The command stack standard. */
     private Collection<IStandardCommand> commandStackStandard;
 
-    /** The udp search time. */
-    private int udpSearchTime = DEFAULT_UDP_SEARCH_TIME;
+    private final DeviceScanner scanner = new DeviceScanner(zonePlayers, getName());
 
     /**
      * Creates a new ZonePlayer from the given device and adds it to our list.
@@ -83,46 +69,11 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
      *            the dev
      * @return the zone player
      */
-    public ZonePlayer addZonePlayer(final RemoteDevice dev) {
+    @Override
+    public void zonePlayerAdded(final ZonePlayer player) {
         synchronized (zonePlayers) {
-            zonePlayerDiscoveries.put(dev.getIdentity().getUdn().getIdentifierString().substring(5), System.currentTimeMillis());
-
-            if (isZonePlayerAlreadyDefined(dev.getIdentity().getUdn().getIdentifierString())) {
-                return null;
-            }
-
-            // Ignore zone bridges
-            // TODO may need to implement cut down zone player for the zone bridge
-            // I believe the bridge only supports the following interfaces:
-            // - DeviceProperties
-            // - GroupManagement
-            // - SystemProperties
-            // - ZoneGroup
-            final Collection<String> ignoredDevicesModelName = new ArrayList<String>();
-            ignoredDevicesModelName.add("ZB100");
-            ignoredDevicesModelName.add("BR100");
-
-            for (final String ignoredDeviceModelName : ignoredDevicesModelName) {
-                if (dev.getDetails().getModelDetails().getModelNumber().toUpperCase().contains("ZB100")) {
-                    // LOGGER.warn("Ignoring Zone " + dev.getDeviceType() + " " + dev.getModelDescription() + " " + dev.getModelName() + " " + dev.getModelNumber());
-                    return null;
-                }
-            }
-
-            if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("Adding zone: " + dev.getType().getDisplayString() + " " + dev.getDetails().getModelDetails().getModelDescription() + " " + dev.getDetails().getModelDetails().getModelName() + " " + dev.getDetails().getModelDetails().getModelNumber());
-            }
-            try {
-                final ZonePlayer zone = new ZonePlayer(upnpService, dev);
-                zonePlayers.addZonePlayer(zone);
-                zone.getZoneGroupTopologyService().addZoneGroupTopologyListener(this);
-                zoneGroupTopologyChanged(zone.getZoneGroupTopologyService().getGroupState());
-                return zone;
-            } catch (final Exception e) {
-                LOGGER.error("Couldn't add zone" + dev.getType().getDisplayString() + " " + dev.getDetails().getModelDetails().getModelDescription() + " " + dev.getDetails().getModelDetails().getModelName() + " " + dev.getDetails().getModelDetails().getModelNumber(), e);
-            }
-
-            return null;
+            player.getZoneGroupTopologyService().addZoneGroupTopologyListener(this);
+            zoneGroupTopologyChanged(player.getZoneGroupTopologyService().getGroupState());
         }
     }
 
@@ -130,7 +81,7 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
      * Detect if work on all zones.
      */
     protected void detectIfWorkOnAllZones() {
-        if ((zonesToWorkOn == null) || (zonesToWorkOn.size() == 0)) {
+        if ((zonesToWorkOn == null) || (zonesToWorkOn.isEmpty())) {
             // No zones provided on command line => we will work on every zone
             // found
             workOnAllZones = true;
@@ -256,15 +207,13 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
         return zp;
     }
 
-    public abstract RegistryListener getListener();
-
     /**
      * Gets the udp search time.
      * 
      * @return the udp search time
      */
     public int getUdpSearchTime() {
-        return udpSearchTime;
+        return scanner.getUdpSearchTime();
     }
 
     /**
@@ -331,50 +280,19 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
     }
 
     /**
-     * Checks if is zone player already defined.
-     * 
-     * @param UDN
-     *            the udn
-     * @return true, if is zone player already defined
-     */
-    public boolean isZonePlayerAlreadyDefined(final String UDN) {
-        final ZonePlayer other = getZonePlayerByUDN(UDN);
-        return (other != null);
-    }
-
-    /**
-     * Purge stale devices.
-     * 
-     * @param staleThreshold
-     *            the stale threshold
-     */
-    public void purgeStaleDevices(final long staleThreshold) {
-        final long now = System.currentTimeMillis();
-        for (final Entry<String, Long> zone : zonePlayerDiscoveries.entrySet()) {
-            if ((now - zone.getValue()) > staleThreshold) {
-                removeZonePlayer(zone.getKey());
-            }
-        }
-    }
-
-    /**
      * Removes a zone player if it has the specified UDN.
      * 
      * @param udn
      *            the udn
      */
-    public void removeZonePlayer(final String udn) {
+    @Override
+    public void zonePlayerRemoved(final ZonePlayer player) {
         synchronized (zonePlayers) {
-            final ZonePlayer zp = zonePlayers.getById(udn);
-            if (zp != null) {
-                LOGGER.info("Removing ZonePlayer " + udn + " " + zp.getRootDevice().getDetails().getModelDetails().getModelDescription());
-                zonePlayers.remove(zp);
-                zp.getZoneGroupTopologyService().removeZoneGroupTopologyListener(this);
-                if (zonePlayers.getSize() == 0) {
-                    zoneGroupTopologyChanged(new ZoneGroupState(Collections.EMPTY_LIST));
-                }
-                zp.dispose();
-            }
+	    LOGGER.info("Removing" + player.toString());
+	    player.getZoneGroupTopologyService().removeZoneGroupTopologyListener(this);
+	    if (zonePlayers.getSize() == 0) {
+		zoneGroupTopologyChanged(new ZoneGroupState(Collections.EMPTY_LIST));
+	    }
         }
     }
 
@@ -415,7 +333,7 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
      *            the new udp search time
      */
     public void setUdpSearchTime(final int udpSearchTime) {
-        this.udpSearchTime = udpSearchTime;
+        scanner.setUdpSearchTime(udpSearchTime);
     }
 
     /**
@@ -443,7 +361,8 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
      */
     public void shutdown() {
         LOGGER.info("Shutting down UPNP services and discovery");
-        upnpService.shutdown();
+        scanner.stop();
+	scanner.removeListener(this);
         LOGGER.info("Cleaning up internal resources");
         dispose();
     }
@@ -452,11 +371,8 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
      * Search for devices.
      */
     public void startDiscovery() {
-        upnpService = new UpnpServiceImpl(getListener());
-
-        // Send a search message to all devices and services, they should respond soon
-        final UDAServiceType udaType = new UDAServiceType(SonosConstants.AV_TRANSPORT);
-        upnpService.getControlPoint().search(new UDAServiceTypeHeader(udaType), getUdpSearchTime());
+	scanner.addListener(this);
+        scanner.start();
     }
 
     /**
@@ -473,4 +389,6 @@ public abstract class AbstractController implements ZoneGroupTopologyListener {
         }
         groups.handleGroupUpdate(groupState);
     }
+
+    protected abstract String getName();
 }
