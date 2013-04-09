@@ -12,7 +12,7 @@
  */
 package org.tensin.sonos.helpers;
 
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.LoggerFactory;
 import org.tensin.sonos.model.Entry;
 
 /**
@@ -40,7 +40,7 @@ public final class EntryHelper {
         } else {
             res = "x-rincon-mp3radio://" + url;
         }
-        LogFactory.getLog(EntryHelper.class).debug("Created Entry for url: " + url);
+        LoggerFactory.getLogger(EntryHelper.class).debug("Created Entry for url: " + url);
         return new Entry("URL:" + url, url, "URL:", "URL", "", "", "object.item.audioItem.audioBroadcast", res, "");
 
     }

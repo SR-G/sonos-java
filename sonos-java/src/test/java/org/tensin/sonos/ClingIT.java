@@ -13,7 +13,7 @@ import org.teleal.cling.registry.RegistryListener;
 /**
  * The Class ClingTestCase.
  */
-public class ClingTestCase {
+public class ClingIT {
 
     /**
      * Test discovery.

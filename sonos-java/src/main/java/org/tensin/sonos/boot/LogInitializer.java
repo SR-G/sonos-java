@@ -1,7 +1,6 @@
-package org.tensin.sonos;
+package org.tensin.sonos.boot;
 
 import org.slf4j.LoggerFactory;
-import org.tensin.sonos.helpers.SLF4JHelper;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;

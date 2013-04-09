@@ -125,7 +125,7 @@ public abstract class AbstractService {
      *            the type
      */
     public AbstractService(final UpnpService upnpService, final Service service, final String type) {
-        if (!service.getServiceType().toString().equals(type)) {
+        if (service != null && !service.getServiceType().toString().equals(type)) {
             throw new IllegalArgumentException("service must be " + type + ", not " + service.getServiceType());
         }
 

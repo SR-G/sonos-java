@@ -18,6 +18,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 
 import org.teleal.cling.UpnpService;
+import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.meta.RemoteDevice;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.model.Entry;
@@ -324,5 +325,14 @@ public class ZonePlayer {
         if (!serv.getTransportInfo().getState().equals(TransportState.PLAYING)) {
             serv.play();
         }
+    }
+
+    @Override
+    public String toString() {
+
+	return String.format("%s ZonePlayer[%s, ip = %s]",
+		dev.getDetails().getModelDetails().getModelNumber(),
+		dev.getDisplayString(),
+		ip);
     }
 }
