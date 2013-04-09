@@ -30,6 +30,11 @@ public class ZoneCommandDispatcher implements IZoneCommandDispatcher {
     /** The Constant INSTANCE. */
     private static final ZoneCommandDispatcher INSTANCE = new ZoneCommandDispatcher();
 
+    private ZoneCommandDispatcher()
+    {
+
+    }
+
     /**
      * Gets the single instance of ZoneCommandDispatcher.
      * 
@@ -145,6 +150,7 @@ public class ZoneCommandDispatcher implements IZoneCommandDispatcher {
         ZoneCommandExecutor executor;
         synchronized (executors) {
             if (!executors.containsKey(zoneNameUppercase)) {
+		LOGGER.info("new ZoneCommandExecutor thread spawned: " + zoneNameUppercase);
                 executor = new ZoneCommandExecutor(zoneNameUppercase);
                 executor.start();
                 executors.put(zoneNameUppercase, executor);
