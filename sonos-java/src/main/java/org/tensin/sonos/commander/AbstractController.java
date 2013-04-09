@@ -75,6 +75,8 @@ public abstract class AbstractController implements ZoneGroupTopologyListener, D
             player.getZoneGroupTopologyService().addZoneGroupTopologyListener(this);
             zoneGroupTopologyChanged(player.getZoneGroupTopologyService().getGroupState());
         }
+	final String name = player.getDevicePropertiesService().getZoneAttributes().getName();
+	zoneCommandDispatcher.registerZoneAsAvailable(player, name);
     }
 
     /**

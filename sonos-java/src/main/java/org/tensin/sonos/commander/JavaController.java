@@ -12,6 +12,7 @@ import org.tensin.sonos.commands.CommandFactory;
 import org.tensin.sonos.commands.IStandardCommand;
 import org.tensin.sonos.commands.IZoneCommand;
 import org.tensin.sonos.commands.ZoneCommandDispatcher;
+import org.tensin.sonos.control.ZonePlayer;
 import org.tensin.sonos.helpers.CollectionHelper;
 
 /**
@@ -39,6 +40,19 @@ public class JavaController extends AbstractController implements ISonosControll
      */
     public JavaController() {
         super();
+    }
+
+    @Override
+    public void zonePlayerAdded(ZonePlayer player) {
+	super.zonePlayerAdded(player);
+	if (isWorkOnAllZones()) {
+	    final String name = player.getDevicePropertiesService().getZoneAttributes().getName();
+	    // in "all zones" mode, commands have not yet been pushed (as we don't know the zone yet, we can't create ZoneCommandExecutor before), so
+	    // we propage all needed command to the ZoneCommandDispatcher for him to propagate the command to the newly created ZonecommandExecutor
+	    for (final IZoneCommand command : getCommandStackZone()) {
+		zoneCommandDispatcher.dispatchCommand(command, name);
+	    }
+	}
     }
 
     /**

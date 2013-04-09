@@ -53,7 +53,6 @@ public class WebController extends AbstractController implements ISonosControlle
     public void zonePlayerAdded(ZonePlayer player) {
 	super.zonePlayerAdded(player);
 	final String name = player.getDevicePropertiesService().getZoneAttributes().getName();
-	zoneCommandDispatcher.registerZoneAsAvailable(player, name);
 	synchronized (sonosState.getZonesData()) {
 	    final Object id = sonosState.getZonesData().addItem();
 	    sonosState.getZonesData().getContainerProperty(id, "Name").setValue(name);
