@@ -22,6 +22,8 @@ public class ClientIT {
     /** The zone command dispatcher. */
     private final ZoneCommandDispatcher zoneCommandDispatcher = ZoneCommandDispatcher.getInstance();
 
+    private static final String TEST_ROOM_ONE = "salon";
+    private static final String TEST_ROOM_TWO = "chambre";
     /**
      * Sets the up.
      */
@@ -82,7 +84,7 @@ public class ClientIT {
      */
     @Test
     public void testList() throws SonosException {
-        CLIController.main(new String[] { "--command", "list", "A:", "--zone", "salon" });
+        CLIController.main(new String[] { "--command", "list", "A:", "--zone", TEST_ROOM_ONE});
     }
 
     /**
@@ -93,13 +95,13 @@ public class ClientIT {
      */
     @Test
     public void testMute() throws SonosException {
-        CLIController.main(new String[] { "--command", "mute", "--zone", "salon" });
+        CLIController.main(new String[] { "--command", "mute", "--zone",TEST_ROOM_ONE });
 
-        ZoneCommandExecutor executor = zoneCommandDispatcher.getZoneCommandExecutor("SALON");
+        ZoneCommandExecutor executor = zoneCommandDispatcher.getZoneCommandExecutor(TEST_ROOM_ONE.toUpperCase());
         Assert.assertTrue(executor != null);
         Assert.assertEquals(1, executor.getExecutedCommandsCount());
 
-        executor = zoneCommandDispatcher.getZoneCommandExecutor("CHAMBRE");
+        executor = zoneCommandDispatcher.getZoneCommandExecutor(TEST_ROOM_TWO.toUpperCase());
         Assert.assertTrue(executor != null);
         Assert.assertEquals(0, executor.getExecutedCommandsCount());
     }
@@ -112,7 +114,7 @@ public class ClientIT {
      */
     @Test
     public void testNext() throws SonosException {
-        CLIController.main(new String[] { "--command", "next", "--zone", "chambre" });
+        CLIController.main(new String[] { "--command", "next", "--zone", TEST_ROOM_TWO });
     }
 
     /**
@@ -134,7 +136,7 @@ public class ClientIT {
      */
     @Test
     public void testPlay() throws SonosException {
-        CLIController.main(new String[] { "--command", "play", "--zone", "salon" });
+        CLIController.main(new String[] { "--command", "play", "--zone", TEST_ROOM_ONE });
     }
 
     /**
@@ -182,7 +184,7 @@ public class ClientIT {
      */
     @Test
     public void testUnmute() throws SonosException {
-        CLIController.main(new String[] { "--command", "unmute", "--zone", "salon" });
+        CLIController.main(new String[] { "--command", "unmute", "--zone", TEST_ROOM_ONE });
     }
 
     /**
@@ -204,7 +206,7 @@ public class ClientIT {
      */
     @Test
     public void testVolume() throws SonosException {
-        CLIController.main(new String[] { "--command", "volume", "--zone", "chambre" });
+        CLIController.main(new String[] { "--command", "volume", "--zone", TEST_ROOM_TWO });
     }
 
     /**
@@ -215,7 +217,7 @@ public class ClientIT {
      */
     @Test
     public void testVolumeDown() throws SonosException {
-        CLIController.main(new String[] { "--command", "down", "--zone", "chambre" });
+        CLIController.main(new String[] { "--command", "down", "--zone", TEST_ROOM_TWO });
     }
 
     /**
@@ -226,7 +228,7 @@ public class ClientIT {
      */
     @Test
     public void testVolumeSet() throws SonosException {
-        CLIController.main(new String[] { "--command", "volume", "25", "--zone", "chambre" });
+        CLIController.main(new String[] { "--command", "volume", "25", "--zone", TEST_ROOM_TWO });
     }
 
     /**
@@ -237,7 +239,7 @@ public class ClientIT {
      */
     @Test
     public void testVolumeUp() throws SonosException {
-        CLIController.main(new String[] { "--command", "up", "--zone", "chambre" });
+        CLIController.main(new String[] { "--command", "up", "--zone", TEST_ROOM_TWO });
     }
 
 }
