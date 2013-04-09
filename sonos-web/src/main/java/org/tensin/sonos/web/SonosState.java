@@ -20,7 +20,7 @@ import com.vaadin.data.util.IndexedContainer;
 public class SonosState implements ISonosState {
 
     /** The zone command dispatcher. */
-    private final ZoneCommandDispatcher zoneCommandDispatcher = new ZoneCommandDispatcher();
+    private final ZoneCommandDispatcher zoneCommandDispatcher = ZoneCommandDispatcher.getInstance();
 
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(SonosState.class);
