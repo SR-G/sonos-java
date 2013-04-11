@@ -51,12 +51,16 @@
 							src/build/distrib.xml
 						</descriptor>
 					</descriptors>
-					<!-- <outputDirectory> -->
-					<!-- target/zip-ressources -->
-					<!-- </outputDirectory> -->
-					<attach>false</attach>
-					<!-- <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot> -->
 				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<plugin>
@@ -64,13 +68,11 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 					<archive>
-						<manifestEntries>
-							<Main-Class>org.tensin.sonos.run.Sonos</Main-Class>
-						</manifestEntries>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<Main-Class>org.tensin.sonos.commander.CLIController</Main-Class>
+						</manifest>
 					</archive>
-					<excludes>
-						<exclude>**/*.java</exclude>
-					</excludes>
 				</configuration>
 			</plugin>
 

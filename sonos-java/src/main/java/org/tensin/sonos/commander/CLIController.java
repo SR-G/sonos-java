@@ -58,6 +58,9 @@ public class CLIController extends JavaController implements ISonosController {
      *             the sonos exception
      */
     public static void main(final String args[]) throws SonosException {
+	// CLINQ library is not compatible with IPv6 stack
+	// (which is, by the way, for example the default in recent archlinux distributions)
+	System.setProperty("java.net.preferIPv4Stack", "true"); 
         final CLIController a = createController();
         a.start(args);
     }
