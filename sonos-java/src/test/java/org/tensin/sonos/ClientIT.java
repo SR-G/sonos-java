@@ -17,7 +17,7 @@ import com.beust.jcommander.ParameterException;
 /**
  * The Class CLITestCase.
  */
-public class CLITestCase {
+public class ClientIT {
 
     /** The zone command dispatcher. */
     private final ZoneCommandDispatcher zoneCommandDispatcher = ZoneCommandDispatcher.getInstance();
