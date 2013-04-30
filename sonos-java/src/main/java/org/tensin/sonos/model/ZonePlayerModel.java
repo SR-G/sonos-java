@@ -40,6 +40,24 @@ public class ZonePlayerModel {
 	}
 
 	/**
+	* Checks if is zone player already defined.
+	*
+	* @param UDN
+	*            the udn
+	* @return true, if is zone player already defined
+	*/
+       public boolean containsZonePlayer(final String UDN) {
+	   ZonePlayer other = null;
+	    for (final ZonePlayer zone : getAllZones()) {
+		if (zone.getRootDevice().getIdentity().getUdn().getIdentifierString().equals(UDN)) {
+		    other = zone;
+		    break;
+		}
+            }
+	   return (other != null);
+       }
+
+	/**
 	 * Adds the given zone player to the list in a sorted order.
 	 *
 	 * @param zp the zp
