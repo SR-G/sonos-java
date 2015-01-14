@@ -1,9 +1,9 @@
 package org.tensin.sonos.model;
 
 
-import org.teleal.cling.model.message.header.InvalidHeaderException;
-import org.teleal.cling.model.message.header.UpnpHeader;
-import org.teleal.cling.model.types.NotificationSubtype;
+import org.fourthline.cling.model.message.header.InvalidHeaderException;
+import org.fourthline.cling.model.message.header.UpnpHeader;
+import org.fourthline.cling.model.types.NotificationSubtype;
 import org.tensin.sonos.control.ZonePlayerConstants;
 
 /**

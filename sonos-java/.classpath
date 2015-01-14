@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/main/run"/>
 	<classpathentry kind="src" path="src/main/tools"/>
-	<classpathentry kind="var" path="M2_REPO/org/teleal/cling/cling-core/1.0.5/cling-core-1.0.5.jar" sourcepath="M2_REPO/org/teleal/cling/cling-core/1.0.5/cling-core-1.0.5-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/fourthline/cling/cling-core/2.0.1/cling-core-2.0.1.jar" sourcepath="M2_REPO/org/fourthline/cling/cling-core/2.0.1/cling-core-2.0.1-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar" sourcepath="M2_REPO/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/commons-io/commons-io/2.4/commons-io-2.4.jar" sourcepath="M2_REPO/commons-io/commons-io/2.4/commons-io-2.4-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar" sourcepath="M2_REPO/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1-sources.jar"/>
@@ -27,9 +27,11 @@
 	<classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-queries/3.6.2/lucene-queries-3.6.2.jar" sourcepath="M2_REPO/org/apache/lucene/lucene-queries/3.6.2/lucene-queries-3.6.2-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/mockito/mockito-core/1.9.5/mockito-core-1.9.5.jar" sourcepath="M2_REPO/org/mockito/mockito-core/1.9.5/mockito-core-1.9.5-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/objenesis/objenesis/1.0/objenesis-1.0.jar" sourcepath="M2_REPO/org/objenesis/objenesis/1.0/objenesis-1.0-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/seamless/seamless-http/1.1.0/seamless-http-1.1.0.jar" sourcepath="M2_REPO/org/seamless/seamless-http/1.1.0/seamless-http-1.1.0-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/seamless/seamless-util/1.1.0/seamless-util-1.1.0.jar" sourcepath="M2_REPO/org/seamless/seamless-util/1.1.0/seamless-util-1.1.0-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/seamless/seamless-xml/1.1.0/seamless-xml-1.1.0.jar" sourcepath="M2_REPO/org/seamless/seamless-xml/1.1.0/seamless-xml-1.1.0-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/simpleframework/simple-xml/2.7/simple-xml-2.7.jar" sourcepath="M2_REPO/org/simpleframework/simple-xml/2.7/simple-xml-2.7-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.7.2/slf4j-api-1.7.2.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.7.2/slf4j-api-1.7.2-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/teleal/teleal-common/1.0.13/teleal-common-1.0.13.jar"/>
 	<classpathentry kind="var" path="M2_REPO/xpp3/xpp3/1.1.3.3/xpp3-1.1.3.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>

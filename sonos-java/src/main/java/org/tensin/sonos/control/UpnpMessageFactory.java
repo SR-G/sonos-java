@@ -1,7 +1,7 @@
 package org.tensin.sonos.control;
 
-import org.teleal.cling.model.meta.Action;
-import org.teleal.cling.model.meta.Service;
+import org.fourthline.cling.model.meta.Action;
+import org.fourthline.cling.model.meta.Service;
 
 /**
  * A factory for creating UpnpMessage objects.

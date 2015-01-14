@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.fourthline.cling.UpnpService;
+import org.fourthline.cling.model.meta.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.teleal.cling.UpnpService;
-import org.teleal.cling.model.meta.Service;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.helpers.TimeUtilities;
 import org.tensin.sonos.model.AlarmProperties;

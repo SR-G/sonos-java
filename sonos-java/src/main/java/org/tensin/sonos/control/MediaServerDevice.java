@@ -12,8 +12,8 @@
  */
 package org.tensin.sonos.control;
 
-import org.teleal.cling.UpnpService;
-import org.teleal.cling.model.meta.RemoteDevice;
+import org.fourthline.cling.UpnpService;
+import org.fourthline.cling.model.meta.RemoteDevice;
 
 /**
  * A device for serving media to other devices. Contains a

@@ -12,8 +12,8 @@
  */
 package org.tensin.sonos.control;
 
-import org.teleal.cling.UpnpService;
-import org.teleal.cling.model.meta.Service;
+import org.fourthline.cling.UpnpService;
+import org.fourthline.cling.model.meta.Service;
 
 /**
  * Provides information about the zone player system.

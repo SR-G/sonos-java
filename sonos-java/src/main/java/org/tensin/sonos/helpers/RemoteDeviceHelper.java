@@ -1,9 +1,9 @@
 package org.tensin.sonos.helpers;
 
-import org.teleal.cling.model.meta.Action;
-import org.teleal.cling.model.meta.RemoteDevice;
-import org.teleal.cling.model.meta.Service;
-import org.teleal.cling.model.types.ServiceType;
+import org.fourthline.cling.model.meta.Action;
+import org.fourthline.cling.model.meta.RemoteDevice;
+import org.fourthline.cling.model.meta.Service;
+import org.fourthline.cling.model.types.ServiceType;
 import org.tensin.sonos.SonosConstants;
 
 /**

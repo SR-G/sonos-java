@@ -12,15 +12,13 @@
  */
 package org.tensin.sonos.control;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import org.fourthline.cling.UpnpService;
+import org.fourthline.cling.model.meta.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.teleal.cling.UpnpService;
-import org.teleal.cling.model.meta.Service;
 import org.tensin.sonos.model.UnresponsiveDeviceActionType;
 import org.tensin.sonos.model.UpdateType;
 import org.tensin.sonos.model.ZoneGroupState;

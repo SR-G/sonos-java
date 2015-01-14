@@ -1,8 +1,8 @@
 package org.tensin.sonos.control;
 
-import org.teleal.cling.UpnpService;
-import org.teleal.cling.model.action.ActionInvocation;
-import org.teleal.cling.model.meta.Service;
+import org.fourthline.cling.UpnpService;
+import org.fourthline.cling.model.action.ActionInvocation;
+import org.fourthline.cling.model.meta.Service;
 
 /**
  * The Class UnavailableService.

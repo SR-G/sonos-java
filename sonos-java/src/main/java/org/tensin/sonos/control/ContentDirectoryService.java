@@ -14,10 +14,10 @@ package org.tensin.sonos.control;
 
 import java.util.List;
 
+import org.fourthline.cling.UpnpService;
+import org.fourthline.cling.model.meta.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.teleal.cling.UpnpService;
-import org.teleal.cling.model.meta.Service;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.model.Entry;
 import org.tensin.sonos.xml.ResultParser;
