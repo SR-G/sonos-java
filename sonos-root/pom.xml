@@ -15,24 +15,24 @@
 		<sourceEncoding>UTF-8</sourceEncoding>
 
 		<version.jetty>8.1.8.v20121106</version.jetty>
-		<version.slf4j>1.7.2</version.slf4j>
+		<version.slf4j>1.7.7</version.slf4j>
 		<version.logback>1.0.9</version.logback>
 		<version.junit>4.11</version.junit>
-		<version.guava>13.0.1</version.guava>
+		<version.guava>17.0</version.guava>
 		<version.simplexml>2.7</version.simplexml>
 		<version.jcommander>1.30</version.jcommander>
 		<version.lucene>3.6.2</version.lucene>
 	</properties>
 
-<repositories>
-    <repository>
-        <id>4thline-repo</id>
-        <url>http://4thline.org/m2</url>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-    </repository>
-</repositories>
+	<repositories>
+		<repository>
+			<id>4thline-repo</id>
+			<url>http://4thline.org/m2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
 	<build>
 		<plugins>
@@ -122,31 +122,31 @@
 					<outputDirectory>bin</outputDirectory>
 					<downloadSources>true</downloadSources>
 					<downloadJavadocs>false</downloadJavadocs> <!-- Car le plugin n'utilise pas M2_REPO pour les javadocs ! http://jira.codehaus.org/browse/MECLIPSE-583 -->
-<!-- 					<additionalConfig> -->
-<!-- 						<file> -->
-<!-- 							<name>.settings/org.eclipse.jdt.core.prefs</name> -->
-<!-- 							<location>settings/org.eclipse.jdt.core.prefs</location> -->
-<!-- 						</file> -->
-<!-- 						<file> -->
-<!-- 							<name>.settings/org.eclipse.jdt.ui.prefs</name> -->
-<!-- 							<location>settings/org.eclipse.jdt.ui.prefs</location> -->
-<!-- 						</file> -->
-<!-- 					</additionalConfig> -->
+					<!-- <additionalConfig> -->
+					<!-- <file> -->
+					<!-- <name>.settings/org.eclipse.jdt.core.prefs</name> -->
+					<!-- <location>settings/org.eclipse.jdt.core.prefs</location> -->
+					<!-- </file> -->
+					<!-- <file> -->
+					<!-- <name>.settings/org.eclipse.jdt.ui.prefs</name> -->
+					<!-- <location>settings/org.eclipse.jdt.ui.prefs</location> -->
+					<!-- </file> -->
+					<!-- </additionalConfig> -->
 				</configuration>
-<!-- 				<dependencies> -->
-<!-- 					<dependency> -->
-<!-- 						<groupId>com.inetpsa.pyr00</groupId> -->
-<!-- 						<artifactId>pyr-eclipse-configuration</artifactId> -->
-<!-- 						<version>1.0.0</version> -->
-<!-- 					</dependency> -->
-<!-- 				</dependencies> -->
+				<!-- <dependencies> -->
+				<!-- <dependency> -->
+				<!-- <groupId>com.inetpsa.pyr00</groupId> -->
+				<!-- <artifactId>pyr-eclipse-configuration</artifactId> -->
+				<!-- <version>1.0.0</version> -->
+				<!-- </dependency> -->
+				<!-- </dependencies> -->
 			</plugin>
 		</plugins>
 	</build>
 
 	<modules>
 		<module>../sonos-java</module>
-<!-- 		<module>../sonos-web</module> -->
+		<!-- <module>../sonos-web</module> -->
 	</modules>
 
 	<profiles>

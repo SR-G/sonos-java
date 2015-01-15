@@ -1,5 +1,6 @@
 package org.tensin.sonos.run;
 
+import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.boot.CLIBootConstants;
 import org.tensin.sonos.boot.ClasspathBooter;
@@ -32,7 +33,7 @@ public class Sonos {
         System.setProperty("java.net.preferIPv4Stack", "true"); // CLINQ library is not compatible with IPv6 stack (which is, by the way, for example the default in recent archlinux distributions)
         final SystemHelper systemHelper = new SystemHelper();
         try {
-            final ClasspathBooter cb = new ClasspathBooter(SONOS_BOOT_JAR, "SONOS-Command Line Interface");
+        	 final ClasspathBooter cb = new ClasspathBooter(SONOS_BOOT_JAR, "SONOS-Command Line Interface");
             // final String libDirectory = cb.getLibraryPathName(BEERDUINO_BOOT_JAR);
             // cb.initLibDirectory(libDirectory);
             cb.addJarsToClasspath(CLIBootConstants.LIBS);
