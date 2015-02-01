@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
+	<classpathentry kind="src" path="/sonos-java-api" exported="true"/>
+	<classpathentry sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-core/4.10.3/44ddf42c2156a388127234c45f5cc209b04e6f18/lucene-core-4.10.3-sources.jar" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-core/4.10.3/ea0344b37d8668e6beb21ec41c67c9ca2df9f2a4/lucene-core-4.10.3.jar" exported="true">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-core/4.10.3/a3f19b053605b06639003b9f6b1feb1220761586/lucene-core-4.10.3-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queries/4.10.3/67864b61cbc8ba144575d6592e5e5076ccf11116/lucene-queries-4.10.3-sources.jar" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queries/4.10.3/40a4d378a857ec0c7cc32d3122a36f22beae2fd7/lucene-queries-4.10.3.jar" exported="true">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queries/4.10.3/8767755b8fc750d9de12c040d2b01b81a4f649f0/lucene-queries-4.10.3-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-memory/4.10.3/6be56ab0f4c249a7487680e199321a3d8c9e3f37/lucene-memory-4.10.3-sources.jar" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-memory/4.10.3/d33e392555c22dbe57fa2720126e6f87182e40af/lucene-memory-4.10.3.jar" exported="true">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-memory/4.10.3/304cfe2bf0286d1fe2cef434792455f0d2ce4b77/lucene-memory-4.10.3-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-analyzers-common/4.10.3/f00ae5083706915c1fb128d8eb5c37e3a2863c44/lucene-analyzers-common-4.10.3-sources.jar" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-analyzers-common/4.10.3/2fc01f6bfc26d282a96da36a367755f61b4074a8/lucene-analyzers-common-4.10.3.jar" exported="true">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-analyzers-common/4.10.3/38a938f4d784732ad6db63c54e4234ee27bffe54/lucene-analyzers-common-4.10.3-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-highlighter/4.10.3/11248ea47c182ca08ad991ca97e63e301ce3c91e/lucene-highlighter-4.10.3-sources.jar" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-highlighter/4.10.3/73dafa5b404ddf72ab35606c791c8672455775d9/lucene-highlighter-4.10.3.jar" exported="true">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-highlighter/4.10.3/f484e9705c7be4586621f69379c81f4d59048c72/lucene-highlighter-4.10.3-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queryparser/4.10.3/e71822715737ce55d3472861f506dd2b3680fbc/lucene-queryparser-4.10.3-sources.jar" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queryparser/4.10.3/e7a0384c99257136e7295efd69516615b19d92bc/lucene-queryparser-4.10.3.jar" exported="true">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queryparser/4.10.3/5125616b5897dd8cba9b0f765811f242c6d1169e/lucene-queryparser-4.10.3-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-sandbox/4.10.3/624ac8269e8b2dbbd748056e80ae77d1b2d0961a/lucene-sandbox-4.10.3-sources.jar" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-sandbox/4.10.3/39ecd581b636adc15379dbd53878928e0f05a89c/lucene-sandbox-4.10.3.jar" exported="true">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-sandbox/4.10.3/f9b52683abff8390ed1c510c9fc277aeb89954be/lucene-sandbox-4.10.3-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+</classpath>

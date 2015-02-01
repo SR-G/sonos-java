@@ -1,0 +1,14 @@
+apply plugin: 'java'
+
+dependencies {
+    compile project(':sonos-java-api')
+    compile 'com.beust:jcommander:1.30'
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'sonos-java'
+        attributes 'Implementation-Version': version
+        attributes 'Main-Class': 'org.tensin.sonos.run.Sonos'
+    }
+}

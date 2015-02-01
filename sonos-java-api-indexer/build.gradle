@@ -1,0 +1,11 @@
+apply plugin: 'java'
+
+dependencies {
+    compile project(':sonos-java-api')
+    compile 'org.apache.lucene:lucene-core:4.10.3'
+    compile 'org.apache.lucene:lucene-queries:4.10.3'
+    compile 'org.apache.lucene:lucene-memory:4.10.3'
+    compile 'org.apache.lucene:lucene-analyzers-common:4.10.3'
+    compile 'org.apache.lucene:lucene-highlighter:4.10.3'
+    compile 'org.apache.lucene:lucene-queryparser:4.10.3'
+}

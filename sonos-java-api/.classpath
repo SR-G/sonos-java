@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/run"/>
+	<classpathentry kind="src" path="src/main/tools"/>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/17.0/9c6ef172e8de35fd8d4d8783e4821e57cdef7445/guava-17.0.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/17.0/7ca0efbeb87ca845b5d7a0ac9c21a4b7b95f7b28/guava-17.0-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/17.0/18a375325d213ba5ae90706790fbbb3fd51b9a01/guava-17.0-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.1/905075e6c80f206bbe6cf1e809d2caa69f420c76/commons-lang3-3.1.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.1/8d30b90ae8bda4fbac8363161c8a9b5a99e23baf/commons-lang3-3.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.1/47910ec28eeca75d4519095a676b6e1f2e89e337/commons-lang3-3.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2.1/761ea405b9b37ced573d2df0d1e3a4e0f9edc668/commons-collections-3.2.1.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2.1/fa095ef874374e5b2a11f8b06c26a5d68c7cb3a4/commons-collections-3.2.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2.1/7891420ba5a4ad1385076993f090bc3ead095fa4/commons-collections-3.2.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/f2d8698c46d1167ff24b06a840a87d91a02db891/commons-io-2.4-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/3b5b0183c509963d5ffdf0d9d452a4a7521aeaa3/commons-io-2.4-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/commons-net/commons-net/3.2/f76ff64f941e71395a0e07cad82ee44310eea842/commons-net-3.2.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/commons-net/commons-net/3.2/4f8e97c03c5bd512a629339d66b65ddfa7bc3376/commons-net-3.2-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/commons-net/commons-net/3.2/eaa4a586626a8023f89f51871592ec6e5788fbe2/commons-net-3.2-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.simpleframework/simple-xml/2.7.1/dd91fb744c2ff921407475cb29a1e3fee397d411/simple-xml-2.7.1.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.simpleframework/simple-xml/2.7.1/2a949576bb8da7514024dc0b84efeeb2fc902a0/simple-xml-2.7.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.simpleframework/simple-xml/2.7.1/9524c46dc06717c6bfb1464ae401898c9e6ea51d/simple-xml-2.7.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.reflections/reflections/0.9.8/f723abb59bf512952bfc503838f70f81487a6993/reflections-0.9.8.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.reflections/reflections/0.9.8/f98abfc0ab1114d944786d467a3e26793fdc2bab/reflections-0.9.8-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.reflections/reflections/0.9.8/ef6795259606da97ee11b839a53af5f7c6aa4644/reflections-0.9.8-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.1/8f79e353ef77da6710e1f10d34fc3698eaaacbca/joda-time-2.1.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.1/e4fb55e2e35656974d78363afaa19720670ce867/joda-time-2.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.1/cccb93a1f210293d699b14da949f5016c7b90379/joda-time-2.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Program Files/Eclipse_DEV/Integration/maven/repository/org/fourthline/cling/cling-core/2.0.1/cling-core-2.0.1.jar" sourcepath="C:/Program Files/Eclipse_DEV/Integration/maven/repository/org/fourthline/cling/cling-core/2.0.1/cling-core-2.0.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.jdom/jdom/2.0.2/d06c71e0df0ac4b94deb737718580ccce22d92e8/jdom-2.0.2.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.jdom/jdom/2.0.2/2c0614e33230394e42f5cfe55c20d5ae8949c108/jdom-2.0.2-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.jdom/jdom/2.0.2/4d6524e0673cc87bd8bba59d9a81fb61cde68e9d/jdom-2.0.2-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.1/588c32c91544d80cc706447aa2b8037230114931/log4j-api-2.1.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.1/171e4563feb5bf66ef790a8e679557a03b378f8e/log4j-api-2.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.1/f75c82d2bb2550259644dd88333ae2d3ff827dbc/log4j-api-2.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.1/31823dcde108f2ea4a5801d1acc77869d7696533/log4j-core-2.1.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.1/6e6c4141f6d96e57fd48df5d398a122226ef92d7/log4j-core-2.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.1/46ea972e6a961690b5e0e08455287332d8238ef/log4j-core-2.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-slf4j-impl/2.1/fe9d0925aeee68b743e9ea4b68ca9190a2a411a/log4j-slf4j-impl-2.1.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-slf4j-impl/2.1/84e0d304645800acb10d9113f462d4400a13d12f/log4j-slf4j-impl-2.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-slf4j-impl/2.1/cf46471f262ca6626babefa5e256dbea8712720/log4j-slf4j-impl-2.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-1.2-api/2.1/ad7e98cf59bcba2c00a0cd0b37f9c4b69b208cae/log4j-1.2-api-2.1.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-1.2-api/2.1/10f452847962bf53f7e9933158a57228f608752d/log4j-1.2-api-2.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-1.2-api/2.1/5c99a0ca12c48679e57bf89a2180b5463d03b424/log4j-1.2-api-2.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-jcl/2.1/58f1362403f0100da0415f69beaa78fa88fd4ed7/log4j-jcl-2.1.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-jcl/2.1/3f559f1b4f1cb327eab59dc1f91d5001805735a9/log4j-jcl-2.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-jcl/2.1/e28235728516c7e04069a425e246d1d66691d321/log4j-jcl-2.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-jul/2.1/de6f610a8a29537ea6476332938e48981b2bd4c9/log4j-jul-2.1.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-jul/2.1/b31603c12848396edbe19fd256bfcfe237ded552/log4j-jul-2.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-jul/2.1/5db7cb177a6a70159205d169d300ec237182efc6/log4j-jul-2.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/a6c32b40bf3d76eca54e3c601e5d1470c86fcdfa/junit-4.12-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/941a8be4506c65f0a9001c08812fb7da1e505e21/junit-4.12-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-core/1.9.5/c3264abeea62c4d2f367e21484fbb40c7e256393/mockito-core-1.9.5.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-core/1.9.5/46f703fb4266140c544d48a189cb25947eb6333e/mockito-core-1.9.5-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-core/1.9.5/982f4a74cbff61f56c0868b2fdf71fe63b646794/mockito-core-1.9.5-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/xpp3/xpp3/1.1.3.3/64f9d2bb88f58ad2a15a4301487d977ee9b4294/xpp3-1.1.3.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/javassist/javassist/3.12.1.GA/526633327faa61aee448a519e8a4d53ec3057885/javassist-3.12.1.GA.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/javassist/javassist/3.12.1.GA/cc64c85182743e0e8166cfc072a4359e54bbc7e9/javassist-3.12.1.GA-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/javassist/javassist/3.12.1.GA/2a76147b41faddeb23860465802874fbde03ec44/javassist-3.12.1.GA-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/dom4j/dom4j/1.6.1/5d3ccc056b6f056dbf0dddfdf43894b9065a8f94/dom4j-1.6.1.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/dom4j/dom4j/1.6.1/a8e7149359255f43e0e5e3b1837948f9ed5861fb/dom4j-1.6.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Program Files/Eclipse_DEV/Integration/maven/repository/org/seamless/seamless-util/1.1.0/seamless-util-1.1.0.jar" sourcepath="C:/Program Files/Eclipse_DEV/Integration/maven/repository/org/seamless/seamless-util/1.1.0/seamless-util-1.1.0-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Program Files/Eclipse_DEV/Integration/maven/repository/org/seamless/seamless-http/1.1.0/seamless-http-1.1.0.jar" sourcepath="C:/Program Files/Eclipse_DEV/Integration/maven/repository/org/seamless/seamless-http/1.1.0/seamless-http-1.1.0-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Program Files/Eclipse_DEV/Integration/maven/repository/org/seamless/seamless-xml/1.1.0/seamless-xml-1.1.0.jar" sourcepath="C:/Program Files/Eclipse_DEV/Integration/maven/repository/org/seamless/seamless-xml/1.1.0/seamless-xml-1.1.0-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.7/2b8019b6249bb05d81d3a3094e468753e2b21311/slf4j-api-1.7.7.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.7/acd62e31cc314266e73eebed0b6dd7ea974a0ed/slf4j-api-1.7.7-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.7/f7f3d9c6e2f145a2cc37931c4b604c7f5e96c6c/slf4j-api-1.7.7-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/4bfc12adfe4842bf07b657f0369c4cb522955686/commons-logging-1.2.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/ecf26c7507d67782a3bbd148d170b31dfad001aa/commons-logging-1.2-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/83033ee697035dfb9ce3503e1ac0c5a33021e503/commons-logging-1.2-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/1dc37250fbc78e23a65a67fbbaf71d2e9cbc3c0b/hamcrest-core-1.3-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/ad09811315f1d4f5756986575b0ea16b99cd686f/hamcrest-core-1.3-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.objenesis/objenesis/1.0/9b473564e792c2bdf1449da1f0b1b5bff9805704/objenesis-1.0.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.objenesis/objenesis/1.0/b10c90e57b7bb985a7b6a704769428fe5c2a732c/objenesis-1.0-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/org.objenesis/objenesis/1.0/6f18fb1aa4834bb241439b71f4a88b2437c5793f/objenesis-1.0-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/xml-apis/xml-apis/1.0.b2/3136ca936f64c9d68529f048c2618bd356bf85c9/xml-apis-1.0.b2.jar" sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/xml-apis/xml-apis/1.0.b2/d8525661c5a0a05702fa41873d250d135031ec25/xml-apis-1.0.b2-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/u248663/git/sonos-java/sonos-java-api/upnplib-mobile.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

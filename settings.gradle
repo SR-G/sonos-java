@@ -1,0 +1,1 @@
+include 'sonos-java-api', 'sonos-java-api-speech', 'sonos-java-api-indexer', 'sonos-java-client-cli', 'sonos-java-client-rest', 'sonos-java-client-web'

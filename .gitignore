@@ -1,0 +1,10 @@
+target
+bin
+dist
+tmp
+work
+build
+.cvsignore
+.metadata
+.project
+.settings

@@ -1,0 +1,84 @@
+// === Imports
+buildscript {
+	repositories {
+		mavenCentral()
+		// maven { url "http://ciq-repository.inetpsa.com/repository/virtual/" }
+		// maven { url "http://yvash590:8081/nexus/content/groups/main-repository/" }
+		maven { url "c:/Program Files/eclipse_DEV/integration/maven/repository/" }
+	}
+	dependencies {
+		classpath 'org.hidetake:gradle-ssh-plugin:0.3.10'
+		classpath 'com.github.rholder:gradle-one-jar:1.0.3'
+	}
+}
+
+// === Global definitions to all projects
+allprojects {
+	// === Variables
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+	sourceCompatibility = 1.6
+	version = '1.0.0-SNAPSHOT'
+
+	[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+}
+
+subprojects {
+
+
+	// === Repositories
+	repositories {
+		maven { url "http://ciq-repository.inetpsa.com/repository/virtual/" }
+		mavenCentral()
+		maven { url "c:/Program Files/eclipse_DEV/integration/maven/repository/" }
+	}
+
+	jar {
+		manifest {
+			attributes 'Implementation-Title': 'sonos-java'
+			attributes 'Implementation-Version': version
+		}
+	}
+	
+	sourceSets {
+		main {
+			java { srcDir 'src/main/run/' srcDir 'src/main/tools/' srcDir 'src/main/run/' }
+			resources {
+				srcDir 'src/main/java'
+				srcDir 'src/main/resources'
+			}
+		}
+	}
+
+	// === Eclipse configuration
+	eclipse {
+		classpath {
+			downloadSources = true
+			downloadJavadoc = true
+		}
+	}
+
+	eclipse.jdt.file.beforeMerged { jdt ->
+		// Load general jdt prefs
+		println("Updating eclipse settings")
+		jdt.load(file('../.eclipse/org.eclipse.jdt.core.prefs'))
+	}
+
+	task eclipseSettings(type: Copy) {
+		println("Restoring UI prefs")
+		from rootProject.files("../.eclipse/org.eclipse.jdt.ui.prefs")
+		into project.file('.settings/')
+		outputs.upToDateWhen { false }
+	}
+
+	tasks["eclipse"].dependsOn(eclipseSettings)
+	
+	configurations {
+		all*.exclude group: 'stax', module: 'stax-api'
+		all*.exclude group: 'stax', module: 'stax'
+		all*.exclude group: 'org.slf4j', module: 'slf-jul'
+		all*.exclude group: 'ch.qos.logback', module: 'logback-classic'
+		all*.exclude group: 'org.slf4j', module: 'jcl-over-slf'
+	}
+}

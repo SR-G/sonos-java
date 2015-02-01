@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
+	<classpathentry kind="src" path="/sonos-java-api" exported="true"/>
+	<classpathentry sourcepath="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/com.beust/jcommander/1.30/745bd229231c1e28abfe54c9551b7eb98797d093/jcommander-1.30-sources.jar" kind="lib" path="C:/Users/u248663/.gradle/caches/modules-2/files-2.1/com.beust/jcommander/1.30/c440b30a944ba199751551aee393f8aa03b3c327/jcommander-1.30.jar" exported="true">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/u248663/.gradle/caches/modules-2/files-2.1/com.beust/jcommander/1.30/5bc83b9eccac62cc9a92ed6e281695e9b3fc72c9/jcommander-1.30-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+</classpath>
